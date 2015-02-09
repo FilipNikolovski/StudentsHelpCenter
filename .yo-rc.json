@@ -1,0 +1,18 @@
+{
+  "generator-jhipster": {
+    "baseName": "studentshelpcenter",
+    "packageName": "com.finki.shc",
+    "packageFolder": "com/finki/shc",
+    "authenticationType": "session",
+    "hibernateCache": "ehcache",
+    "clusteredHttpSession": "no",
+    "websocket": "spring-websocket",
+    "databaseType": "sql",
+    "devDatabaseType": "mysql",
+    "prodDatabaseType": "mysql",
+    "useCompass": false,
+    "buildTool": "maven",
+    "frontendBuilder": "grunt",
+    "javaVersion": "8"
+  }
+}
