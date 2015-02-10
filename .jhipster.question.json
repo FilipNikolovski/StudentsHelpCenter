@@ -1,0 +1,48 @@
+{
+    "relationships": [
+        {
+            "relationshipId": 1,
+            "otherEntityName": "user",
+            "relationshipType": "many-to-one",
+            "otherEntityNameCapitalized": "User",
+            "otherEntityField": "id"
+        }
+    ],
+    "fields": [
+        {
+            "fieldId": 1,
+            "fieldName": "title",
+            "fieldType": "String",
+            "fieldNameCapitalized": "Title",
+            "fieldNameUnderscored": "title"
+        },
+        {
+            "fieldId": 2,
+            "fieldName": "description",
+            "fieldType": "String",
+            "fieldNameCapitalized": "Description",
+            "fieldNameUnderscored": "description"
+        },
+        {
+            "fieldId": 3,
+            "fieldName": "datePosted",
+            "fieldType": "DateTime",
+            "fieldNameCapitalized": "DatePosted",
+            "fieldNameUnderscored": "date_posted"
+        },
+        {
+            "fieldId": 4,
+            "fieldName": "solved",
+            "fieldType": "Boolean",
+            "fieldNameCapitalized": "Solved",
+            "fieldNameUnderscored": "solved"
+        }
+    ],
+    "fieldsContainOwnerManyToMany": false,
+    "fieldsContainOneToMany": false,
+    "fieldsContainLocalDate": false,
+    "fieldsContainCustomTime": true,
+    "fieldsContainBigDecimal": false,
+    "fieldsContainDateTime": true,
+    "changelogDate": "20150210224345"
+}

@@ -1,0 +1,27 @@
+{
+    "relationships": [
+        {
+            "relationshipId": 1,
+            "otherEntityName": "question",
+            "relationshipType": "many-to-one",
+            "otherEntityNameCapitalized": "Question",
+            "otherEntityField": "id"
+        }
+    ],
+    "fields": [
+        {
+            "fieldId": 1,
+            "fieldName": "imageName",
+            "fieldType": "String",
+            "fieldNameCapitalized": "ImageName",
+            "fieldNameUnderscored": "image_name"
+        }
+    ],
+    "fieldsContainOwnerManyToMany": false,
+    "fieldsContainOneToMany": false,
+    "fieldsContainLocalDate": false,
+    "fieldsContainCustomTime": false,
+    "fieldsContainBigDecimal": false,
+    "fieldsContainDateTime": false,
+    "changelogDate": "20150210224452"
+}

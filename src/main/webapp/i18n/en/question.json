@@ -1,0 +1,22 @@
+{
+    "studentshelpcenterApp": {
+        "question" : {
+            "home": {
+                "title": "Questions",
+                "createLabel": "Create a new Question",
+                "createOrEditLabel": "Create or edit a Question"
+            },
+            "delete": {
+                "question": "Are you sure you want to delete Question {{ id }}?"
+            },
+            "detail": {
+                "title": "Question"
+            },
+            "title": "Title",
+            "description": "Description",
+            "datePosted": "DatePosted",
+            "solved": "Solved",
+            "user": "user"
+        }
+    }
+}

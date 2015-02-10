@@ -1,0 +1,20 @@
+{
+    "studentshelpcenterApp": {
+        "answerVote" : {
+            "home": {
+                "title": "AnswerVotes",
+                "createLabel": "Create a new AnswerVote",
+                "createOrEditLabel": "Create or edit a AnswerVote"
+            },
+            "delete": {
+                "question": "Are you sure you want to delete AnswerVote {{ id }}?"
+            },
+            "detail": {
+                "title": "AnswerVote"
+            },
+            "vote": "Vote",
+            "answer": "answer",
+            "user": "user"
+        }
+    }
+}

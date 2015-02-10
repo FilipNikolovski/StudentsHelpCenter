@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <property name="now" value="now()" dbms="mysql,h2"/>
+    <property name="now" value="current_timestamp" dbms="postgresql"/>
+
+    <!--
+        Added the entity Answer.
+    -->
+    <changeSet id="20150210224421" author="jhipster">
+        <createTable tableName="T_ANSWER">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="answer_text" type="varchar(255)"/>
+            <column name="date_posted" type="timestamp">
+                <constraints nullable="false" />
+            </column>
+            <column name="user_id" type="bigint"/>
+            <column name="question_id" type="bigint"/>
+        </createTable>
+        <dropDefaultValue tableName="T_ANSWER" columnName="date_posted" columnDataType="datetime"/>
+
+        
+        <addForeignKeyConstraint baseColumnNames="user_id"
+                                 baseTableName="T_ANSWER"
+                                 constraintName="fk_answer_user_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="T_USER"/>
+
+        <addForeignKeyConstraint baseColumnNames="question_id"
+                                 baseTableName="T_ANSWER"
+                                 constraintName="fk_answer_question_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="T_QUESTION"/>
+
+    </changeSet>
+</databaseChangeLog>

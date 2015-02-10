@@ -1,0 +1,19 @@
+{
+    "studentshelpcenterApp": {
+        "questionImage" : {
+            "home": {
+                "title": "QuestionImages",
+                "createLabel": "Create a new QuestionImage",
+                "createOrEditLabel": "Create or edit a QuestionImage"
+            },
+            "delete": {
+                "question": "Are you sure you want to delete QuestionImage {{ id }}?"
+            },
+            "detail": {
+                "title": "QuestionImage"
+            },
+            "imageName": "ImageName",
+            "question": "question"
+        }
+    }
+}

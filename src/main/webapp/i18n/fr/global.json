@@ -6,6 +6,13 @@
             "home": "Accueil",
             "entities": {
                 "main": "Entités",
+                "question": "Question",
+                "answer": "Answer",
+                "questionImage": "QuestionImage",
+                "answerVote": "AnswerVote",
+                "questionVote": "QuestionVote",
+                "tag": "Tag",
+                "questionTag": "QuestionTag",
                 "additionalEntity": "JHipster will add addtional entities"
             },
             "account": {

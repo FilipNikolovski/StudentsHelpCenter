@@ -1,0 +1,21 @@
+{
+    "studentshelpcenterApp": {
+        "answerVote" : {
+            "home": {
+                "title": "AnswerVotes",
+                "createLabel": "Créer un nouveau AnswerVote",
+                "createOrEditLabel": "Créer ou éditer un AnswerVote"
+            },
+            "delete": {
+                "question": "Etes-vous certain de vouloir supprimer le AnswerVote {{ id }} ?"
+            },
+            "detail": {
+                "title": "AnswerVote"
+            },
+            "vote": "Vote",
+            "answer": "answer",
+            "user": "user"
+        }
+    }
+}
+

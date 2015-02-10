@@ -1,0 +1,19 @@
+{
+    "studentshelpcenterApp": {
+        "questionTag" : {
+            "home": {
+                "title": "QuestionTags",
+                "createLabel": "Create a new QuestionTag",
+                "createOrEditLabel": "Create or edit a QuestionTag"
+            },
+            "delete": {
+                "question": "Are you sure you want to delete QuestionTag {{ id }}?"
+            },
+            "detail": {
+                "title": "QuestionTag"
+            },
+            "tag": "tag",
+            "question": "question"
+        }
+    }
+}

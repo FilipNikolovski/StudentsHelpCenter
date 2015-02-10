@@ -1,0 +1,115 @@
+<div>
+
+    <h2 translate="studentshelpcenterApp.questionImage.home.title">QuestionImage</h2>
+
+    <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#saveQuestionImageModal" ng-click="clear()">
+        <span class="glyphicon glyphicon-flash"></span> <span translate="studentshelpcenterApp.questionImage.home.createLabel">Create a new QuestionImage</span>
+    </button>
+    <div class="modal fade" id="saveQuestionImageModal" tabindex="-1" role="dialog" aria-labelledby="myQuestionImageLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form name="form" role="form" novalidate
+                      class="ng-scope ng-invalid ng-invalid-required ng-dirty ng-valid-minlength"
+                      ng-submit="create()">
+
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                                ng-click="clear()">&times;</button>
+                        <h4 class="modal-title" id="myQuestionImageLabel" translate="studentshelpcenterApp.questionImage.home.createOrEditLabel">Create or edit a QuestionImage</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>ID</label>
+                            <input type="text" class="form-control" name="id"
+                                   ng-model="questionImage.id" readonly>
+                        </div>
+
+                        <div class="form-group">
+                            <label translate="studentshelpcenterApp.questionImage.imageName">ImageName</label>
+                            <input type="text" class="form-control"
+                                   ng-model="questionImage.imageName">
+                        </div>
+
+                        <div class="form-group">
+                            <label translate="studentshelpcenterApp.questionImage.question">question</label>
+                            <select class="form-control" ng-model="questionImage.question.id" ng-options="question.id as question.id for question in questions">
+                            </select>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+                            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                        </button>
+                        <button type="submit" ng-disabled="form.$invalid" class="btn btn-primary">
+                            <span class="glyphicon glyphicon-save"></span>&nbsp;<span translate="entity.action.save">Save</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="deleteQuestionImageConfirmation">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form name="form" ng-submit="confirmDelete(questionImage.id)">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                                ng-click="clear()">&times;</button>
+                        <h4 class="modal-title" translate="entity.delete.title">Confirm delete operation</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p translate="studentshelpcenterApp.questionImage.delete.question" translate-values="{id: '{{questionImage.id}}'}">Are you sure you want to delete QuestionImage {{questionImage.id}}?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+                            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                        </button>
+                        <button type="submit" ng-disabled="form.$invalid" class="btn btn-danger">
+                            <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span translate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th translate="studentshelpcenterApp.questionImage.imageName">ImageName</th>
+                    <th translate="studentshelpcenterApp.questionImage.question">question</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="questionImage in questionImages">
+                    <td><a ui-sref="questionImageDetail({id:questionImage.id})">{{questionImage.id}}</a></td>
+                    <td>{{questionImage.imageName}}</td>
+                    <td>{{questionImage.question.id}}</td>
+                    <td>
+                        <button type="submit"
+                                ui-sref="questionImageDetail({id:questionImage.id})"
+                                class="btn btn-info">
+                            <span class="glyphicon glyphicon-eye-open"></span>&nbsp;<span translate="entity.action.view"> View</span>
+                        </button>
+                        <button type="submit"
+                                ng-click="update(questionImage.id)"
+                                class="btn btn-primary">
+                            <span class="glyphicon glyphicon-pencil"></span>&nbsp;<span translate="entity.action.edit"> Edit</span>
+                        </button>
+                        <button type="submit"
+                                ng-click="delete(questionImage.id)"
+                                class="btn btn-danger">
+                            <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span translate="entity.action.delete"> Delete</span>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

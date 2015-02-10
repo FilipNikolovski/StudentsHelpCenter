@@ -1,0 +1,41 @@
+{
+    "relationships": [
+        {
+            "relationshipId": 1,
+            "otherEntityName": "user",
+            "relationshipType": "many-to-one",
+            "otherEntityNameCapitalized": "User",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipId": 2,
+            "otherEntityName": "question",
+            "relationshipType": "many-to-one",
+            "otherEntityNameCapitalized": "Question",
+            "otherEntityField": "id"
+        }
+    ],
+    "fields": [
+        {
+            "fieldId": 1,
+            "fieldName": "answerText",
+            "fieldType": "String",
+            "fieldNameCapitalized": "AnswerText",
+            "fieldNameUnderscored": "answer_text"
+        },
+        {
+            "fieldId": 2,
+            "fieldName": "datePosted",
+            "fieldType": "DateTime",
+            "fieldNameCapitalized": "DatePosted",
+            "fieldNameUnderscored": "date_posted"
+        }
+    ],
+    "fieldsContainOwnerManyToMany": false,
+    "fieldsContainOneToMany": false,
+    "fieldsContainLocalDate": false,
+    "fieldsContainCustomTime": true,
+    "fieldsContainBigDecimal": false,
+    "fieldsContainDateTime": true,
+    "changelogDate": "20150210224421"
+}
