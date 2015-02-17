@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('studentshelpcenterApp')
-    .controller('AnswerVoteDetailController', function ($scope, $stateParams, AnswerVote, Answer, User) {
+    .controller('AnswerVoteDetailController', function ($scope, $stateParams, AnswerVote) {
         $scope.answerVote = {};
         $scope.load = function (id) {
             AnswerVote.get({id: id}, function(result) {

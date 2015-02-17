@@ -1,9 +1,8 @@
 'use strict';
 
 angular.module('studentshelpcenterApp')
-    .controller('AnswerController', function ($scope, Answer, User, Question) {
+    .controller('AnswerController', function ($scope, Answer, Question) {
         $scope.answers = [];
-        $scope.users = User.query();
         $scope.questions = Question.query();
         $scope.loadAll = function() {
             Answer.query(function(result) {

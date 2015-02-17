@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('studentshelpcenterApp')
-    .controller('QuestionTagDetailController', function ($scope, $stateParams, QuestionTag, Tag, Question) {
+    .controller('QuestionTagDetailController', function ($scope, $stateParams, QuestionTag) {
         $scope.questionTag = {};
         $scope.load = function (id) {
             QuestionTag.get({id: id}, function(result) {
