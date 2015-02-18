@@ -25,6 +25,7 @@ public class QuestionImage implements Serializable {
     private String imageName;
 
     @ManyToOne
+    @JsonIgnore
     private Question question;
 
     public Long getId() {

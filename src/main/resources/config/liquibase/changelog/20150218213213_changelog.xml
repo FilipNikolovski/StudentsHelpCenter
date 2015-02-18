@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.3.xsd">
+    <changeSet author="fic (generated)" id="1424291548399-1">
+        <createTable tableName="T_QUESTION_TAG">
+            <column name="question_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tag_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="fic (generated)" id="1424291548399-2">
+        <addForeignKeyConstraint baseColumnNames="tag_id" baseTableName="T_QUESTION_TAG" constraintName="FK_5ob1dmthc7odrq8bitx3bypb8" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="T_TAG"/>
+    </changeSet>
+    <changeSet author="fic (generated)" id="1424291548399-3">
+        <addForeignKeyConstraint baseColumnNames="question_id" baseTableName="T_QUESTION_TAG" constraintName="FK_js5ke3nbltv2xaslb6465iqrf" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="T_QUESTION"/>
+    </changeSet>
+</databaseChangeLog>

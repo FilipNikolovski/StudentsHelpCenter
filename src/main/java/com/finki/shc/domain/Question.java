@@ -1,6 +1,6 @@
 package com.finki.shc.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.finki.shc.domain.util.CustomDateTimeDeserializer;
@@ -12,8 +12,8 @@ import org.joda.time.DateTime;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A Question.
@@ -44,6 +44,27 @@ public class Question implements Serializable {
 
     @ManyToOne
     private User user;
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "question")
+    @JsonManagedReference
+    private List<Answer> answers = new ArrayList<>();
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "question")
+    private List<QuestionImage> images = new ArrayList<>();
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "question")
+    private List<QuestionVote> votes = new ArrayList<>();
+
+    
+    private Integer totalVotes;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+        name = "T_QUESTION_TAG",
+        joinColumns = {@JoinColumn(name = "question_id", referencedColumnName = "id")},
+        inverseJoinColumns = {@JoinColumn(name = "tag_id", referencedColumnName = "id")})
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private List<Tag> tags = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -93,6 +114,38 @@ public class Question implements Serializable {
         this.user = user;
     }
 
+    public List<Answer> getAnswers() {
+        return answers;
+    }
+
+    public void setAnswers(List<Answer> answers) {
+        this.answers = answers;
+    }
+
+    public List<Tag> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<Tag> tags) {
+        this.tags = tags;
+    }
+
+    public List<QuestionImage> getImages() {
+        return images;
+    }
+
+    public void setImages(List<QuestionImage> images) {
+        this.images = images;
+    }
+
+    public List<QuestionVote> getVotes() {
+        return votes;
+    }
+
+    public void setVotes(List<QuestionVote> votes) {
+        this.votes = votes;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -117,11 +170,13 @@ public class Question implements Serializable {
     @Override
     public String toString() {
         return "Question{" +
-                "id=" + id +
-                ", title='" + title + "'" +
-                ", description='" + description + "'" +
-                ", datePosted='" + datePosted + "'" +
-                ", solved='" + solved + "'" +
-                '}';
+            "id=" + id +
+            ", title='" + title + "'" +
+            ", description='" + description + "'" +
+            ", datePosted='" + datePosted + "'" +
+            ", solved='" + solved + "'" +
+            ", answers='" + answers.toString() + "'" +
+            ", answers='" + tags.toString() + "'" +
+            '}';
     }
 }

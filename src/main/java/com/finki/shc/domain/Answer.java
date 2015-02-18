@@ -1,5 +1,6 @@
 package com.finki.shc.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -40,6 +41,7 @@ public class Answer implements Serializable {
     private User user;
 
     @ManyToOne
+    @JsonBackReference
     private Question question;
 
     public Long getId() {

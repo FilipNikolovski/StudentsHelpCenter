@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.3.xsd">
+    <changeSet author="fic (generated)" id="1424212946587-1">
+        <createTable tableName="T_QUESTION_T_ANSWER">
+            <column name="T_QUESTION_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="answers_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="fic (generated)" id="1424212946587-2">
+        <addPrimaryKey columnNames="T_QUESTION_id, answers_id" tableName="T_QUESTION_T_ANSWER"/>
+    </changeSet>
+    <changeSet author="fic (generated)" id="1424212946587-3">
+        <addUniqueConstraint columnNames="answers_id" deferrable="false" disabled="false" initiallyDeferred="false" tableName="T_QUESTION_T_ANSWER"/>
+    </changeSet>
+    <changeSet author="fic (generated)" id="1424212946587-4">
+        <addForeignKeyConstraint baseColumnNames="T_QUESTION_id" baseTableName="T_QUESTION_T_ANSWER" constraintName="FK_731q3mfys936kr2ddvha1o807" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="T_QUESTION"/>
+    </changeSet>
+    <changeSet author="fic (generated)" id="1424212946587-5">
+        <addForeignKeyConstraint baseColumnNames="answers_id" baseTableName="T_QUESTION_T_ANSWER" constraintName="FK_drsie60qsgtyne6pawtcxqc0a" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="T_ANSWER"/>
+    </changeSet>
+</databaseChangeLog>
