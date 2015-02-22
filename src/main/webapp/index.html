@@ -23,13 +23,13 @@
         <!--[if lt IE 10]>
             <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
-        <div ng-show="{{ENV === 'dev'}}" class="development" ng-cloak=""></div>
+        <div ng-show="{{ENV === 'dev'}}" ng-cloak=""></div>
         <div ui-view="navbar" ng-cloak=""></div>
         <div class="container">
             <div class="well" ui-view="content"></div>
 
             <div class="footer">
-                <p translate="footer">This is your footer</p>
+                <p translate="footer">Footer</p>
             </div>
         </div>
 
@@ -147,10 +147,8 @@
         <script src="scripts/app/entities/tag/tag.controller.js"></script>
         <script src="scripts/app/entities/tag/tag-detail.controller.js"></script>
         <script src="scripts/components/entities/tag/tag.service.js"></script>
-        <script src="scripts/app/entities/questionTag/questionTag.js"></script>
-        <script src="scripts/app/entities/questionTag/questionTag.controller.js"></script>
-        <script src="scripts/app/entities/questionTag/questionTag-detail.controller.js"></script>
-        <script src="scripts/components/entities/questionTag/questionTag.service.js"></script>
+        <script src="scripts/components/views/new_question/new_question.js"></script>
+        <script src="scripts/components/views/new_question/new_question.controller.js"></script>
         <!-- endbuild -->
 </body>
 </html>

@@ -55,9 +55,6 @@ public class Question implements Serializable {
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "question")
     private List<QuestionVote> votes = new ArrayList<>();
 
-    
-    private Integer totalVotes;
-
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
         name = "T_QUESTION_TAG",
