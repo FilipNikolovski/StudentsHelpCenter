@@ -1,0 +1,160 @@
+<div>
+
+    <hr>
+    <div class="row">
+        <div class="col-md-12 col-xs-18 col-sm-14">
+            <div class="row">
+                <small><label class="col-md-1 col-xs-3 col-sm-1" style="margin-left: 15px;" ng-if="question.solved == false">NOT SOLVED</label>
+                    <label class="col-md-1 col-xs-3 col-sm-1" style="margin-left: 15px;" ng-if="question.solved == true">SOLVED</label></small>
+                <h2 class="col-md-7 col-xs-11 col-sm-7">{{question.title}}</h2>
+                <label class="col-md-3 col-xs-4 col-sm-4 text-right">Date: {{question.datePosted | date:'medium'}}</label>
+
+            </div>
+            <div class="row">
+                <h6 class="col-md-3 col-xs-4 col-sm-4" style="margin-left: 20px;">Posted by <b>{{question.user.firstName}} {{question.user.lastName}}</b></h6>
+                <blockquote class="text-right blockquote-reverse" ng-if="question.tags.length > 0 ">
+                    <ul class="list-inline">
+                        <li ng-repeat="tag in question.tags">
+                            {{tag.name}}
+                        </li>
+                    </ul>
+                </blockquote>
+            </div>
+        </div>
+        <div ng-repeat="answer in question.answers" class="col-md-12 col-xs-18 col-sm-14">
+            <hr>
+          <div class="col-md-9 col-xs-14 col-sm-10">
+           By: {{answer.user.firstName}} {{answer.user.lastName}}
+            <br/>
+            <h4>{{answer.answerText}}</h4>
+              </div>
+            <label class="col-md-3 col-xs-4 col-sm-4 text-right">Date: {{answer.datePosted | date:'medium'}}</label>
+        </div>
+
+    <h2 translate="studentshelpcenterApp.answer.home.title">Answer</h2>
+
+    <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#saveAnswerModal" ng-click="clear()">
+        <span class="glyphicon glyphicon-flash"></span> <span translate="studentshelpcenterApp.answer.home.createLabel">Create a new Answer</span>
+    </button>
+    <div class="modal fade" id="saveAnswerModal" tabindex="-1" role="dialog" aria-labelledby="myAnswerLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form name="form" role="form" novalidate
+                      class="ng-scope ng-invalid ng-invalid-required ng-dirty ng-valid-minlength"
+                      ng-submit="create()">
+
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                                ng-click="clear()">&times;</button>
+                        <h4 class="modal-title" id="myAnswerLabel" translate="studentshelpcenterApp.answer.home.createOrEditLabel">Create or edit a Answer</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>ID</label>
+                            <input type="text" class="form-control" name="id"
+                                   ng-model="answer.id" readonly>
+                        </div>
+
+                        <div class="form-group">
+                            <label translate="studentshelpcenterApp.answer.answerText">AnswerText</label>
+                            <input type="text" class="form-control"
+                                   ng-model="answer.answerText">
+                        </div>
+                        <div class="form-group">
+                            <label translate="studentshelpcenterApp.answer.datePosted">DatePosted</label>
+                            <input type="datetime-local" class="form-control"
+                                   ng-model="answer.datePosted" ng-model-options="{timezone: 'UTC'}">
+                        </div>
+
+                        <div class="form-group">
+                            <label translate="studentshelpcenterApp.answer.user">user</label>
+                            <select class="form-control" ng-model="answer.user.id" ng-options="user.id as user.id for user in users">
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label translate="studentshelpcenterApp.answer.question">question</label>
+                            <select class="form-control" ng-model="answer.question.id" ng-options="question.id as question.id for question in questions">
+                            </select>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+                            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                        </button>
+                        <button type="submit" ng-disabled="form.$invalid" class="btn btn-primary">
+                            <span class="glyphicon glyphicon-save"></span>&nbsp;<span translate="entity.action.save">Save</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="deleteAnswerConfirmation">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form name="form" ng-submit="confirmDelete(answer.id)">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                                ng-click="clear()">&times;</button>
+                        <h4 class="modal-title" translate="entity.delete.title">Confirm delete operation</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p translate="studentshelpcenterApp.answer.delete.question" translate-values="{id: '{{answer.id}}'}">Are you sure you want to delete Answer {{answer.id}}?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+                            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                        </button>
+                        <button type="submit" ng-disabled="form.$invalid" class="btn btn-danger">
+                            <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span translate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th translate="studentshelpcenterApp.answer.answerText">AnswerText</th>
+                <th translate="studentshelpcenterApp.answer.datePosted">DatePosted</th>
+                <th translate="studentshelpcenterApp.answer.question">user</th>
+                <th translate="studentshelpcenterApp.answer.question">question</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="answer in answers">
+                <td><a ui-sref="answerDetail({id:answer.id})">{{answer.id}}</a></td>
+                <td>{{answer.answerText}}</td>
+                <td>{{answer.datePosted}}</td>
+                <td>{{answer.user.id}}</td>
+                <td>{{answer.question.id}}</td>
+                <td>
+                    <button type="submit"
+                            ui-sref="answerDetail({id:answer.id})"
+                            class="btn btn-info">
+                        <span class="glyphicon glyphicon-eye-open"></span>&nbsp;<span translate="entity.action.view"> View</span>
+                    </button>
+                    <button type="submit"
+                            ng-click="update(answer.id)"
+                            class="btn btn-primary">
+                        <span class="glyphicon glyphicon-pencil"></span>&nbsp;<span translate="entity.action.edit"> Edit</span>
+                    </button>
+                    <button type="submit"
+                            ng-click="delete(answer.id)"
+                            class="btn btn-danger">
+                        <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span translate="entity.action.delete"> Delete</span>
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
