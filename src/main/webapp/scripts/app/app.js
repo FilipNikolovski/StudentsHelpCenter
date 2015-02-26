@@ -34,7 +34,7 @@ angular.module('studentshelpcenterApp', ['LocalStorageModule', 'tmh.dynamicLocal
             }
         };
     })
-    
+
     .config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locationProvider, $translateProvider, tmhDynamicLocaleProvider, httpRequestInterceptorCacheBusterProvider) {
 
         //enable CSRF
@@ -66,7 +66,7 @@ angular.module('studentshelpcenterApp', ['LocalStorageModule', 'tmh.dynamicLocal
                 }]
             }
         });
-        
+
 
         // Initialize angular-translate
         $translateProvider.useLoader('$translatePartialLoader', {
@@ -78,4 +78,29 @@ angular.module('studentshelpcenterApp', ['LocalStorageModule', 'tmh.dynamicLocal
 
         tmhDynamicLocaleProvider.localeLocationPattern('bower_components/angular-i18n/angular-locale_{{locale}}.js');
         tmhDynamicLocaleProvider.useCookieStorage('NG_TRANSLATE_LANG_KEY');
-    });
+
+
+    }).directive("imageResize", [
+        "$parse", function($parse) {
+            return {
+                link: function(scope, elm, attrs) {
+                    var imagePercent;
+                    imagePercent = $parse(attrs.imagePercent)(scope);
+                    elm.bind("load", function(e) {
+                        elm.unbind("load"); //Hack to ensure load is called only once
+                        var canvas, ctx, neededHeight, neededWidth;
+                        neededHeight = elm[0].naturalHeight * imagePercent / 100;
+                        neededWidth = elm[0].naturalWidth * imagePercent / 100;
+                        canvas = document.createElement("canvas");
+                        canvas.width = neededWidth;
+                        canvas.height = neededHeight;
+                        ctx = canvas.getContext("2d");
+                        ctx.drawImage(elm[0], 0, 0, neededWidth, neededHeight);
+                        elm.attr('src', canvas.toDataURL("image/jpeg"));
+                    });
+                }
+            };
+        }
+    ]); ;
+
+

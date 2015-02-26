@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('studentshelpcenterApp')
-    .controller('QuestionController', function ($scope, Question, Answer) {
+    .controller('QuestionController', function ($scope, Question) {
         $scope.questions = [];
         $scope.loadAll = function() {
             Question.query(function(result) {
@@ -11,6 +11,7 @@ angular.module('studentshelpcenterApp')
         $scope.loadAll();
 
         $scope.create = function () {
+            $scope.question.setUser=1;
             Question.save($scope.question,
                 function () {
                     $scope.loadAll();
