@@ -55,9 +55,6 @@ public class Question implements Serializable {
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "question")
     private List<QuestionVote> votes = new ArrayList<>();
 
-    
-    private Integer totalVotes;
-
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
         name = "T_QUESTION_TAG",
@@ -144,6 +141,24 @@ public class Question implements Serializable {
 
     public void setVotes(List<QuestionVote> votes) {
         this.votes = votes;
+    }
+
+    public Integer getTotalAnswers() { return answers.size(); }
+
+    public Integer getUpvotes() {
+        int totalUpvotes = 0;
+        for(QuestionVote v : votes) {
+            if(v.getVote() > 0) totalUpvotes++;
+        }
+        return totalUpvotes;
+    }
+
+    public Integer getDownvotes() {
+        int totalDownvotes = 0;
+        for(QuestionVote v : votes) {
+            if(v.getVote() < 0) totalDownvotes++;
+        }
+        return totalDownvotes;
     }
 
     @Override
