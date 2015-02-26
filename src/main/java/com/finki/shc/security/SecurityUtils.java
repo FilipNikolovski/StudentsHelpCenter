@@ -52,4 +52,18 @@ public final class SecurityUtils {
         }
         return true;
     }
+
+    public static boolean checkAuthority(String authority) {
+
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+        Collection<? extends GrantedAuthority> authorities = securityContext.getAuthentication().getAuthorities();
+        if (authorities != null) {
+            for (GrantedAuthority auth : authorities) {
+                if (auth.getAuthority().equals(authority)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 }

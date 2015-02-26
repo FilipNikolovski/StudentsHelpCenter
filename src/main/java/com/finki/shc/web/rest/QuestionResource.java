@@ -2,7 +2,11 @@ package com.finki.shc.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import com.finki.shc.domain.Question;
+import com.finki.shc.domain.User;
 import com.finki.shc.repository.QuestionRepository;
+import com.finki.shc.repository.UserRepository;
+import com.finki.shc.security.AuthoritiesConstants;
+import com.finki.shc.security.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -10,6 +14,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import java.util.List;
 import java.util.Optional;
@@ -26,6 +31,9 @@ public class QuestionResource {
     @Inject
     private QuestionRepository questionRepository;
 
+    @Inject
+    private UserRepository userRepository;
+
     /**
      * POST  /questions -> Create a new question.
      */
@@ -33,9 +41,15 @@ public class QuestionResource {
             method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public void create(@RequestBody Question question) {
+    @RolesAllowed({AuthoritiesConstants.USER, AuthoritiesConstants.ADMIN })
+    public ResponseEntity<?> create(@RequestBody Question question) {
         log.debug("REST request to save Question : {}", question);
+        if (!SecurityUtils.isAuthenticated()) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+        question.setUser(userRepository.findOneByLogin(SecurityUtils.getCurrentLogin()).get());
         questionRepository.save(question);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     /**
@@ -73,8 +87,22 @@ public class QuestionResource {
             method = RequestMethod.DELETE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public void delete(@PathVariable Long id) {
+    @RolesAllowed({ AuthoritiesConstants.USER, AuthoritiesConstants.ADMIN })
+    public ResponseEntity<?> delete(@PathVariable Long id) {
         log.debug("REST request to delete Question : {}", id);
-        questionRepository.delete(id);
+
+        if (!SecurityUtils.isAuthenticated()) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+
+        User u = userRepository.findOneByLogin(SecurityUtils.getCurrentLogin()).get();
+
+        if(SecurityUtils.checkAuthority(AuthoritiesConstants.ADMIN)) { //Delete question if the user is administrator
+            questionRepository.delete(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+
+        questionRepository.deleteByIdAndUserId(id, u.getId()); //Delete the question if the current logged in user is the creator of that question
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
