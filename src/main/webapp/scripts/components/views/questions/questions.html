@@ -1,15 +1,28 @@
 <div>
-    <hr>
     <div class="row" ng-repeat="question in questions">
         <div class="col-md-12 col-xs-18 col-sm-14">
-            <div class="row">
-                <small><label class="col-md-1 col-xs-3 col-sm-1" style="margin-left: 15px;" ng-if="question.solved == false">NOT SOLVED</label>
-                <label class="col-md-1 col-xs-3 col-sm-1" style="margin-left: 15px;" ng-if="question.solved == true">SOLVED</label></small>
-                <h2 class="col-md-7 col-xs-11 col-sm-7">{{question.title}}</h2>
-                <label class="col-md-3 col-xs-4 col-sm-4 text-right">Date: {{question.datePosted | date:'medium'}}</label>
-
+            <hr>
+            <div class="row col-md-12 col-xs-18 col-sm-14">
+                <label class="pull-left" style="margin-left: 15px;" ng-if="question.solved == false">NOT SOLVED</label>
+                <label class="pull-left" style="margin-left: 15px;" ng-if="question.solved == true">SOLVED</label>
+                <label class="pull-right">Date: {{question.datePosted | date:'medium'}}</label>
             </div>
-            <div class="row">
+            <div class="row col-md-12 col-xs-18 col-sm-14" style="margin: 5px;">
+                <div class="col-md-1 col-xs-2 col-sm-2">
+                   <div class="row h3">
+                       <span class="glyphicon glyphicon-thumbs-up"></span>
+                       <label>{{question.upvotes}}</label>
+                   </div>
+                    <div class="row h3">
+                        <span class="glyphicon glyphicon-thumbs-down"></span>
+                        <label>{{question.downvotes}}</label>
+                    </div>
+                </div>
+                <div>
+                    <p class="col-md-11 col-xs-16 6col-sm-12 h2" style="padding-top: 5px; padding-bottom: 5px; padding-left: 10px;">{{question.title}}</p>
+                </div>
+            </div>
+            <div class="row col-md-12 col-xs-18 col-sm-14">
                 <h6 class="col-md-3 col-xs-4 col-sm-4" style="margin-left: 20px;">Posted by <b>{{question.user.firstName}} {{question.user.lastName}}</b></h6>
                 <blockquote class="text-right blockquote-reverse" ng-if="question.tags.length > 0 ">
                     <ul class="list-inline">
@@ -19,13 +32,9 @@
                     </ul>
                 </blockquote>
             </div>
-
-
-
-
-            <hr>
         </div>
 
+        <hr>
     </div>
 
     <div class="table-responsive">
