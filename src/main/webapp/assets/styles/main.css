@@ -160,4 +160,46 @@ ul#strength {
     border-top: none;
 }
 
+.blockquote-reverse
+{
+    background-color:transparent !important;
+}
+.button-darkRed
+{
+    background-color: darkred !important;
+    border-color: darkred !important;
+
+}
+.button-green
+{
+    background-color: #089C0A;
+    border-color: #089C0A;
+}
+
+.button-blue
+{
+    background-color: #1C6DD9;
+    border-color: #1C6DD9;
+}
+
+.badgeRed
+{
+    background-color: darkred !important;
+    border-color: darkred !important;
+    color:white;
+}
+.badgePadding
+{
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+.badgeGreen
+{
+    background-color: #089C0A !important;
+    border-color: #089C0A !important;
+    color:white;
+}
+
 /* end Password strength bar style */
