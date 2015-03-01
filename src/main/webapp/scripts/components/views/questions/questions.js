@@ -5,7 +5,7 @@ angular.module('studentshelpcenterApp')
         $stateProvider
             .state('questions', {
                 parent: 'site',
-                url: '/questions',
+                url: '/questions?searchString&solved',
                 data: {
                     roles: ['ROLE_USER']
                 },

@@ -4,8 +4,8 @@
         <div class="col-md-12 col-xs-18 col-sm-14">
             <hr>
             <div class="row col-md-12 col-xs-18 col-sm-14">
-                <label class="pull-left" style="margin-left: 15px;" ng-if="question.solved == false">NOT SOLVED</label>
-                <label class="pull-left" style="margin-left: 15px;" ng-if="question.solved == true">SOLVED</label>
+                <label class="pull-left badge badgeRed badgePadding" style="margin-left: 15px;" ng-if="question.solved == false"><span class="glyphicon glyphicon-remove-circle"></span>  NOT SOLVED</label>
+                <label class="pull-left badge badgeGreen badgePadding" style="margin-left: 15px;" ng-if="question.solved == true"> <span class="glyphicon glyphicon-ok-circle"> </span> SOLVED</label>
                 <label class="pull-right">Date: {{question.datePosted | date:'medium'}}</label>
             </div>
             <div class="row col-md-12 col-xs-18 col-sm-14" style="margin: 5px;">
@@ -26,9 +26,9 @@
             <div class="row col-md-12 col-xs-18 col-sm-14">
                 <h6 class="col-md-3 col-xs-4 col-sm-4" style="margin-left: 20px;">Posted by <b>{{question.user.firstName}} {{question.user.lastName}}</b></h6>
                 <blockquote class="text-right blockquote-reverse" ng-if="question.tags.length > 0 ">
-                    <ul class="list-inline">
-                        <li ng-repeat="tag in question.tags">
-                            {{tag.name}}
+                    <ul class="list-inline tag-list badgePadding">
+                        <li ng-repeat="tag in question.tags" class="list-group-item">
+                            <a ui-sref="questions({searchString:tag.name})">{{tag.name}}</a>
                         </li>
                     </ul>
                 </blockquote>
@@ -41,16 +41,29 @@
                 </div>
             </div>
         </div>
-        <div ng-if="question.answers.length > 0 ">
-            <div ng-repeat="answer in question.answers" class="col-md-12 col-xs-18 col-sm-14">
+        <div ng-if="question.answers.length > 0 " class="col-md-12 col-xs-18 col-sm-14">
+            <div ng-repeat="answer in question.answers" class="row col-md-12 col-xs-18 col-sm-14">
                 <hr>
-                <div class="row col-md-12 col-xs-18 col-sm-14">
-                   <label class="pull-left"> By: {{answer.user.firstName}} {{answer.user.lastName}} </label>
-                    <label class="pull-right">Date: {{answer.datePosted | date:'medium'}}</label>
+                <div class="col-md-1 col-xs-2 col-sm-2" style="border-right: solid 1px lightgray;">
+                    <div class="row h4" style="margin:auto;">
+                        <span class="glyphicon glyphicon-chevron-up"></span>
+                        <label>{{answer.upvotes}}</label>
+                    </div>
+                    <br/>
+                    <div class="row h4" style="margin:auto;">
+                        <span class="glyphicon glyphicon-chevron-down"></span>
+                        <label>{{answer.downvotes}}</label>
+                    </div>
                 </div>
+                <div class="col-md-11 col-xs-16 col-sm-12">
+                    <div class="row col-md-12 col-xs-18 col-sm-14">
+                       <label class="pull-left"> By: {{answer.user.firstName}} {{answer.user.lastName}} </label>
+                        <label class="pull-right">Date: {{answer.datePosted | date:'medium'}}</label>
+                    </div>
 
-                <div class="row col-md-10 col-xs-14 col-sm-11">
-                    <h4>{{answer.answerText}}</h4>
+                    <div class="row col-md-12 col-xs-18 col-sm-14" style="border-top: solid 1px lightgray;">
+                        <h4>{{answer.answerText}}</h4>
+                    </div>
                 </div>
 
             </div>

@@ -25,6 +25,7 @@ public class AnswerVote implements Serializable {
     private Integer vote;
 
     @ManyToOne
+    @JsonIgnore
     private Answer answer;
 
     @ManyToOne

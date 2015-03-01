@@ -13,7 +13,9 @@ import org.joda.time.DateTime;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -30,6 +32,9 @@ public class Answer implements Serializable {
 
     @Column(name = "answer_text")
     private String answerText;
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "answer", cascade = CascadeType.ALL)
+    private List<AnswerVote> votes = new ArrayList<>();
 
     @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
     @JsonSerialize(using = CustomDateTimeSerializer.class)
@@ -82,6 +87,30 @@ public class Answer implements Serializable {
 
     public void setQuestion(Question question) {
         this.question = question;
+    }
+
+    public List<AnswerVote> getVotes() {
+        return votes;
+    }
+
+    public void setVotes(List<AnswerVote> votes) {
+        this.votes = votes;
+    }
+
+    public Integer getUpvotes() {
+        int totalUpvotes = 0;
+        for(AnswerVote v : votes) {
+            if(v.getVote() > 0) totalUpvotes++;
+        }
+        return totalUpvotes;
+    }
+
+    public Integer getDownvotes() {
+        int totalDownvotes = 0;
+        for(AnswerVote v : votes) {
+            if(v.getVote() < 0) totalDownvotes++;
+        }
+        return totalDownvotes;
     }
 
     @Override

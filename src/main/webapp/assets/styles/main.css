@@ -202,4 +202,19 @@ ul#strength {
     color:white;
 }
 
+.tag-list li
+{
+    border-radius: 5px;
+    margin-left: 10px;
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+    padding-top: 5px !important;
+    padding-bottom: 5px !important;
+    margin-bottom: 5px;
+}
+.glyphicons-margin
+{
+    margin:10px;
+}
+
 /* end Password strength bar style */

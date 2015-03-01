@@ -8,10 +8,10 @@
 
                 <form class="">
                     <div class="form-group col-md-11 col-xs-8 col-sm-8">
-                        <input type="input" class="form-control" style="width: 100% !important;"
+                        <input type="input" class="form-control" style="width: 100% !important;" ng-model="searchString"
                                placeholder="Search something..">
                     </div>
-                    <button type="submit" class="btn btn-info col-md-1 col-xs-4 col-sm-3">Search</button>
+                    <button type="submit" class="btn btn-info col-md-1 col-xs-4 col-sm-3" ui-sref="questions({searchString:searchString})">Search</button>
                 </form>
                 <br/> <br/> <br/><br/> <br/> <br/>
             </div>
