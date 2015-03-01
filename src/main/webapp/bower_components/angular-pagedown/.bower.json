@@ -1,0 +1,20 @@
+{
+  "name": "angular-pagedown",
+  "version": "0.3.0",
+  "main": "angular-pagedown.js",
+  "dependencies": {
+    "angular": "~1.2",
+    "pagedown": "^1.1.0"
+  },
+  "homepage": "https://github.com/kennyki/angular-pagedown",
+  "_release": "0.3.0",
+  "_resolution": {
+    "type": "version",
+    "tag": "0.3.0",
+    "commit": "b7a01eaa13ce36e1da9170c16cb768402e8e96b3"
+  },
+  "_source": "git://github.com/kennyki/angular-pagedown.git",
+  "_target": "~0.3.0",
+  "_originalSource": "angular-pagedown",
+  "_direct": true
+}

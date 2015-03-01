@@ -1,49 +1,16 @@
-# packaged angular
+A javascript port of Markdown, as used on Stack Overflow
+and the rest of Stack Exchange network.
 
-This repo is for distribution on `npm` and `bower`. The source for this module is in the
-[main AngularJS repo](https://github.com/angular/angular.js).
-Please file issues and pull requests against that repo.
+Largely based on showdown.js by John Fraser (Attacklab).
 
-## Install
+Original Markdown Copyright (c) 2004-2005 John Gruber
+  <http://daringfireball.net/projects/markdown/>
 
-You can install this package either with `npm` or with `bower`.
 
-### npm
+Original Showdown code copyright (c) 2007 John Fraser
 
-```shell
-npm install angular
-```
-
-Then add a `<script>` to your `index.html`:
-
-```html
-<script src="/node_modules/angular/angular.js"></script>
-```
-
-Or `require('angular')` from your code.
-
-### bower
-
-```shell
-bower install angular
-```
-
-Then add a `<script>` to your `index.html`:
-
-```html
-<script src="/bower_components/angular/angular.js"></script>
-```
-
-## Documentation
-
-Documentation is available on the
-[AngularJS docs site](http://docs.angularjs.org/).
-
-## License
-
-The MIT License
-
-Copyright (c) 2010-2015 Google, Inc. http://angularjs.org
+Modifications and bugfixes (c) 2009 Dana Robinson
+Modifications and bugfixes (c) 2009-2013 Stack Exchange Inc.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -62,3 +29,4 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
+
