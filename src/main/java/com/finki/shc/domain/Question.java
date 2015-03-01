@@ -14,6 +14,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * A Question.
@@ -61,7 +62,7 @@ public class Question implements Serializable {
         joinColumns = {@JoinColumn(name = "question_id", referencedColumnName = "id")},
         inverseJoinColumns = {@JoinColumn(name = "tag_id", referencedColumnName = "id")})
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private List<Tag> tags = new ArrayList<>();
+    private Set<Tag> tags;
 
     public Long getId() {
         return id;
@@ -119,11 +120,11 @@ public class Question implements Serializable {
         this.answers = answers;
     }
 
-    public List<Tag> getTags() {
+    public Set<Tag> getTags() {
         return tags;
     }
 
-    public void setTags(List<Tag> tags) {
+    public void setTags(Set<Tag> tags) {
         this.tags = tags;
     }
 
@@ -191,7 +192,7 @@ public class Question implements Serializable {
             ", datePosted='" + datePosted + "'" +
             ", solved='" + solved + "'" +
             ", answers='" + answers.toString() + "'" +
-            ", answers='" + tags.toString() + "'" +
+            ", tags='" + tags.toString() + "'" +
             '}';
     }
 }
