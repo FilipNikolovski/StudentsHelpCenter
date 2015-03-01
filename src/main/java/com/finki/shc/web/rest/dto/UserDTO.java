@@ -8,6 +8,8 @@ import javax.validation.constraints.Size;
 import java.util.List;
 
 public class UserDTO {
+    @NotNull
+    private Long id;
 
     @Pattern(regexp = "^[a-z0-9]*$")
     @NotNull
@@ -36,8 +38,9 @@ public class UserDTO {
     public UserDTO() {
     }
 
-    public UserDTO(String login, String password, String firstName, String lastName, String email, String langKey,
+    public UserDTO(Long id, String login, String password, String firstName, String lastName, String email, String langKey,
                    List<String> roles) {
+        this.id=id;
         this.login = login;
         this.password = password;
         this.firstName = firstName;
@@ -45,6 +48,10 @@ public class UserDTO {
         this.email = email;
         this.langKey = langKey;
         this.roles = roles;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getPassword() {

@@ -1,12 +1,33 @@
 'use strict';
 
 angular.module('studentshelpcenterApp')
-    .controller('QuestionDetailsController', function ($scope, $stateParams, Question, Answer) {
+    .controller('QuestionDetailsController', function ($scope, $stateParams, Question, Answer, Account, Principal) {
         $scope.question = {};
+        $scope.vote={};
+        $scope.vote.user={};
+        $scope.vote.user.id=0;
         $scope.load = function (id) {
             Question.get({id: id}, function(result) {
                 $scope.question = result;
             });
+        };
+
+        $scope.addVote=function(){
+            Account.get().$promise
+                .then(function (account) {
+                    $scope.vote.user.id=account.data.id;
+                    console.log($scope.vote.user.id);
+                })
+            //$scope.vote.question.id=id;
+            //$scope.vote.vote=vote;
+            console.log($scope.vote.user.id);
+
+        };
+        $scope.showImage=function(imageName){
+            $scope.imageName=imageName;
+            console.log(imageName);
+            $('#showImage').modal('show');
+
         };
 
         $scope.load($stateParams.id);
@@ -41,5 +62,6 @@ angular.module('studentshelpcenterApp')
 
         $scope.clear = function () {
             $scope.answer = {answerText: null, datePosted: null, id: null};
+            $scope.imageName=null;
         };
     });

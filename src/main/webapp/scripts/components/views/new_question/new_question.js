@@ -3,8 +3,9 @@
 angular.module('studentshelpcenterApp')
     .config(function ($stateProvider) {
         $stateProvider
-            .state('add_question', {
+            .state('addQuestion', {
                 parent: 'site',
+                url: '/add_question',
                 views: {
                     'content@': {
                         templateUrl: 'scripts/components/views/new_question/new_question.html',

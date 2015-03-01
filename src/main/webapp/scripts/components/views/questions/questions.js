@@ -21,6 +21,9 @@ angular.module('studentshelpcenterApp')
                         return $translate.refresh();
                     }]
 
+                },
+                options:{
+                    location: 'fros'
                 }
             })
             .state('questionDetails', {
@@ -41,7 +44,5 @@ angular.module('studentshelpcenterApp')
                         return $translate.refresh();
                     }]
                 }
-
-
             })
     });

@@ -112,6 +112,7 @@ public class AccountResource {
         return Optional.ofNullable(userService.getUserWithAuthorities())
             .map(user -> new ResponseEntity<>(
                 new UserDTO(
+                    user.getId(),
                     user.getLogin(),
                     null,
                     user.getFirstName(),

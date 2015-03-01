@@ -140,4 +140,24 @@ ul#strength {
     margin-right:1px;
     width:20px;
 }
+
+.showImage
+{
+    width: 90%;
+    margin: auto;
+}
+
+.photo
+{
+    width: 100%;
+}
+.ngHover
+{
+    cursor: pointer;
+}
+.modalFooter
+{
+    border-top: none;
+}
+
 /* end Password strength bar style */

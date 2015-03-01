@@ -1,5 +1,5 @@
 <div ng-cloak>
-    <a ui-sref="questionDetails({id:1})"><span>Klikkkk</span></a>
+    <a ui-sref="addQuestion"><span>Klikkkk</span></a>
     <div class="row">
 
         <div class="col-md-12 col-xs-18 col-sm-14">
@@ -19,27 +19,45 @@
         </div>
 
     </div>
-    <div class="row col-md-offset-1 col-sm-offset-2 col-xs-offset-1" >
+    <div class="row col-md-offset-1 col-sm-offset-2 col-xs-offset-1" style="align-content: center; color: darkslategrey; font-weight: bold;">
         <div class="col-md-3 col-xs-9 col-sm-6" style="margin: 20px; height: 300px; border-radius: 5px; background: no-repeat url('/assets/images/questioning.jpg')">
-           <div class="row col-md-11 col-xs-16 col-sm-8 ">
+            <div class="row col-md-12 col-xs-18 col-sm-14" style="height: 33.3%;">
+                <span class="row h3">Need help?</span>
+            </div>
+           <div class="row col-md-12 col-xs-18 col-sm-14"  style="height: 33.3%;">
                You have some problem and you need solution?
                Ask and get our experts help!
            </div>
-            <button type="button" class="row col-md-11 col-xs-16 col-sm-6 ">Ask question</button>
-
-
-
+            <div class="row col-md-12 col-xs-18 col-sm-14" style="height: 33.3%;">
+                <button type="button" class="col-md-12 col-xs-18 col-sm-14 btn btn-primary" ui-sref="addQuestion">Ask question</button>
+            </div>
         </div>
-        <div class="col-md-3 col-xs-9 col-sm-6 container" style="margin: 20px; height: 300px; border-radius: 5px; background: no-repeat url('/assets/images/solved_question.jpg')">
-            <span><h3 class="row">Solved Questions</h3></span>
-            Looking for an answer? Check if we already have it!
-           <br/> <button type="button" class="row" ui-sref="question">See answers</button>
+        <div class="col-md-3 col-xs-9 col-sm-6 container " style="margin: 20px; height: 300px; border-radius: 5px; background: no-repeat url('/assets/images/solved_question.jpg')">
+            <div class="row col-md-12 col-xs-18 col-sm-14" style="height: 33.3%;">
+                <span class="row h3">Solved Questions</span>
+            </div>
+            <div class="row col-md-12 col-xs-18 col-sm-14" style="height: 33.3%;">
+                Looking for an answer? Check if we already have it!
+            </div>
+            <div class="row col-md-12 col-xs-18 col-sm-14" style="height: 33.3%;">
+                <button type="button" class="col-md-12 col-xs-18 col-sm-14 btn btn-success" ui-sref="questions">See answers</button>
+            </div>
+
+
 
         </div>
         <div class="col-md-3 col-xs-9 col-sm-6 " style="margin: 20px; height: 300px; border-radius: 5px; background: no-repeat url('/assets/images/newest_questions.jpg')">
-            <span class="row"><h3>Newest Questions</h3></span>
-            Are you an expert?
-            Take a look and share your knowledge!
+            <div class="row col-md-12 col-xs-18 col-sm-14" style="height: 33.3%;">
+                <span class="row h3">Newest Questions</span>
+            </div>
+            <div class="row col-md-12 col-xs-18 col-sm-14" style="height: 33.3%;">
+                Are you an expert?
+                Take a look and share your knowledge!
+            </div>
+            <div class="row col-md-12 col-xs-18 col-sm-14" style="height: 33.3%;">
+                <button type="button" class="col-md-12 col-xs-18 col-sm-14 btn btn-info" ui-sref="questions" style="background-color: darkred !important; border-color: darkred !important;">See questions</button>
+            </div>
+
         </div>
 
     </div>
