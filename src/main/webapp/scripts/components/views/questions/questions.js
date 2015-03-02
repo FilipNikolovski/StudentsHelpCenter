@@ -5,7 +5,7 @@ angular.module('studentshelpcenterApp')
         $stateProvider
             .state('questions', {
                 parent: 'site',
-                url: '/questions?searchString&solved',
+                url: '/questions?search&solved',
                 data: {
                     roles: ['ROLE_USER']
                 },
@@ -34,7 +34,7 @@ angular.module('studentshelpcenterApp')
                 },
                 views: {
                     'content@': {
-                        templateUrl: 'scripts/components/views/questions/questionsDetails.html',
+                        templateUrl: 'scripts/components/views/questions/questions-details.html',
                         controller: 'QuestionDetailsController'
                     }
                 },

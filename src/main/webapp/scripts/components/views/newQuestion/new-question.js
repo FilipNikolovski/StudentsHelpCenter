@@ -8,7 +8,7 @@ angular.module('studentshelpcenterApp')
                 url: '/add_question',
                 views: {
                     'content@': {
-                        templateUrl: 'scripts/components/views/new_question/new_question.html',
+                        templateUrl: 'scripts/components/views/new_question/new-question.html',
                         controller: 'AddNewController'
                     }
                 },

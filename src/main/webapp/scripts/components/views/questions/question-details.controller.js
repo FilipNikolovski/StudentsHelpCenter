@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('studentshelpcenterApp')
-    .controller('QuestionDetailsController', function ($scope, $stateParams, Question, Answer, Account, Principal) {
+    .controller('QuestionDetailsController', function ($scope, $stateParams, Question, Answer, Account) {
         $scope.question = {};
         $scope.vote={};
         $scope.vote.user={};
