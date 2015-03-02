@@ -6,9 +6,6 @@ angular.module('studentshelpcenterApp')
             .state('questions', {
                 parent: 'site',
                 url: '/questions?search&solved',
-                data: {
-                    roles: ['ROLE_USER']
-                },
                 views: {
                     'content@': {
                         templateUrl: 'scripts/components/views/questions/questions.html',
@@ -29,9 +26,6 @@ angular.module('studentshelpcenterApp')
             .state('questionDetails', {
                 parent: 'site',
                 url: '/questions/:id',
-                data: {
-                    roles: ['ROLE_USER']
-                },
                 views: {
                     'content@': {
                         templateUrl: 'scripts/components/views/questions/questions-details.html',

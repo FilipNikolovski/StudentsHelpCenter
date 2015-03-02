@@ -1,27 +1,75 @@
-<form ng-cloak>
+<form data-ng-class="{'fileupload-processing': processing() || loadingFiles}" data-file-upload="options"
+      enctype="multipart/form-data" method="POST" id="fileupload" ng-submit="create()"
+      class="ng-scope ng-pristine ng-valid">
     <h3>Post new question</h3>
     <br/>
-    <div class="form-group">
-        <label for="exampleInputEmail1">Question title</label>
-        <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter title">
-    </div>
-    <div class="form-group">
-        <label for="exampleInputPassword1">Question description </label>
-        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Enter description">
-    </div>
-    <div class="form-group">
-        <label for="exampleInputPassword1">Question description </label>
-        <input type="text" class="form-control" placeholder="Tag1, tag2..">
-    </div>
-    <div class="form-group">
-        <label for="exampleInputFile">Attach images</label>
-        <input type="file" id="exampleInputFile">
-    </div>
-    <div class="form group">
-        <label class="col-md-offset-2 col-sm-offset-2 col-xs-offset-2"></label>
-        <input type="submit" value="Add more images"/>
-    </div>
 
-<br/>
-    <button type="submit" class="btn btn-info pull-right">Post question</button>
+    <div class="form-group">
+        <label>Question title</label>
+        <input type="text" class="form-control" id="title" ng-model="question.title" placeholder="Enter title">
+    </div>
+    <div class="form-group">
+        <label>Question tags</label>
+        <input type="text" class="form-control" id="tags" ng-model="question.tags" placeholder="Tag1, tag2..">
+    </div>
+    <div class="form-group">
+        <label>Attach images</label>
+        <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
+        <div class="row fileupload-buttonbar">
+            <div class="col-lg-7">
+                <!-- The fileinput-button span is used to style the file input field as button -->
+<span class="btn btn-success fileinput-button" ng-class="{disabled: disabled}">
+<i class="glyphicon glyphicon-plus"></i>
+<span>Add files...</span>
+<input type="file" name="files[]" multiple ng-disabled="disabled">
+</span>
+                <!-- The global file processing state -->
+                <span class="fileupload-process"></span>
+            </div>
+            <!-- The global progress state -->
+            <div class="col-lg-5 fade" data-ng-class="{in: active()}">
+                <!-- The global progress bar -->
+                <div class="progress progress-striped active" data-file-upload-progress="progress()">
+                    <div class="progress-bar progress-bar-success" data-ng-style="{width: num + '%'}"></div>
+                </div>
+                <!-- The extended global progress state -->
+                <div class="progress-extended">&nbsp;</div>
+            </div>
+        </div>
+        <!-- The table listing the files available for upload/download -->
+        <table class="table table-striped files ng-cloak">
+            <tr data-ng-repeat="file in queue" data-ng-class="{'processing': file.$processing()}">
+                <td data-ng-switch data-on="!!file.thumbnailUrl">
+                    <div class="preview" data-ng-switch-when="true">
+                        <a data-ng-href="{{file.url}}" title="{{file.name}}" download="{{file.name}}"
+                           data-gallery><img data-ng-src="{{file.thumbnailUrl}}" alt=""></a>
+                    </div>
+                    <div class="preview" data-ng-switch-default data-file-upload-preview="file"></div>
+                </td>
+                <td>
+                    <p class="name" data-ng-switch data-on="!!file.url">
+<span data-ng-switch-when="true" data-ng-switch data-on="!!file.thumbnailUrl">
+<a data-ng-switch-when="true" data-ng-href="{{file.url}}" title="{{file.name}}" download="{{file.name}}" data-gallery>{{file.name}}</a>
+<a data-ng-switch-default data-ng-href="{{file.url}}" title="{{file.name}}" download="{{file.name}}">{{file.name}}</a>
+</span>
+                        <span data-ng-switch-default>{{file.name}}</span>
+                    </p>
+                    <strong data-ng-show="file.error" class="error text-danger">{{file.error}}</strong>
+                </td>
+                <td>
+                    <p class="size">{{file.size | formatFileSize}}</p>
+
+                    <div class="progress progress-striped active fade"
+                         data-ng-class="{pending: 'in'}[file.$state()]"
+                         data-file-upload-progress="file.$progress()">
+                        <div class="progress-bar progress-bar-success" data-ng-style="{width: num + '%'}"></div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <br/>
+    <button type="submit" ng-disabled="form.$invalid" class="btn btn-primary">
+        <span class="glyphicon glyphicon-save"></span>&nbsp;<span>Post Question</span>
+    </button>
 </form>
