@@ -1,7 +1,5 @@
 'use strict';
 
-var url = 'api/questionImages';
-
 angular.module('studentshelpcenterApp')
     .controller('AddNewController', function ($scope, $location, $state, $http, Auth, Question, Tag) {
         $scope.question = {};
@@ -10,18 +8,14 @@ angular.module('studentshelpcenterApp')
 
         $scope.tags = [];
 
-        $scope.options = {
-            url: url
-        };
-
         //Save question
         $scope.create = function () {
 
         };
 
-        //Autocomplete tags query
+        //Load tags for autocomplete
         $scope.loadTags = function(query) {
-            return Tag.query();
+            return Tag.query().$promise;
         };
     })
     .controller('FileDestroyController', [
