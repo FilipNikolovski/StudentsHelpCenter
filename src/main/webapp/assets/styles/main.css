@@ -76,13 +76,7 @@ Browser Upgrade Prompt
 }
 
 /* wait autoprefixer update to allow simple generation of high pixel density media query */
-@media
-only screen and (-webkit-min-device-pixel-ratio: 2),
-only screen and (   min--moz-device-pixel-ratio: 2),
-only screen and (     -o-min-device-pixel-ratio: 2/1),
-only screen and (        min-device-pixel-ratio: 2),
-only screen and (                min-resolution: 192dpi),
-only screen and (                min-resolution: 2dppx) {
+@media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (   min--moz-device-pixel-ratio: 2), only screen and (     -o-min-device-pixel-ratio: 2/1), only screen and (        min-device-pixel-ratio: 2), only screen and (                min-resolution: 192dpi), only screen and (                min-resolution: 2dppx) {
     .hipster {
         background: url("../images/hipster2x.png") no-repeat center top;
         background-size: contain;
@@ -108,102 +102,126 @@ only screen and (                min-resolution: 2dppx) {
     font-size: 10px;
 }
 
-.voffset  { margin-top: 2px; }
-.voffset1 { margin-top: 5px; }
-.voffset2 { margin-top: 10px; }
-.voffset3 { margin-top: 15px; }
-.voffset4 { margin-top: 30px; }
-.voffset5 { margin-top: 40px; }
-.voffset6 { margin-top: 60px; }
-.voffset7 { margin-top: 80px; }
-.voffset8 { margin-top: 100px; }
-.voffset9 { margin-top: 150px; }
+.voffset {
+    margin-top: 2px;
+}
+
+.voffset1 {
+    margin-top: 5px;
+}
+
+.voffset2 {
+    margin-top: 10px;
+}
+
+.voffset3 {
+    margin-top: 15px;
+}
+
+.voffset4 {
+    margin-top: 30px;
+}
+
+.voffset5 {
+    margin-top: 40px;
+}
+
+.voffset6 {
+    margin-top: 60px;
+}
+
+.voffset7 {
+    margin-top: 80px;
+}
+
+.voffset8 {
+    margin-top: 100px;
+}
+
+.voffset9 {
+    margin-top: 150px;
+}
 
 /* start Password strength bar style */
 ul#strength {
-    display:inline;
-    list-style:none;
-    margin:0;
-    margin-left:15px;
-    padding:0;
-    vertical-align:2px;
+    display: inline;
+    list-style: none;
+    margin: 0;
+    margin-left: 15px;
+    padding: 0;
+    vertical-align: 2px;
 }
 
 .point:last {
-    margin:0 !important;
-}
-.point {
-    background:#DDD;
-    border-radius:2px;
-    display:inline-block;
-    height:5px;
-    margin-right:1px;
-    width:20px;
+    margin: 0 !important;
 }
 
-.showImage
-{
+.point {
+    background: #DDD;
+    border-radius: 2px;
+    display: inline-block;
+    height: 5px;
+    margin-right: 1px;
+    width: 20px;
+}
+
+.showImage {
     width: 90%;
     margin: auto;
 }
 
-.photo
-{
+.photo {
     width: 100%;
 }
-.ngHover
-{
+
+.ngHover {
     cursor: pointer;
 }
-.modalFooter
-{
+
+.modalFooter {
     border-top: none;
 }
 
-.blockquote-reverse
-{
-    background-color:transparent !important;
+.blockquote-reverse {
+    background-color: transparent !important;
 }
-.button-darkRed
-{
+
+.button-darkRed {
     background-color: darkred !important;
     border-color: darkred !important;
 
 }
-.button-green
-{
+
+.button-green {
     background-color: #089C0A;
     border-color: #089C0A;
 }
 
-.button-blue
-{
+.button-blue {
     background-color: #1C6DD9;
     border-color: #1C6DD9;
 }
 
-.badgeRed
-{
+.badgeRed {
     background-color: darkred !important;
     border-color: darkred !important;
-    color:white;
+    color: white;
 }
-.badgePadding
-{
+
+.badgePadding {
     padding-top: 5px;
     padding-bottom: 5px;
     padding-left: 10px;
     padding-right: 10px;
 }
-.badgeGreen
-{
+
+.badgeGreen {
     background-color: #089C0A !important;
     border-color: #089C0A !important;
-    color:white;
+    color: white;
 }
 
-.tag-list li
-{
+.tag-list li {
     border-radius: 5px;
     margin-left: 10px;
     padding-left: 10px !important;
@@ -212,9 +230,61 @@ ul#strength {
     padding-bottom: 5px !important;
     margin-bottom: 5px;
 }
-.glyphicons-margin
-{
-    margin:10px;
+
+.glyphicons-margin {
+    margin: 10px;
+}
+
+.bootstrap .tags {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+}
+
+.bootstrap .tags.focused {
+    border-color: #66afe9;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);
+}
+
+.bootstrap .tags .tag-item {
+    background: #428bca;
+    border: 1px solid #357ebd;
+    border-radius: 4px;
+    color: #fff;
+}
+
+.bootstrap .tags .tag-item.selected {
+    background: #d9534f;
+    border: 1px solid #d43f3a;
+    border-radius: 4px;
+    color: #fff;
+}
+
+.bootstrap .tags .tag-item button {
+    background: transparent;
+    color: #000;
+    opacity: .4;
+}
+
+.bootstrap .autocomplete {
+    border-radius: 4px;
+}
+
+.bootstrap .autocomplete .suggestion-item.selected {
+    color: #262626;
+    background-color: #e9e9e9;
+}
+
+.bootstrap .autocomplete .suggestion-item em {
+    font-weight: normal;
+    background-color: #ffff00;
+}
+
+.bootstrap .autocomplete .suggestion-item.selected em {
+    color: #262626;
+    background-color: #ffff00;
 }
 
 /* end Password strength bar style */

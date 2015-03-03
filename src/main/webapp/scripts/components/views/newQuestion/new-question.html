@@ -10,8 +10,12 @@
     </div>
     <div class="form-group">
         <label>Question tags</label>
-        <input type="text" class="form-control" id="tags" ng-model="question.tags" placeholder="Tag1, tag2..">
+        <tags-input class="bootstrap" ng-model="tags" placeholder="Add a tag">
+            <auto-complete source="loadTags($query)" min-length="0" debounce-delay="0" max-results="100"></auto-complete>
+        </tags-input>
+        <p></p>
     </div>
+    <div text-angular ng-model="question.description"></div>
     <div class="form-group">
         <label>Attach images</label>
         <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
@@ -64,6 +68,12 @@
                          data-file-upload-progress="file.$progress()">
                         <div class="progress-bar progress-bar-success" data-ng-style="{width: num + '%'}"></div>
                     </div>
+                </td>
+                <td>
+                    <button type="button" class="btn btn-warning cancel" data-ng-click="file.$cancel()" data-ng-hide="!file.$cancel">
+                        <i class="glyphicon glyphicon-ban-circle"></i>
+                        <span>Cancel</span>
+                    </button>
                 </td>
             </tr>
         </table>
