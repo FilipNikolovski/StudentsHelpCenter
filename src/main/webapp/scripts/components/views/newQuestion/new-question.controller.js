@@ -6,11 +6,13 @@ angular.module('studentshelpcenterApp')
 
         $scope.queue = [];
 
-        $scope.tags = [];
-
         //Save question
         $scope.create = function () {
-
+            $scope.question.setUser = -1;
+            $scope.question.solved = false;
+            Question.save($scope.question, function() {
+                //TODO go to questions/:id
+            });
         };
 
         //Load tags for autocomplete

@@ -13,6 +13,7 @@ import org.joda.time.DateTime;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -56,13 +57,13 @@ public class Question implements Serializable {
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "question", cascade = CascadeType.ALL)
     private List<QuestionVote> votes = new ArrayList<>();
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
         name = "T_QUESTION_TAG",
         joinColumns = {@JoinColumn(name = "question_id", referencedColumnName = "id")},
         inverseJoinColumns = {@JoinColumn(name = "tag_id", referencedColumnName = "id")})
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<Tag> tags;
+    private Set<Tag> tags = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -104,8 +105,8 @@ public class Question implements Serializable {
         this.solved = solved;
     }
 
-    public User getUser() {
-        return user;
+    public String getUser() {
+        return user.getLogin();
     }
 
     public void setUser(User user) {
