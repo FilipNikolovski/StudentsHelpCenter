@@ -49,7 +49,7 @@ public class QuestionResource {
         }
         question.setUser(userRepository.findOneByLogin(SecurityUtils.getCurrentLogin()).get());
         questionRepository.save(question);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(question, HttpStatus.OK);
     }
 
     /**

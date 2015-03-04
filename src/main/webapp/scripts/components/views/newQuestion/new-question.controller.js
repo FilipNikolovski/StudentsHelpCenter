@@ -10,9 +10,12 @@ angular.module('studentshelpcenterApp')
         $scope.create = function () {
             $scope.question.setUser = -1;
             $scope.question.solved = false;
-            Question.save($scope.question, function() {
-                //TODO go to questions/:id
+            Question.save($scope.question, function(data) {
+                //TODO save images
+
+                $state.go('questionDetails', {id: data.id});
             });
+
         };
 
         //Load tags for autocomplete
