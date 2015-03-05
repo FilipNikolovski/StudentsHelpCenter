@@ -105,8 +105,8 @@ public class Question implements Serializable {
         this.solved = solved;
     }
 
-    public String getUser() {
-        return user.getLogin();
+    public User getUser() {
+        return user;
     }
 
     public void setUser(User user) {
