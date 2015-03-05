@@ -45,9 +45,9 @@ public class AnswerResource {
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public List<Answer> getAll() {
+    public List<Answer> getAll(@PathVariable Long id) {
         log.debug("REST request to get all Answers");
-        return answerRepository.findAll();
+        return answerRepository.findAllByQuestionId(id);
     }
 
     /**
