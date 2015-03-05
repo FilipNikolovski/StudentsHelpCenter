@@ -1,5 +1,6 @@
 <div>
     <div class="row" ng-repeat="question in questions">
+
         <div class="col-md-12 col-xs-18 col-sm-14">
             <hr>
             <div class="row col-md-12 col-xs-18 col-sm-14">
@@ -27,7 +28,7 @@
                 <blockquote class="text-right blockquote-reverse" ng-if="question.tags.length > 0 ">
                     <ul class="list-inline tag-list badgePadding">
                         <li ng-repeat="tag in question.tags" class="list-group-item">
-                            <a ui-sref="questions({searchString:tag.name})">{{tag.name}}</a>
+                            <a ui-sref="questions({search:tag.name})">{{tag.name}}</a>
                         </li>
                     </ul>
                 </blockquote>

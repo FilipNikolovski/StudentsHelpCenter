@@ -1,7 +1,13 @@
 'use strict';
 
 angular.module('studentshelpcenterApp')
-    .controller('QuestionDetailsController', function ($scope, $stateParams, Question, Answer, QuestionImage, Account) {
+    .filter('to_trusted', ['$sce', function($sce){
+        return function(text) {
+            return $sce.trustAsHtml(text);
+        };
+    }])
+    .controller('QuestionDetailsController', function ($scope, $stateParams, Question, Answer, Account) {
+
         $scope.question = {};
         $scope.vote={};
         $scope.vote.user={};
