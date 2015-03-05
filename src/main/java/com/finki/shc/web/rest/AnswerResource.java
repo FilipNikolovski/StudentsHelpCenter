@@ -53,7 +53,7 @@ public class AnswerResource {
     /**
      * GET  /answers/:id -> get the "id" answer.
      */
-    @RequestMapping(value = "/answers/{id}",
+    @RequestMapping(value = "/answers/{answerId}",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
@@ -69,7 +69,7 @@ public class AnswerResource {
     /**
      * DELETE  /answers/:id -> delete the "id" answer.
      */
-    @RequestMapping(value = "/answers/{id}",
+    @RequestMapping(value = "/answers/{answerId}",
             method = RequestMethod.DELETE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed

@@ -74,7 +74,7 @@ public class QuestionImageResource {
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public void delete(@PathVariable Long id, @PathVariable Long imageId) {
-        log.debug("REST request to delete QuestionImage : {}", id);
+        log.debug("REST request to delete QuestionImage : {}", imageId);
         questionImageRepository.delete(imageId);
     }
 }
