@@ -45,9 +45,9 @@ public class QuestionImageResource {
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public List<QuestionImage> getAll() {
+    public List<QuestionImage> getAll(@PathVariable Long id) {
         log.debug("REST request to get all QuestionImages");
-        return questionImageRepository.findAll();
+        return questionImageRepository.findAllByQuestionId(id);
     }
 
     /**
