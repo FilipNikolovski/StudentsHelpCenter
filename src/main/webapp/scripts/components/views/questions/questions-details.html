@@ -20,7 +20,7 @@
                 </div>
                 <div>
                     <p class="row h2" style="padding-top: 5px; padding-bottom: 5px; padding-left: 10px;">{{question.title}}</p>
-                    <div ng-bind-html="question.description | to_trusted"></div>
+                    <div class="col-md-offset-1 col-xs-offset-2 col-sm-offset-2" ng-bind-html="question.description | to_trusted"></div>
 
                 </div>
             </div>
@@ -43,9 +43,8 @@
             </div>
         </div>
         <div ng-if="question.answers.length > 0 " class="col-md-12 col-xs-18 col-sm-14">
-            <div ng-repeat="answer in question.answers" class="row col-md-12 col-xs-18 col-sm-14">
-                <hr>
-                <div class="col-md-1 col-xs-2 col-sm-2" style="border-right: solid 1px lightgray;">
+            <div ng-repeat="answer in question.answers" class="row well well-light">
+                <div class="col-md-1 col-xs-2 col-sm-2" >
                     <div class="row h4" style="margin:auto;">
                         <span class="glyphicon glyphicon-chevron-up"></span>
                         <label>{{answer.upvotes}}</label>
@@ -62,7 +61,7 @@
                         <label class="pull-right">Date: {{answer.datePosted | date:'medium'}}</label>
                     </div>
 
-                    <div class="row col-md-12 col-xs-18 col-sm-14" style="border-top: solid 1px lightgray;">
+                    <div class="row col-md-12 col-xs-18 col-sm-14" >
                         <h4>{{answer.answerText}}</h4>
                     </div>
                 </div>

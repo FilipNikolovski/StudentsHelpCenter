@@ -6,7 +6,7 @@ angular.module('studentshelpcenterApp')
             return $sce.trustAsHtml(text);
         };
     }])
-    .controller('QuestionDetailsController', function ($scope, $stateParams, Question, Answer, Account) {
+    .controller('QuestionDetailsController', function ($scope, $stateParams, Question, Answer, QuestionImage, Account) {
 
         $scope.question = {};
         $scope.vote={};
