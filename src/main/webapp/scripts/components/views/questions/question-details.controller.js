@@ -49,9 +49,10 @@ angular.module('studentshelpcenterApp')
         $scope.load($stateParams.id);
 
         $scope.create = function () {
-            Answer.save($scope.answer,
+            $scope.answer.datePosted = new Date();
+            Answer.save({id: $stateParams.id}, $scope.answer,
                 function () {
-                    $scope.loadAll();
+                    $scope.load($stateParams.id);
                     $('#saveAnswerModal').modal('hide');
                     $scope.clear();
                 });

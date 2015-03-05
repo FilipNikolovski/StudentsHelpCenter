@@ -2,7 +2,13 @@ package com.finki.shc.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import com.finki.shc.domain.Answer;
+import com.finki.shc.domain.Question;
 import com.finki.shc.repository.AnswerRepository;
+import com.finki.shc.repository.QuestionRepository;
+import com.finki.shc.repository.UserRepository;
+import com.finki.shc.security.AuthoritiesConstants;
+import com.finki.shc.security.SecurityUtils;
+import com.finki.shc.service.AnswerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -10,6 +16,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import java.util.List;
 import java.util.Optional;
@@ -26,6 +33,9 @@ public class AnswerResource {
     @Inject
     private AnswerRepository answerRepository;
 
+    @Inject
+    private AnswerService answerService;
+
     /**
      * POST  /answers -> Create a new answer.
      */
@@ -33,9 +43,12 @@ public class AnswerResource {
             method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public void create(@RequestBody Answer answer) {
-        log.debug("REST request to save Answer : {}", answer);
-        answerRepository.save(answer);
+    @RolesAllowed({AuthoritiesConstants.USER, AuthoritiesConstants.ADMIN })
+    public ResponseEntity<?> create(@PathVariable Long id, @RequestBody Answer answer) {
+        log.debug("REST request to save Answer : {}, Question : {}", answer, id);
+        return Optional.ofNullable(answerService.createAnswer(id, answer))
+            .map(responseAnswer -> new ResponseEntity<>(responseAnswer, HttpStatus.OK))
+            .orElse(new ResponseEntity<>(HttpStatus.FORBIDDEN));
     }
 
     /**
