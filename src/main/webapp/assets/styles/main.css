@@ -166,10 +166,13 @@ ul#strength {
 }
 
 .showImage {
-    width: 90%;
-    margin: auto;
+    display: inline-block;
+    margin: 0 auto;
 }
-
+.well-light
+{
+    background-color: oldlace !important;
+}
 .photo {
     width: 100%;
 }
