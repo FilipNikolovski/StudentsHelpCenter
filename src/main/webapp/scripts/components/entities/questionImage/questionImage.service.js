@@ -2,7 +2,7 @@
 
 angular.module('studentshelpcenterApp')
     .factory('QuestionImage', function ($resource) {
-        return $resource('api/question/:id/images/:imageId', {}, {
+        return $resource('api/questions/:id/images/:imageId', {}, {
             'query': { method: 'GET', isArray: true},
             'get': {
                 method: 'GET',

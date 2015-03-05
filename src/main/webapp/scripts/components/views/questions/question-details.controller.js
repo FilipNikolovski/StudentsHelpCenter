@@ -10,6 +10,8 @@ angular.module('studentshelpcenterApp')
 
         $scope.question = {};
         $scope.vote={};
+        $scope.question.answers = [];
+        $scope.question.images = [];
         $scope.vote.user={};
         $scope.vote.user.id=0;
         $scope.load = function (id) {
