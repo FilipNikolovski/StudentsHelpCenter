@@ -1,6 +1,6 @@
 package com.finki.shc.domain;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.finki.shc.domain.util.CustomDateTimeDeserializer;
@@ -9,7 +9,6 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
-import org.springframework.cloud.cloudfoundry.com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -146,8 +145,6 @@ public class Question implements Serializable {
     public void setVotes(List<QuestionVote> votes) {
         this.votes = votes;
     }
-
-    public Integer getTotalAnswers() { return answers.size(); }
 
     public Integer getUpvotes() {
         int totalUpvotes = 0;

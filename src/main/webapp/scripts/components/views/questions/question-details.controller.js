@@ -17,15 +17,15 @@ angular.module('studentshelpcenterApp')
                 $scope.question = result;
             });
 
-            Answer.query({id: id}).$promise.then(function (answers) {
-                $scope.question.answers = answers;
-                console.log(answers);
-            });
+            Answer.query({id: id}).$promise
+                .then(function (answers) {
+                    $scope.question.answers = answers;
+                });
 
-            QuestionImage.query({id: id}).$promise.then(function (images) {
-                $scope.question.images = images;
-                console.log(images);
-            });
+            QuestionImage.query({id: id}).$promise
+                .then(function (images) {
+                    $scope.question.images = images;
+                });
         };
 
         $scope.addVote=function(){
