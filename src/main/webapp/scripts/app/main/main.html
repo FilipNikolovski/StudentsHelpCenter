@@ -11,7 +11,7 @@
                         <input type="input" class="form-control" style="width: 100% !important;" ng-model="searchString"
                                placeholder="Search something..">
                     </div>
-                    <button type="submit" class="btn btn-info col-md-1 col-xs-4 col-sm-3" ui-sref="questions({searchString:searchString})">Search</button>
+                    <button type="submit" class="btn btn-info col-md-1 col-xs-4 col-sm-3" ui-sref="questions({search:searchString})">Search</button>
                 </form>
                 <br/> <br/> <br/><br/> <br/> <br/>
             </div>
@@ -38,7 +38,7 @@
                 <div class="caption">
                     <h3>Solved Questions</h3>
                     <p>Looking for an answer? Check if we already have it!</p>
-                    <p><a href="#" class="btn btn-primary button-green" role="button" ui-sref="questions">See answers</a></p>
+                    <p><a href="#" class="btn btn-primary button-green" role="button" ui-sref="questions({solved:true})">See answers</a></p>
                 </div>
             </div>
         </div>

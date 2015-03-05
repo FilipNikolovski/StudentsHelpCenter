@@ -1,6 +1,5 @@
 <div>
     <div class="row">
-
         <div class="col-md-12 col-xs-18 col-sm-14">
             <hr>
             <div class="row col-md-12 col-xs-18 col-sm-14">
@@ -20,7 +19,9 @@
                     </div>
                 </div>
                 <div>
-                    <p class="col-md-11 col-xs-16 6col-sm-12 h2" style="padding-top: 5px; padding-bottom: 5px; padding-left: 10px;">{{question.title}}</p>
+                    <p class="row h2" style="padding-top: 5px; padding-bottom: 5px; padding-left: 10px;">{{question.title}}</p>
+                    <div ng-bind-html="question.description | to_trusted"></div>
+
                 </div>
             </div>
             <div class="row col-md-12 col-xs-18 col-sm-14">
