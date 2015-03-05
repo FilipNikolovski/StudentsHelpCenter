@@ -10,10 +10,10 @@ angular.module('studentshelpcenterApp')
         $scope.create = function () {
             $scope.question.setUser = -1;
             $scope.question.solved = false;
-            Question.save($scope.question, function(data) {
+            Question.save($scope.question, function(question) {
                 //TODO save images
 
-                $state.go('questionDetails', {id: data.id});
+                $state.go('questionDetails', {id: question.id});
             });
 
         };

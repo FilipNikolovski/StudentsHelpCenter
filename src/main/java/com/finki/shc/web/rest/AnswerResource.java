@@ -18,7 +18,7 @@ import java.util.Optional;
  * REST controller for managing Answer.
  */
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/questions/{id}")
 public class AnswerResource {
 
     private final Logger log = LoggerFactory.getLogger(AnswerResource.class);
@@ -57,9 +57,9 @@ public class AnswerResource {
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public ResponseEntity<Answer> get(@PathVariable Long id) {
-        log.debug("REST request to get Answer : {}", id);
-        return Optional.ofNullable(answerRepository.findOne(id))
+    public ResponseEntity<Answer> get(@PathVariable Long id, @PathVariable Long answerId) {
+        log.debug("REST request to get Answer : {}", answerId);
+        return Optional.ofNullable(answerRepository.findOne(answerId))
             .map(answer -> new ResponseEntity<>(
                 answer,
                 HttpStatus.OK))
@@ -73,8 +73,8 @@ public class AnswerResource {
             method = RequestMethod.DELETE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public void delete(@PathVariable Long id) {
-        log.debug("REST request to delete Answer : {}", id);
-        answerRepository.delete(id);
+    public void delete(@PathVariable Long id, @PathVariable Long answerId) {
+        log.debug("REST request to delete Answer : {}", answerId);
+        answerRepository.delete(answerId);
     }
 }

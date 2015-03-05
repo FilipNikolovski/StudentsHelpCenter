@@ -18,7 +18,7 @@ import java.util.Optional;
  * REST controller for managing QuestionImage.
  */
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/questions/{id}")
 public class QuestionImageResource {
 
     private final Logger log = LoggerFactory.getLogger(QuestionImageResource.class);
@@ -29,11 +29,11 @@ public class QuestionImageResource {
     /**
      * POST  /questionImages -> Create a new questionImage.
      */
-    @RequestMapping(value = "/questionImages",
+    @RequestMapping(value = "/images",
             method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public void create(@RequestBody QuestionImage questionImage) {
+    public void create(@PathVariable Long id, @RequestBody QuestionImage questionImage) {
         log.debug("REST request to save QuestionImage : {}", questionImage);
         questionImageRepository.save(questionImage);
     }
@@ -41,7 +41,7 @@ public class QuestionImageResource {
     /**
      * GET  /questionImages -> get all the questionImages.
      */
-    @RequestMapping(value = "/questionImages",
+    @RequestMapping(value = "/images",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
@@ -53,13 +53,13 @@ public class QuestionImageResource {
     /**
      * GET  /questionImages/:id -> get the "id" questionImage.
      */
-    @RequestMapping(value = "/questionImages/{id}",
+    @RequestMapping(value = "/images/{imageId}",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public ResponseEntity<QuestionImage> get(@PathVariable Long id) {
-        log.debug("REST request to get QuestionImage : {}", id);
-        return Optional.ofNullable(questionImageRepository.findOne(id))
+    public ResponseEntity<QuestionImage> get(@PathVariable Long id, @PathVariable Long imageId) {
+        log.debug("REST request to get QuestionImage : {}, questionId : {}", imageId, id);
+        return Optional.ofNullable(questionImageRepository.findOne(imageId))
             .map(questionImage -> new ResponseEntity<>(
                 questionImage,
                 HttpStatus.OK))
@@ -67,14 +67,14 @@ public class QuestionImageResource {
     }
 
     /**
-     * DELETE  /questionImages/:id -> delete the "id" questionImage.
+     * DELETE  /images/:id -> delete the "id" questionImage.
      */
-    @RequestMapping(value = "/questionImages/{id}",
+    @RequestMapping(value = "/images/{id}",
             method = RequestMethod.DELETE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public void delete(@PathVariable Long id) {
+    public void delete(@PathVariable Long id, @PathVariable Long imageId) {
         log.debug("REST request to delete QuestionImage : {}", id);
-        questionImageRepository.delete(id);
+        questionImageRepository.delete(imageId);
     }
 }

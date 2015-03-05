@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('studentshelpcenterApp')
-    .controller('QuestionDetailsController', function ($scope, $stateParams, Question, Answer, Account) {
+    .controller('QuestionDetailsController', function ($scope, $stateParams, Question, Answer, QuestionImage, Account) {
         $scope.question = {};
         $scope.vote={};
         $scope.vote.user={};
@@ -9,6 +9,16 @@ angular.module('studentshelpcenterApp')
         $scope.load = function (id) {
             Question.get({id: id}, function(result) {
                 $scope.question = result;
+            });
+
+            Answer.query({id: id}).$promise.then(function (answers) {
+                $scope.question.answers = answers;
+                console.log(answers);
+            });
+
+            QuestionImage.query({id: id}).$promise.then(function (images) {
+                $scope.question.images = images;
+                console.log(images);
             });
         };
 

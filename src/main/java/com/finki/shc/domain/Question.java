@@ -9,6 +9,7 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
+import org.springframework.cloud.cloudfoundry.com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -48,10 +49,11 @@ public class Question implements Serializable {
     private User user;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "question", cascade = CascadeType.ALL)
-    @JsonManagedReference
+    @JsonIgnore
     private List<Answer> answers = new ArrayList<>();
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "question", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<QuestionImage> images = new ArrayList<>();
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "question", cascade = CascadeType.ALL)
