@@ -12,7 +12,7 @@ angular.module('studentshelpcenterApp')
                 views: {
                     'content@': {
                         templateUrl: 'scripts/components/views/questions/questions.html',
-                        controller: 'QuestionController'
+                        controller: 'QuestionsController'
                     }
                 },
                 resolve: {
@@ -21,9 +21,6 @@ angular.module('studentshelpcenterApp')
                         return $translate.refresh();
                     }]
 
-                },
-                options:{
-                    location: 'fros'
                 }
             })
             .state('questionDetails', {

@@ -34,6 +34,7 @@ public class QuestionResource {
     @Inject
     private UserRepository userRepository;
 
+    //TODO Create question service and put create and delete logic there
     /**
      * POST  /questions -> Create a new question.
      */
