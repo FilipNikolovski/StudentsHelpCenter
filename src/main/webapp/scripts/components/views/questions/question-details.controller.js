@@ -6,7 +6,7 @@ angular.module('studentshelpcenterApp')
             return $sce.trustAsHtml(text);
         };
     }])
-    .controller('QuestionDetailsController', function ($scope, $stateParams, Question, Answer, QuestionImage, Account) {
+    .controller('QuestionDetailsController', function ($scope, $stateParams, Question, Answer, QuestionImage, Account, QuestionVote, AnswerVote, Principal) {
 
         $scope.question = {};
         $scope.vote={};
@@ -14,6 +14,7 @@ angular.module('studentshelpcenterApp')
         $scope.question.images = [];
         $scope.vote.user={};
         $scope.vote.user.id=0;
+        $scope.user={};
         $scope.load = function (id) {
             Question.get({id: id}, function(result) {
                 $scope.question = result;
@@ -23,9 +24,23 @@ angular.module('studentshelpcenterApp')
                 $scope.question.answers = answers;
             });
 
+            angular.forEach($scope.answers, function (answer) {
+
+                AnswerVote.query({id: answer.id}, function (votes) {
+                    answer.votes=votes;
+                });
+
+            });
+
             QuestionImage.query({id: id}, function (images) {
                 $scope.question.images = images;
             });
+
+            QuestionVote.query({id: id}, function (votes) {
+                $scope.question.votes = votes;
+            });
+
+
         };
 
         $scope.addVote=function(){

@@ -18,7 +18,7 @@ import java.util.Optional;
  * REST controller for managing AnswerVote.
  */
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/answers/{id}")
 public class AnswerVoteResource {
 
     private final Logger log = LoggerFactory.getLogger(AnswerVoteResource.class);
@@ -29,7 +29,7 @@ public class AnswerVoteResource {
     /**
      * POST  /answerVotes -> Create a new answerVote.
      */
-    @RequestMapping(value = "/answerVotes",
+    @RequestMapping(value = "/votes",
             method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
@@ -41,25 +41,25 @@ public class AnswerVoteResource {
     /**
      * GET  /answerVotes -> get all the answerVotes.
      */
-    @RequestMapping(value = "/answerVotes",
+    @RequestMapping(value = "/votes",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public List<AnswerVote> getAll() {
+    public List<AnswerVote> getAll(@PathVariable Long id) {
         log.debug("REST request to get all AnswerVotes");
-        return answerVoteRepository.findAll();
+        return answerVoteRepository.findAllByAnswerId(id);
     }
 
     /**
      * GET  /answerVotes/:id -> get the "id" answerVote.
      */
-    @RequestMapping(value = "/answerVotes/{id}",
+    @RequestMapping(value = "/votes/{userId}",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public ResponseEntity<AnswerVote> get(@PathVariable Long id) {
+    public ResponseEntity<AnswerVote> get(@PathVariable Long id, @PathVariable Long userId) {
         log.debug("REST request to get AnswerVote : {}", id);
-        return Optional.ofNullable(answerVoteRepository.findOne(id))
+        return Optional.ofNullable(answerVoteRepository.findByAnswerIdAndUserId(id, userId))
             .map(answerVote -> new ResponseEntity<>(
                 answerVote,
                 HttpStatus.OK))
@@ -69,11 +69,11 @@ public class AnswerVoteResource {
     /**
      * DELETE  /answerVotes/:id -> delete the "id" answerVote.
      */
-    @RequestMapping(value = "/answerVotes/{id}",
+    @RequestMapping(value = "/answerVotes/{userId}",
             method = RequestMethod.DELETE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public void delete(@PathVariable Long id) {
+    public void delete(@PathVariable Long id, @PathVariable Long userId) {
         log.debug("REST request to delete AnswerVote : {}", id);
         answerVoteRepository.delete(id);
     }

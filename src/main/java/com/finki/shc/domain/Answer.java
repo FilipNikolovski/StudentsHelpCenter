@@ -34,6 +34,7 @@ public class Answer implements Serializable {
     private String answerText;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "answer", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<AnswerVote> votes = new ArrayList<>();
 
     @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")

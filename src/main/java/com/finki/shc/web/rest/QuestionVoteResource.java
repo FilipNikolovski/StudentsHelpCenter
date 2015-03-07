@@ -18,7 +18,7 @@ import java.util.Optional;
  * REST controller for managing QuestionVote.
  */
 @RestController
-@RequestMapping("/api/questions/:id")
+@RequestMapping("/api/questions/{id}")
 public class QuestionVoteResource {
 
     private final Logger log = LoggerFactory.getLogger(QuestionVoteResource.class);
@@ -45,21 +45,21 @@ public class QuestionVoteResource {
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public List<QuestionVote> getAll() {
+    public List<QuestionVote> getAll(@PathVariable Long id) {
         log.debug("REST request to get all QuestionVotes");
-        return questionVoteRepository.findAll();
+        return questionVoteRepository.findAllByQuestionId(id);
     }
 
     /**
      * GET  /questionVotes/:id -> get the "id" questionVote.
      */
-    @RequestMapping(value = "/votes/{voteId}",
+    @RequestMapping(value = "/votes/{userId}",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public ResponseEntity<QuestionVote> get(@PathVariable Long id, @PathVariable Long voteId) {
-        log.debug("REST request to get QuestionVote : {}", voteId);
-        return Optional.ofNullable(questionVoteRepository.findOne(voteId))
+    public ResponseEntity<QuestionVote> get(@PathVariable Long id, @PathVariable Long userId) {
+        log.debug("REST request to get QuestionVote : {}", userId);
+        return Optional.ofNullable(questionVoteRepository.findByQuestionIdAndUserId(id, userId))
             .map(questionVote -> new ResponseEntity<>(
                 questionVote,
                 HttpStatus.OK))
@@ -69,12 +69,12 @@ public class QuestionVoteResource {
     /**
      * DELETE  /questionVotes/:id -> delete the "id" questionVote.
      */
-    @RequestMapping(value = "/questionVotes/{voteId}",
+    @RequestMapping(value = "/questionVotes/{userId}",
             method = RequestMethod.DELETE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public void delete(@PathVariable Long id, @PathVariable Long voteId) {
-        log.debug("REST request to delete QuestionVote : {}", voteId);
-        questionVoteRepository.delete(voteId);
+    public void delete(@PathVariable Long id, @PathVariable Long userId) {
+        log.debug("REST request to delete QuestionVote : {}", userId);
+        questionVoteRepository.delete(userId);
     }
 }

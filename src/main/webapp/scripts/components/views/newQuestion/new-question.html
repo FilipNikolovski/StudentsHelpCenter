@@ -11,7 +11,8 @@
     <div class="form-group">
         <label>Question tags</label>
         <tags-input class="bootstrap" ng-model="question.tags" display-property="name" placeholder="Add a tag">
-            <auto-complete source="loadTags($query)" min-length="0" debounce-delay="0" max-results="100"></auto-complete>
+            <auto-complete source="loadTags($query)" min-length="0" debounce-delay="0"
+                           max-results="100"></auto-complete>
         </tags-input>
         <p></p>
     </div>
@@ -70,7 +71,8 @@
                     </div>
                 </td>
                 <td>
-                    <button type="button" class="btn btn-warning cancel" data-ng-click="file.$cancel()" data-ng-hide="!file.$cancel">
+                    <button type="button" class="btn btn-warning cancel" data-ng-click="file.$cancel()"
+                            data-ng-hide="!file.$cancel">
                         <i class="glyphicon glyphicon-ban-circle"></i>
                         <span>Cancel</span>
                     </button>

@@ -42,6 +42,7 @@
                 </div>
             </div>
         </div>
+
         <div ng-if="question.answers.length > 0 " class="col-md-12 col-xs-18 col-sm-14">
             <div ng-repeat="answer in question.answers" class="row well well-light">
                 <div class="col-md-1 col-xs-2 col-sm-2" >
@@ -67,7 +68,13 @@
                 </div>
 
             </div>
+
         </div>
+
+
+
+
+
         <h2 translate="studentshelpcenterApp.answer.home.title">Answer</h2>
 
         <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#saveAnswerModal" ng-click="clear()">
