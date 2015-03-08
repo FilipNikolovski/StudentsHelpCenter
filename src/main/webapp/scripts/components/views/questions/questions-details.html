@@ -10,11 +10,11 @@
             <div class="row col-md-12 col-xs-18 col-sm-14" style="margin: 5px;">
                 <div class="col-md-1 col-xs-2 col-sm-2">
                     <div class="row h3">
-                        <span class="glyphicon glyphicon-thumbs-up" ng-click="addVote()"></span>
+                        <span class="glyphicon glyphicon-thumbs-up" data-ng-click="addVote()"></span>
                         <label>{{question.upvotes}}</label>
                     </div>
                     <div class="row h3">
-                        <span class="glyphicon glyphicon-thumbs-down"></span>
+                        <span class="glyphicon glyphicon-thumbs-down" data-ng-click="addNVote()"></span>
                         <label>{{question.downvotes}}</label>
                     </div>
                 </div>
@@ -76,6 +76,7 @@
 
         </div>
 
+        //ADD NEW ANSWER
 
         <div class="row " style="margin:10px;">
             <form ng-submit="create()">
@@ -86,17 +87,12 @@
             </form>
         </div>
 
+        //DELETE ANSWER MODAL DIALOG
 
-        <h2 translate="studentshelpcenterApp.answer.home.title">Answer</h2>
-
-        <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#saveAnswerModal" ng-click="clear()">
-            <span class="glyphicon glyphicon-flash"></span> <span
-            translate="studentshelpcenterApp.answer.home.createLabel">Create a new Answer</span>
-        </button>
         <div class="modal fade" id="deleteAnswerConfirmation">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <form name="form" ng-submit="confirmDelete(deleteAnswer.id)">
+                    <form name="form" ng-submit="confirmDelete()">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
                                     ng-click="clear()">&times;</button>
@@ -119,6 +115,8 @@
                 </div>
             </div>
         </div>
+
+        //SHOW IMAGE MODAL DIALOG
 
         <div class="modal fade" id="showImage" tabindex="-1" role="dialog" aria-labelledby="myQuestionLabel"
              aria-hidden="true">
@@ -143,46 +141,6 @@
             </div>
         </div>
 
-        <div class="table-responsive">
-            <table class="table table-striped">
-                <thead>
-                <tr>
-                    <th>ID</th>
-                    <th translate="studentshelpcenterApp.answer.answerText">AnswerText</th>
-                    <th translate="studentshelpcenterApp.answer.datePosted">DatePosted</th>
-                    <th translate="studentshelpcenterApp.answer.question">user</th>
-                    <th translate="studentshelpcenterApp.answer.question">question</th>
-                    <th></th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr ng-repeat="answer in answers">
-                    <td><a ui-sref="answerDetail({id:answer.id})">{{answer.id}}</a></td>
-                    <td>{{answer.answerText}}</td>
-                    <td>{{answer.datePosted}}</td>
-                    <td>{{answer.user.id}}</td>
-                    <td>{{answer.question.id}}</td>
-                    <td>
-                        <button type="submit"
-                                ui-sref="answerDetail({id:answer.id})"
-                                class="btn btn-info">
-                            <span class="glyphicon glyphicon-eye-open"></span>&nbsp;<span
-                            translate="entity.action.view"> View</span>
-                        </button>
-                        <button type="submit"
-                                ng-click="update(answer.id)"
-                                class="btn btn-primary">
-                            <span class="glyphicon glyphicon-pencil"></span>&nbsp;<span translate="entity.action.edit"> Edit</span>
-                        </button>
-                        <button type="submit"
-                                ng-click="delete(answer.id)"
-                                class="btn btn-danger">
-                            <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span
-                            translate="entity.action.delete"> Delete</span>
-                        </button>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
+
     </div>
+</div>

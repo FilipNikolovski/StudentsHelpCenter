@@ -9,15 +9,14 @@ angular.module('studentshelpcenterApp')
     .controller('QuestionDetailsController', function ($scope, $stateParams, Question, Answer, QuestionImage, Account, QuestionVote, AnswerVote, Principal) {
         Principal.identity().then(function(account) {
             $scope.account = account;
-        });
+        })
+        $scope.positive=1;
+        $scope.negative=-1;
         $scope.question = {};
         $scope.vote={};
         $scope.question.answers = [];
         $scope.question.images = [];
-        $scope.vote.user={};
-        $scope.vote.user.id=0;
-        $scope.user={};
-        $scope.deleteAnswer={};
+        $scope.deleteAnswer=0;
         $scope.updateAnswer={};
         $scope.load = function (id) {
             Question.get({id: id}, function(result) {
@@ -46,16 +45,45 @@ angular.module('studentshelpcenterApp')
         };
 
         $scope.addVote=function(){
-            Account.get().$promise
-                .then(function (account) {
-                    $scope.vote.user.id=account.data.id;
-                    console.log($scope.vote.user.id);
-                })
-            //$scope.vote.question.id=id;
-            //$scope.vote.vote=vote;
-            console.log($scope.vote.user.id);
-
+            $scope.vote.question=$scope.question;
+            $scope.vote.vote=1;
+            $scope.vote.user=$scope.account;
+            QuestionVote.save({id: $stateParams.id}, $scope.vote, function(){
+                $scope.load($stateParams.id);
+                $scope.clear();
+            });
         };
+
+        $scope.addNVote=function(){
+            $scope.vote.question=$scope.question;
+            $scope.vote.vote=-1;
+            $scope.vote.user=$scope.account;
+            QuestionVote.save({id: $stateParams.id}, $scope.vote, function(){
+                $scope.load($stateParams.id);
+                $scope.clear();
+            });
+        };
+
+        $scope.addAnswerVote=function(answer){
+            $scope.vote.answer=answer;
+            $scope.vote.vote=1;
+            $scope.vote.user=$scope.account;
+            AnswerVote.save({id: $stateParams.id, answerId:answer.id}, $scope.vote, function(){
+                $scope.load($stateParams.id);
+                $scope.clear();
+            });
+        };
+
+        $scope.addAnswerNVote=function(answer){
+            $scope.vote.answer=answer;
+            $scope.vote.vote=-1;
+            $scope.vote.user=$scope.account;
+            AnswerVote.save({id: $stateParams.id, answerId:answer.id}, $scope.vote, function(){
+                $scope.load($stateParams.id);
+                $scope.clear();
+            });
+        };
+
         $scope.showImage=function(imageName){
             $scope.imageName=imageName;
             console.log(imageName);
@@ -68,6 +96,7 @@ angular.module('studentshelpcenterApp')
         $scope.create = function () {
             $scope.updateAnswer.datePosted = new Date();
             $scope.updateAnswer.question=$scope.question;
+            $scope.updateAnswer.user=$scope.account;
             Answer.save({id: $stateParams.id}, $scope.updateAnswer,
                 function () {
                     $scope.load($stateParams.id);
@@ -76,19 +105,20 @@ angular.module('studentshelpcenterApp')
         };
 
         $scope.update = function (id) {
-            $scope.updateAnswer = Answer.get({id: id});
+            $scope.updateAnswer = Answer.get({id: $scope.question.id, answerId: id});
+
 
         };
 
         $scope.delete = function (id) {
-            $scope.deleteAnswer = Answer.get({id: $scope.question.id, answerId: id});
+            $scope.deleteAnswer = id;
             $('#deleteAnswerConfirmation').modal('show');
         };
 
-        $scope.confirmDelete = function (id) {
-            Answer.delete({}, {id: $scope.question.id, answerId: id},
+        $scope.confirmDelete = function () {
+            Answer.delete({id: $stateParams.id, answerId: $scope.deleteAnswer},
                 function () {
-                    $scope.loadAll();
+                    $scope.load($stateParams.id);
                     $('#deleteAnswerConfirmation').modal('hide');
                     $scope.clear();
                 });
@@ -97,7 +127,8 @@ angular.module('studentshelpcenterApp')
         $scope.clear = function () {
             $scope.answer = {answerText: null, datePosted: null, id: null};
             $scope.imageName=null;
-            $scope.deleteAnswer=null;
+            $scope.deleteAnswer=0;
             $scope.updateAnswer=null;
+            $scope.vote=null;
         };
     });

@@ -33,7 +33,7 @@ public class QuestionVoteResource {
             method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public void create(@RequestBody QuestionVote questionVote) {
+    public void create(@PathVariable Long id, @RequestBody QuestionVote questionVote) {
         log.debug("REST request to save QuestionVote : {}", questionVote);
         questionVoteRepository.save(questionVote);
     }
