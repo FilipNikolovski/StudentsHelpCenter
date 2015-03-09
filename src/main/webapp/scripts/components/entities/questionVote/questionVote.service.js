@@ -2,7 +2,7 @@
 
 angular.module('studentshelpcenterApp')
     .factory('QuestionVote', function ($resource) {
-        return $resource('api/questions/:id/votes/:voteId', {}, {
+        return $resource('api/questions/:id/votes/:voteId', {id: '@id', voteId: '@voteId'}, {
             'query': { method: 'GET', isArray: true},
             'get': {
                 method: 'GET',

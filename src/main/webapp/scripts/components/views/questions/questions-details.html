@@ -10,11 +10,11 @@
             <div class="row col-md-12 col-xs-18 col-sm-14" style="margin: 5px;">
                 <div class="col-md-1 col-xs-2 col-sm-2">
                     <div class="row h3">
-                        <span class="glyphicon glyphicon-thumbs-up" ng-click="addVote()"></span>
+                        <span class="glyphicon glyphicon-thumbs-up" ng-click="upvoteQuestion(question.id)"></span>
                         <label>{{question.upvotes}}</label>
                     </div>
                     <div class="row h3">
-                        <span class="glyphicon glyphicon-thumbs-down"></span>
+                        <span class="glyphicon glyphicon-thumbs-down" ng-click="downvoteQuestion(question.id)"></span>
                         <label>{{question.downvotes}}</label>
                     </div>
                 </div>

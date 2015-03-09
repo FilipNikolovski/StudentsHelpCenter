@@ -32,10 +32,10 @@ public class AnswerService {
     public Optional<Answer> createAnswer(Long questionId, Answer answer) {
         return userRepository.findOneByLogin(SecurityUtils.getCurrentLogin())
             .map(user -> {
-                answer.setUser(user);
                 Question q = questionRepository.findOne(questionId);
                 if (q != null) {
                     answer.setQuestion(q);
+                    answer.setUser(user);
                     answerRepository.save(answer);
                     return answer;
                 }

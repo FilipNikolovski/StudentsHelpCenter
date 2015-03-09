@@ -3,6 +3,7 @@ package com.finki.shc.web.rest;
 import com.codahale.metrics.annotation.Timed;
 import com.finki.shc.domain.Answer;
 import com.finki.shc.domain.Question;
+import com.finki.shc.domain.User;
 import com.finki.shc.repository.AnswerRepository;
 import com.finki.shc.repository.QuestionRepository;
 import com.finki.shc.repository.UserRepository;
@@ -32,6 +33,9 @@ public class AnswerResource {
 
     @Inject
     private AnswerRepository answerRepository;
+
+    @Inject
+    private UserRepository userRepository;
 
     @Inject
     private AnswerService answerService;
@@ -86,8 +90,20 @@ public class AnswerResource {
             method = RequestMethod.DELETE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public void delete(@PathVariable Long id, @PathVariable Long answerId) {
+    public ResponseEntity<?> delete(@PathVariable Long id, @PathVariable Long answerId) {
         log.debug("REST request to delete Answer : {}", answerId);
-        answerRepository.delete(answerId);
+        if (!SecurityUtils.isAuthenticated()) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+
+        User u = userRepository.findOneByLogin(SecurityUtils.getCurrentLogin()).get();
+
+        if(SecurityUtils.checkAuthority(AuthoritiesConstants.ADMIN)) { //Delete answer if the user is administrator
+            answerRepository.delete(answerId);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+
+        answerRepository.deleteByIdAndUserId(answerId, u.getId()); //Delete the answer if the current logged in user is the creator of that answer
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

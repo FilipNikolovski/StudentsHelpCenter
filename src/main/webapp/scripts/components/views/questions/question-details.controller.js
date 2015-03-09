@@ -1,21 +1,20 @@
 'use strict';
 
 angular.module('studentshelpcenterApp')
-    .filter('to_trusted', ['$sce', function($sce){
-        return function(text) {
+    .filter('to_trusted', ['$sce', function ($sce) {
+        return function (text) {
             return $sce.trustAsHtml(text);
         };
     }])
-    .controller('QuestionDetailsController', function ($scope, $stateParams, Question, Answer, QuestionImage, Account) {
+    .controller('QuestionDetailsController', function ($scope, $stateParams, Question, Answer, QuestionImage, QuestionVote, AnswerVote, Account) {
 
         $scope.question = {};
-        $scope.vote={};
+        $scope.vote = {};
         $scope.question.answers = [];
         $scope.question.images = [];
-        $scope.vote.user={};
-        $scope.vote.user.id=0;
+
         $scope.load = function (id) {
-            Question.get({id: id}, function(result) {
+            Question.get({id: id}, function (result) {
                 $scope.question = result;
             });
 
@@ -28,19 +27,24 @@ angular.module('studentshelpcenterApp')
             });
         };
 
-        $scope.addVote=function(){
-            Account.get().$promise
-                .then(function (account) {
-                    $scope.vote.user.id=account.data.id;
-                    console.log($scope.vote.user.id);
-                })
-            //$scope.vote.question.id=id;
-            //$scope.vote.vote=vote;
-            console.log($scope.vote.user.id);
-
+        $scope.upvoteQuestion = function (id) {
+            $scope.vote.vote = 1;
+            QuestionVote.save({id: id}, $scope.vote,
+                function () {
+                    $scope.load($stateParams.id);
+                });
         };
-        $scope.showImage=function(imageName){
-            $scope.imageName=imageName;
+
+        $scope.downvoteQuestion = function (id) {
+            $scope.vote.vote = -1;
+            QuestionVote.save({id: id}, $scope.vote,
+                function () {
+                    $scope.load($stateParams.id);
+                });
+        };
+
+        $scope.showImage = function (imageName) {
+            $scope.imageName = imageName;
             console.log(imageName);
             $('#showImage').modal('show');
 
@@ -79,6 +83,6 @@ angular.module('studentshelpcenterApp')
 
         $scope.clear = function () {
             $scope.answer = {answerText: null, datePosted: null, id: null};
-            $scope.imageName=null;
+            $scope.imageName = null;
         };
     });

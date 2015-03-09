@@ -7,6 +7,7 @@ import com.finki.shc.repository.QuestionRepository;
 import com.finki.shc.repository.UserRepository;
 import com.finki.shc.security.AuthoritiesConstants;
 import com.finki.shc.security.SecurityUtils;
+import com.finki.shc.service.QuestionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -34,6 +35,9 @@ public class QuestionResource {
     @Inject
     private UserRepository userRepository;
 
+    @Inject
+    private QuestionService questionService;
+
     //TODO Create question service and put create and delete logic there
     /**
      * POST  /questions -> Create a new question.
@@ -45,12 +49,9 @@ public class QuestionResource {
     @RolesAllowed({AuthoritiesConstants.USER, AuthoritiesConstants.ADMIN })
     public ResponseEntity<?> create(@RequestBody Question question) {
         log.debug("REST request to save Question : {}", question);
-        if (!SecurityUtils.isAuthenticated()) {
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        }
-        question.setUser(userRepository.findOneByLogin(SecurityUtils.getCurrentLogin()).get());
-        questionRepository.save(question);
-        return new ResponseEntity<>(question, HttpStatus.OK);
+        return Optional.ofNullable(questionService.createQuestion(question))
+            .map(responseAnswer -> new ResponseEntity<>(responseAnswer, HttpStatus.OK))
+            .orElse(new ResponseEntity<>(HttpStatus.FORBIDDEN));
     }
 
     /**
