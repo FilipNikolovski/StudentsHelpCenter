@@ -7,6 +7,10 @@ angular.module('studentshelpcenterApp')
         };
     }])
     .controller('QuestionDetailsController', function ($scope, $stateParams, Question, Answer, QuestionImage, Account, QuestionVote, AnswerVote, Principal) {
+        Principal.identity().then(function(account) {
+            $scope.account = account;
+        });
+
         $scope.question = {};
         $scope.vote = {};
         $scope.question.answers = [];
@@ -28,6 +32,8 @@ angular.module('studentshelpcenterApp')
                 $scope.question.images = images;
             });
         };
+
+        $scope.load($stateParams.id);
 
         $scope.upvoteQuestion = function (id) {
             $scope.vote.vote = 1;
@@ -54,16 +60,16 @@ angular.module('studentshelpcenterApp')
         $scope.upvoteAnswer = function (answerId) {
             $scope.vote.answer = answerId;
             $scope.vote.vote = 1;
-            AnswerVote.save({id: $stateParams.id, answerId: answerId}, $scope.vote, function () {
+            AnswerVote.save({id: $stateParams.id}, $scope.vote, function () {
                 $scope.load($stateParams.id);
                 $scope.clear();
             });
         };
 
         $scope.downvoteAnswer = function (answerId) {
-            $scope.vote.answer = answer;
+            $scope.vote.answer = answerId;
             $scope.vote.vote = -1;
-            AnswerVote.save({id: $stateParams.id, answerId: answerId}, $scope.vote, function () {
+            AnswerVote.save({id: $stateParams.id}, $scope.vote, function () {
                 $scope.load($stateParams.id);
                 $scope.clear();
             });
@@ -73,10 +79,7 @@ angular.module('studentshelpcenterApp')
             $scope.imageName = imageName;
             console.log(imageName);
             $('#showImage').modal('show');
-
         };
-
-        $scope.load($stateParams.id);
 
         $scope.create = function () {
             $scope.updateAnswer.datePosted = new Date();
@@ -89,11 +92,13 @@ angular.module('studentshelpcenterApp')
                 });
         };
 
+        //TODO Update i delete na answer (momentalno ne raboti)
+
         $scope.update = function (id) {
             $scope.updateAnswer = Answer.get({id: $scope.question.id, answerId: id});
         };
 
-        $scope.delete = function (id) {
+        $scope.deleteAnswer = function (id) {
             $scope.deleteAnswer = id;
             $('#deleteAnswerConfirmation').modal('show');
         };
@@ -110,7 +115,7 @@ angular.module('studentshelpcenterApp')
         $scope.clear = function () {
             $scope.answer = {answerText: null, datePosted: null, id: null};
             $scope.imageName = null;
-            $scope.deleteAnswer = 0;
+            $scope.deleteAnswer = -1;
             $scope.updateAnswer = {};
             $scope.vote = {};
         };
