@@ -56,6 +56,7 @@ public class Question implements Serializable {
     private List<QuestionImage> images = new ArrayList<>();
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "question", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<QuestionVote> votes = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.EAGER)

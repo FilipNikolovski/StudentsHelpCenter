@@ -6,12 +6,14 @@ angular.module('studentshelpcenterApp')
             return $sce.trustAsHtml(text);
         };
     }])
-    .controller('QuestionDetailsController', function ($scope, $stateParams, Question, Answer, QuestionImage, QuestionVote, AnswerVote, Account) {
-
+    .controller('QuestionDetailsController', function ($scope, $stateParams, Question, Answer, QuestionImage, Account, QuestionVote, AnswerVote, Principal) {
         $scope.question = {};
         $scope.vote = {};
         $scope.question.answers = [];
         $scope.question.images = [];
+
+        $scope.deleteAnswer = 0;
+        $scope.updateAnswer = {};
 
         $scope.load = function (id) {
             Question.get({id: id}, function (result) {
@@ -32,6 +34,7 @@ angular.module('studentshelpcenterApp')
             QuestionVote.save({id: id}, $scope.vote,
                 function () {
                     $scope.load($stateParams.id);
+                    $scope.clear();
                 });
         };
 
@@ -40,7 +43,30 @@ angular.module('studentshelpcenterApp')
             QuestionVote.save({id: id}, $scope.vote,
                 function () {
                     $scope.load($stateParams.id);
+                    $scope.clear();
                 });
+        };
+
+        $scope.showImage = function (imageName) {
+            $scope.imageName = imageName;
+        };
+
+        $scope.upvoteAnswer = function (answerId) {
+            $scope.vote.answer = answerId;
+            $scope.vote.vote = 1;
+            AnswerVote.save({id: $stateParams.id, answerId: answerId}, $scope.vote, function () {
+                $scope.load($stateParams.id);
+                $scope.clear();
+            });
+        };
+
+        $scope.downvoteAnswer = function (answerId) {
+            $scope.vote.answer = answer;
+            $scope.vote.vote = -1;
+            AnswerVote.save({id: $stateParams.id, answerId: answerId}, $scope.vote, function () {
+                $scope.load($stateParams.id);
+                $scope.clear();
+            });
         };
 
         $scope.showImage = function (imageName) {
@@ -53,29 +79,29 @@ angular.module('studentshelpcenterApp')
         $scope.load($stateParams.id);
 
         $scope.create = function () {
-            $scope.answer.datePosted = new Date();
-            Answer.save({id: $stateParams.id}, $scope.answer,
+            $scope.updateAnswer.datePosted = new Date();
+            $scope.updateAnswer.question = $scope.question;
+            $scope.updateAnswer.user = $scope.account;
+            Answer.save({id: $stateParams.id}, $scope.updateAnswer,
                 function () {
                     $scope.load($stateParams.id);
-                    $('#saveAnswerModal').modal('hide');
                     $scope.clear();
                 });
         };
 
         $scope.update = function (id) {
-            $scope.answer = Answer.get({id: id});
-            $('#saveAnswerModal').modal('show');
+            $scope.updateAnswer = Answer.get({id: $scope.question.id, answerId: id});
         };
 
         $scope.delete = function (id) {
-            $scope.answer = Answer.get({id: id});
+            $scope.deleteAnswer = id;
             $('#deleteAnswerConfirmation').modal('show');
         };
 
-        $scope.confirmDelete = function (id) {
-            Answer.delete({id: id},
+        $scope.confirmDelete = function () {
+            Answer.delete({id: $stateParams.id, answerId: $scope.deleteAnswer},
                 function () {
-                    $scope.loadAll();
+                    $scope.load($stateParams.id);
                     $('#deleteAnswerConfirmation').modal('hide');
                     $scope.clear();
                 });
@@ -84,5 +110,9 @@ angular.module('studentshelpcenterApp')
         $scope.clear = function () {
             $scope.answer = {answerText: null, datePosted: null, id: null};
             $scope.imageName = null;
+            $scope.deleteAnswer = 0;
+            $scope.updateAnswer = {};
+            $scope.vote = {};
         };
+
     });

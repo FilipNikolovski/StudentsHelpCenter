@@ -28,7 +28,6 @@ public class QuestionVote implements Serializable {
     private User user;
 
     @ManyToOne
-    @JsonIgnore
     private Question question;
 
     public Long getId() {
