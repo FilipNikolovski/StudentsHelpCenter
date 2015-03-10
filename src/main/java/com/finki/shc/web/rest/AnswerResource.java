@@ -99,6 +99,7 @@ public class AnswerResource {
         User u = userRepository.findOneByLogin(SecurityUtils.getCurrentLogin()).get();
 
         if(SecurityUtils.checkAuthority(AuthoritiesConstants.ADMIN)) { //Delete answer if the user is administrator
+            log.debug("REST request to delete Answer as admin ", answerId);
             answerRepository.delete(answerId);
             return new ResponseEntity<>(HttpStatus.OK);
         }

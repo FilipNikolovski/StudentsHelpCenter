@@ -104,11 +104,10 @@ angular.module('studentshelpcenterApp')
         $scope.confirmDelete = function () {
             Answer.delete({id: $stateParams.id, answerId: $scope.deleteAnswer.id},
                 function () {
-                    //$scope.load($stateParams.id);
-                    //$('#deleteAnswerConfirmation').modal('hide');
-                    //$scope.clear();
+                    $scope.load($stateParams.id);
+                    $('#deleteAnswerConfirmation').modal('hide');
+                    $scope.clear();
                 });
-            console.log($scope.deleteAnswer);
         };
 
         $scope.clear = function () {
