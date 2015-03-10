@@ -107,7 +107,7 @@ angular.module('studentshelpcenterApp')
         };
 
         $scope.confirmQuestionDelete = function () {
-            Question.delete({id: deleteQuestion.id},
+            Question.delete({id: $scope.deleteQuestion.id},
                 function () {
                     $scope.load($stateParams.id);
                     $('#deleteQuestionConfirmation').modal('hide');
