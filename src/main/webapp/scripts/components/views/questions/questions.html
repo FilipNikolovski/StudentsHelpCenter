@@ -6,7 +6,7 @@
             <div class="row col-md-12 col-xs-18 col-sm-14">
                 <label class="pull-left badge badgeRed badgePadding" style="margin-left: 15px;" ng-if="question.solved == false"><span class="glyphicon glyphicon-remove-circle"> </span> NOT SOLVED</label>
                 <label class="pull-left badge badgeGreen badgePadding" style="margin-left: 15px;" ng-if="question.solved == true"><span class="glyphicon glyphicon-ok-circle" ></span> SOLVED</label>
-                <span class="pull-right glyphicon glyphicon-remove" ng-if="account.id == question.user.id || account.isInRole == ROLE_ADMIN"></span>
+                <span class="pull-right glyphicon glyphicon-remove" ng-if="account.id == question.user.id || account.roles[1] == 'ROLE_ADMIN'" style="margin-left:20px; font-size:18px;"></span>
                 <label class="pull-right">Date: {{question.datePosted | date:'medium'}}</label>
             </div>
             <div class="row col-md-12 col-xs-18 col-sm-14" style="margin: 5px;">
