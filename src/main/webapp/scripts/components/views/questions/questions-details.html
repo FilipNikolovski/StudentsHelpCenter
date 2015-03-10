@@ -77,7 +77,7 @@
 
         </div>
 
-        <div class="row " style="margin:10px;">
+        <div class="row " style="margin:10px;" ng-if="account.id != null">
             <form ng-submit="create()">
                 <div text-angular ng-model="updateAnswer.answerText" style="margin-bottom: 10px"></div>
                 <button type="submit" ng-disabled="form.$invalid" class="btn btn-primary">
