@@ -33,7 +33,7 @@ public class Answer implements Serializable {
     @Column(name = "answer_text")
     private String answerText;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "answer", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "answer", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private List<AnswerVote> votes = new ArrayList<>();
 
