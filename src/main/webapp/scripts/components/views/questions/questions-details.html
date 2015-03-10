@@ -47,8 +47,8 @@
         <div ng-if="question.answers.length > 0 " class="col-md-12 col-xs-18 col-sm-14">
             <div ng-repeat="answer in question.answers" class="row well well-light">
                 <div class="row" ng-if="account.id == answer.user.id" style="margin-bottom: 10px;">
-                    <span class="glyphicon glyphicon-remove pull-right" style="margin:2px; margin-left: 7px;" data-ng-click="deleteAnswer(answer.id)"></span>
-                    <span class="glyphicon glyphicon-pencil pull-right" style="margin: 2px;" data-ng-click="update(answer.id)"></span>
+                    <span class="glyphicon glyphicon-remove pull-right" style="margin:2px; margin-left: 7px;" data-ng-click="deleteAnswer(answer)"></span>
+                    <span class="glyphicon glyphicon-pencil pull-right" style="margin: 2px;" data-ng-click="update(answer)"></span>
                 </div>
 
                 <div class="col-md-1 col-xs-2 col-sm-2" >
@@ -129,13 +129,10 @@
                             <img class="col-md-12 col-xs-18 col-sm-14 photo" src="/assets/images/{{imageName}}"/>
                         </div>
                         <div class="modal-footer modalFooter">
-
                         </div>
                     </form>
                 </div>
             </div>
         </div>
-
-
     </div>
 </div>

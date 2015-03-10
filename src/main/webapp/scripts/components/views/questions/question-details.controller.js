@@ -92,27 +92,28 @@ angular.module('studentshelpcenterApp')
                 });
         };
 
-        $scope.update = function (id) {
-            $scope.updateAnswer = Answer.get({id: $scope.question.id, answerId: id});
+        $scope.update = function (answer) {
+            $scope.updateAnswer = Answer.get({id: $scope.question.id, answerId: answer.id});
         };
 
-        $scope.deleteAnswer = function (id) {
-            $scope.deleteAnswer = id;
+        $scope.deleteAnswer = function (answer) {
+            $scope.deleteAnswer = answer;
             $('#deleteAnswerConfirmation').modal('show');
         };
 
         $scope.confirmDelete = function () {
-            Answer.delete({id: $stateParams.id, answerId: $scope.deleteAnswer},
+            Answer.delete({id: $stateParams.id, answerId: $scope.deleteAnswer.id},
                 function () {
-                    $scope.load($stateParams.id);
-                    $('#deleteAnswerConfirmation').modal('hide');
-                    $scope.clear();
+                    //$scope.load($stateParams.id);
+                    //$('#deleteAnswerConfirmation').modal('hide');
+                    //$scope.clear();
                 });
+            console.log($scope.deleteAnswer);
         };
 
         $scope.clear = function () {
             $scope.imageName = null;
-            $scope.deleteAnswer = -1;
+            $scope.deleteAnswer = {};
             $scope.updateAnswer = {};
             $scope.vote = {};
         };
