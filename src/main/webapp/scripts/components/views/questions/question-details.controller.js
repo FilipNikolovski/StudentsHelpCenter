@@ -80,7 +80,6 @@ angular.module('studentshelpcenterApp')
 
         $scope.showImage = function (imageName) {
             $scope.imageName = imageName;
-            console.log(imageName);
             $('#showImage').modal('show');
         };
 
@@ -95,8 +94,10 @@ angular.module('studentshelpcenterApp')
                 });
         };
 
-        $scope.update = function (answer) {
-            $scope.updateAnswer = Answer.get({id: $scope.question.id, answerId: answer.id});
+        $scope.update = function (id) {
+            Answer.get({id: $scope.question.id, answerId: id}).$promise.then(function (result) {
+                $scope.updateAnswer = result;
+            });
         };
 
         $scope.questionDelete=function(question)
@@ -115,13 +116,16 @@ angular.module('studentshelpcenterApp')
                 });
         };
 
-        $scope.deleteAnswer = function (answer) {
-            $scope.deleteAnswer = answer;
+
+        $scope.delete = function (id) {
+            Answer.get({id: $scope.question.id, answerId: id}).$promise.then(function (result) {
+                $scope.deleteAnswer = result;
+            });
             $('#deleteAnswerConfirmation').modal('show');
         };
 
-        $scope.confirmDelete = function () {
-            Answer.delete({id: $stateParams.id, answerId: $scope.deleteAnswer.id},
+        $scope.confirmDelete = function (id) {
+            Answer.delete({id: $stateParams.id, answerId: id},
                 function () {
                     $scope.load($stateParams.id);
                     $('#deleteAnswerConfirmation').modal('hide');
@@ -131,8 +135,8 @@ angular.module('studentshelpcenterApp')
 
         $scope.clear = function () {
             $scope.imageName = null;
-            $scope.deleteAnswer = {};
-            $scope.updateAnswer = {};
+            $scope.deleteAnswer = {id: null, answerText: null, datePosted: null, downvotes: null, upvotes: null};
+            $scope.updateAnswer = {id: null, answerText: null, datePosted: null, downvotes: null, upvotes: null};
             $scope.vote = {};
             $scope.deleteQuestion={};
         };
