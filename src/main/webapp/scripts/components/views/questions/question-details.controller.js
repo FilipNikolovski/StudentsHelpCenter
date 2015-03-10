@@ -7,7 +7,7 @@ angular.module('studentshelpcenterApp')
         };
     }])
     .controller('QuestionDetailsController', function ($scope, $stateParams, Question, Answer, QuestionImage, Account, QuestionVote, AnswerVote, Principal) {
-        Principal.identity().then(function(account) {
+        Principal.identity().then(function (account) {
             $scope.account = account;
         });
 
@@ -16,20 +16,20 @@ angular.module('studentshelpcenterApp')
         $scope.question.answers = [];
         $scope.question.images = [];
 
-        $scope.deleteAnswer = 0;
+        $scope.deleteAnswer = -1;
         $scope.updateAnswer = {};
 
         $scope.load = function (id) {
-            Question.get({id: id}, function (result) {
+            Question.get({id: id}).$promise.then(function (result) {
                 $scope.question = result;
-            });
 
-            Answer.query({id: id}, function (answers) {
-                $scope.question.answers = answers;
-            });
+                Answer.query({id: id}).$promise.then(function (answers) {
+                    $scope.question.answers = answers;
+                });
 
-            QuestionImage.query({id: id}, function (images) {
-                $scope.question.images = images;
+                QuestionImage.query({id: id}).$promise.then(function (images) {
+                    $scope.question.images = images;
+                });
             });
         };
 
@@ -92,8 +92,6 @@ angular.module('studentshelpcenterApp')
                 });
         };
 
-        //TODO Update i delete na answer (momentalno ne raboti)
-
         $scope.update = function (id) {
             $scope.updateAnswer = Answer.get({id: $scope.question.id, answerId: id});
         };
@@ -113,7 +111,6 @@ angular.module('studentshelpcenterApp')
         };
 
         $scope.clear = function () {
-            $scope.answer = {answerText: null, datePosted: null, id: null};
             $scope.imageName = null;
             $scope.deleteAnswer = -1;
             $scope.updateAnswer = {};
