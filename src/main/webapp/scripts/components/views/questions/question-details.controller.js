@@ -141,13 +141,6 @@ angular.module('studentshelpcenterApp')
             $scope.deleteQuestion={};
         };
 
-        $scope.solvedQuestion=function(question)
-        {
-            question.solved=!(question.solved);
-            Question.save({}, question,
-                function () {
-                    $scope.load($stateParams.id);
-                });
-        }
+
 
     });
