@@ -1,7 +1,11 @@
 'use strict';
 
 angular.module('studentshelpcenterApp')
-    .controller('QuestionsController', function ($scope, Question) {
+    .controller('QuestionsController', function ($scope, Question, Principal, QuestionVote) {
+        Principal.identity().then(function (account) {
+            $scope.account = account;
+        });
+
         $scope.questions = [];
         $scope.loadAll = function() {
             Question.query(function(result) {
