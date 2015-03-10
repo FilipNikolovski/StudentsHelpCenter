@@ -38,56 +38,6 @@
         <hr>
     </div>
 
-    <div class="table-responsive">
-
-
-        <table class="table table-striped">
-            <thead>
-            <tr>
-                <th>ID</th>
-                <th translate="studentshelpcenterApp.question.title">Title</th>
-                <th translate="studentshelpcenterApp.question.description">Description</th>
-                <th translate="studentshelpcenterApp.question.datePosted">DatePosted</th>
-                <th translate="studentshelpcenterApp.question.solved">Solved</th>
-                <th translate="studentshelpcenterApp.question.user">user</th>
-                <th></th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr ng-repeat="question in questions">
-                <td><a ui-sref="questionDetail({id:question.id})">{{question.id}}</a></td>
-                <td>{{question.title}}</td>
-                <td>{{question.description}}</td>
-                <td>{{question.datePosted}}</td>
-                <td>{{question.solved}}</td>
-                <td>{{question.user.id}}</td>
-                <td>
-                    <button type="submit"
-                            ui-sref="questionDetail({id:question.id})"
-                            class="btn btn-info">
-                        <span class="glyphicon glyphicon-eye-open"></span>&nbsp;<span translate="entity.action.view"> View</span>
-                    </button>
-                    <button type="submit"
-                            ng-click="update(question.id)"
-                            class="btn btn-primary">
-                        <span class="glyphicon glyphicon-pencil"></span>&nbsp;<span translate="entity.action.edit"> Edit</span>
-                    </button>
-                    <button type="submit"
-                            ng-click="delete(question.id)"
-                            class="btn btn-danger">
-                        <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span translate="entity.action.delete"> Delete</span>
-                    </button>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-
-
-
-    <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#saveQuestionModal" ng-click="clear()">
-        <span class="glyphicon glyphicon-flash"></span> <span translate="studentshelpcenterApp.question.home.createLabel">Create a new Question</span>
-    </button>
     <div class="modal fade" id="saveQuestionModal" tabindex="-1" role="dialog" aria-labelledby="myQuestionLabel"
          aria-hidden="true">
         <div class="modal-dialog">
