@@ -15,16 +15,6 @@ angular.module('studentshelpcenterApp')
         };
         $scope.loadAll();
 
-        $scope.solvedQuestion=function(question)
-        {
-            if($scope.account.id == question.user.id){
-                question.solved=!(question.solved);
-                Question.save({}, question,
-                    function () {
-                        $scope.load($stateParams.id);
-                    });
-            }
-        }
 
         $scope.questionDelete=function(question)
         {
