@@ -6,7 +6,7 @@ angular.module('studentshelpcenterApp')
             return $sce.trustAsHtml(text);
         };
     }])
-    .controller('QuestionDetailsController', function ($scope, $stateParams, Question, Answer, QuestionImage, Account, QuestionVote, AnswerVote, Principal) {
+    .controller('QuestionDetailsController', function ($scope, $stateParams, Question, Answer, QuestionImage, Account, QuestionVote, AnswerVote, Principal, $window) {
         Principal.identity().then(function (account) {
             $scope.account = account;
         });
@@ -18,6 +18,8 @@ angular.module('studentshelpcenterApp')
 
         $scope.deleteAnswer = -1;
         $scope.updateAnswer = {};
+
+        $scope.deleteQuestion={};
 
         $scope.load = function (id) {
             Question.get({id: id}).$promise.then(function (result) {
@@ -95,6 +97,23 @@ angular.module('studentshelpcenterApp')
             });
         };
 
+        $scope.questionDelete=function(question)
+        {
+            $scope.deleteQuestion = question;
+            $('#deleteQuestionConfirmation').modal('show');
+        };
+
+        $scope.confirmQuestionDelete = function () {
+            Question.delete({id: $scope.deleteQuestion.id},
+                function () {
+                    $scope.load($stateParams.id);
+                    $('#deleteQuestionConfirmation').modal('hide');
+                    $scope.clear();
+                    $window.location.href = '/#/questions';
+                });
+        };
+
+
         $scope.delete = function (id) {
             Answer.get({id: $scope.question.id, answerId: id}).$promise.then(function (result) {
                 $scope.deleteAnswer = result;
@@ -116,6 +135,7 @@ angular.module('studentshelpcenterApp')
             $scope.deleteAnswer = {id: null, answerText: null, datePosted: null, downvotes: null, upvotes: null};
             $scope.updateAnswer = {id: null, answerText: null, datePosted: null, downvotes: null, upvotes: null};
             $scope.vote = {};
+            $scope.deleteQuestion={};
         };
 
     });
