@@ -38,7 +38,7 @@ public class AnswerVoteResource {
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public ResponseEntity<?> create(@PathVariable Long id, @RequestBody AnswerVote answerVote) {
-        log.debug("REST request to save AnswerVote : {}", answerVote);
+        log.debug("REST request to save AnswerVote : {} answer id: {}", answerVote, id);
         return Optional.ofNullable(answerService.addVote(id, answerVote))
             .map(responseVote -> new ResponseEntity<>(responseVote, HttpStatus.OK))
             .orElse(new ResponseEntity<>(HttpStatus.FORBIDDEN));

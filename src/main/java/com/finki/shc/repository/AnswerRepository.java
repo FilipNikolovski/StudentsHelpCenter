@@ -17,12 +17,6 @@ public interface AnswerRepository extends JpaRepository<Answer,Long>{
 
     @Modifying
     @Transactional
-    @Query("delete from Answer a where a.id = ?1 and a.user.id = ?2")
-    void deleteByIdAndUserId(Long answerId, Long userId);
-
-    @Modifying
-    @Transactional
-    @Query("delete from Answer a where a.id = ?1")
-    void delete(Long answerId);
+    Long deleteByIdAndUserId(Long answerId, Long userId);
 
 }

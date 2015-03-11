@@ -58,18 +58,16 @@ angular.module('studentshelpcenterApp')
         };
 
         $scope.upvoteAnswer = function (answerId) {
-            $scope.vote.answer = answerId;
             $scope.vote.vote = 1;
-            AnswerVote.save({id: $stateParams.id}, $scope.vote, function () {
+            AnswerVote.save({id: answerId}, $scope.vote, function () {
                 $scope.load($stateParams.id);
                 $scope.clear();
             });
         };
 
         $scope.downvoteAnswer = function (answerId) {
-            $scope.vote.answer = answerId;
             $scope.vote.vote = -1;
-            AnswerVote.save({id: $stateParams.id}, $scope.vote, function () {
+            AnswerVote.save({id: answerId}, $scope.vote, function () {
                 $scope.load($stateParams.id);
                 $scope.clear();
             });

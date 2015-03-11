@@ -6,17 +6,17 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.finki.shc.domain.util.CustomDateTimeDeserializer;
 import com.finki.shc.domain.util.CustomDateTimeSerializer;
+import org.hibernate.annotations.*;
 import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 
 import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * A Answer.
@@ -48,6 +48,7 @@ public class Answer implements Serializable {
 
     @ManyToOne
     @JsonBackReference
+    @JoinColumn(name = "question_id")
     private Question question;
 
     public Long getId() {
@@ -100,16 +101,16 @@ public class Answer implements Serializable {
 
     public Integer getUpvotes() {
         int totalUpvotes = 0;
-        for(AnswerVote v : votes) {
-            if(v.getVote() > 0) totalUpvotes++;
+        for (AnswerVote v : votes) {
+            if (v.getVote() > 0) totalUpvotes++;
         }
         return totalUpvotes;
     }
 
     public Integer getDownvotes() {
         int totalDownvotes = 0;
-        for(AnswerVote v : votes) {
-            if(v.getVote() < 0) totalDownvotes++;
+        for (AnswerVote v : votes) {
+            if (v.getVote() < 0) totalDownvotes++;
         }
         return totalDownvotes;
     }
@@ -138,9 +139,9 @@ public class Answer implements Serializable {
     @Override
     public String toString() {
         return "Answer{" +
-                "id=" + id +
-                ", answerText='" + answerText + "'" +
-                ", datePosted='" + datePosted + "'" +
-                '}';
+            "id=" + id +
+            ", answerText='" + answerText + "'" +
+            ", datePosted='" + datePosted + "'" +
+            '}';
     }
 }

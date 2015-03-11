@@ -14,7 +14,6 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
 
     @Modifying
     @Transactional
-    @Query("delete from Question q where q.id = ?1 and q.user.id = ?2")
-    void deleteByIdAndUserId(Long questionId, Long userId);
+    Long deleteByIdAndUserId(Long questionId, Long userId);
 
 }

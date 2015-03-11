@@ -26,6 +26,7 @@ public class QuestionImage implements Serializable {
 
     @ManyToOne
     @JsonIgnore
+    @JoinColumn(name="question_id")
     private Question question;
 
     public Long getId() {
