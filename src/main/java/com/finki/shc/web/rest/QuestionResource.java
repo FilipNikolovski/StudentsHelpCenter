@@ -10,6 +10,8 @@ import com.finki.shc.security.SecurityUtils;
 import com.finki.shc.service.QuestionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -61,9 +63,9 @@ public class QuestionResource {
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public List<Question> getAll() {
+    public Page<Question> getAll(Pageable pageable) {
         log.debug("REST request to get all Questions");
-        return questionRepository.findAll();
+        return questionRepository.findAll(pageable);
     }
 
     /**

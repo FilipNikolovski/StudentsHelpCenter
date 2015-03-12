@@ -154,10 +154,7 @@ angular.module('studentshelpcenterApp')
         $scope.solvedQuestion = function (question) {
             if (question.user.id === $scope.account.id) {
                 question.solved = !question.solved;
-                Question.save({}, question,
-                    function () {
-                        $scope.load($stateParams.id);
-                    });
+                Question.save({}, question);
             }
         }
 
