@@ -14,8 +14,15 @@ angular.module('studentshelpcenterApp')
 
         $scope.question = {};
         $scope.vote = {};
-        $scope.question.answers = [];
         $scope.question.images = [];
+
+        //Answers
+        $scope.question.answers = [];
+        $scope.page = {
+            totalItems: 0,
+            currentPage: 0,
+            size: 5
+        };
 
         $scope.deleteAnswer = -1;
         $scope.updateAnswer = {};
@@ -26,8 +33,9 @@ angular.module('studentshelpcenterApp')
             Question.get({id: id}).$promise.then(function (result) {
                 $scope.question = result;
 
-                Answer.query({id: id}).$promise.then(function (answers) {
+                Answer.query({id: id, page: $scope.page.currentPage, size: $scope.page.size}).$promise.then(function (answers) {
                     $scope.question.answers = answers.content;
+                    $scope.page.totalItems = answers.totalElements;
                 });
 
                 QuestionImage.query({id: id}).$promise.then(function (images) {
@@ -80,6 +88,12 @@ angular.module('studentshelpcenterApp')
             $('#showImage').modal('show');
         };
 
+        $scope.pageChanged = function() {
+            Answer.query({id: $stateParams.id, page: $scope.page.currentPage - 1, size: $scope.page.size}).$promise.then(function (answers) {
+                $scope.question.answers = answers.content;
+            });
+        };
+
         $scope.create = function () {
             $scope.updateAnswer.datePosted = new Date();
             $scope.updateAnswer.question = $scope.question;
@@ -111,7 +125,6 @@ angular.module('studentshelpcenterApp')
                     $state.go('questions');
                 });
         };
-
 
         $scope.delete = function (id) {
             Answer.get({id: $scope.question.id, answerId: id}).$promise.then(function (result) {

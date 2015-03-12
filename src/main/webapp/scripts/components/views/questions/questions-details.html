@@ -89,6 +89,10 @@
         </div>
     </div>
 
+    <div class="row" ng-if="question.answers.length > 0">
+        <pagination total-items="page.totalItems" items-per-page="page.size" ng-model="page.currentPage" ng-change="pageChanged()"></pagination>
+    </div>
+
     <div class="row " style="margin:10px;" ng-if="account.id != null">
         <form ng-submit="create()">
             <div text-angular ng-model="updateAnswer.answerText" style="margin-bottom: 10px"></div>
