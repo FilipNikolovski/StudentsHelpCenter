@@ -1,6 +1,8 @@
 package com.finki.shc.repository;
 
 import com.finki.shc.domain.Answer;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -13,7 +15,7 @@ import java.util.List;
  */
 public interface AnswerRepository extends JpaRepository<Answer,Long>{
 
-    List<Answer> findAllByQuestionId(Long id);
+    Page<Answer> findAllByQuestionId(Long id, Pageable pageable);
 
     @Modifying
     @Transactional

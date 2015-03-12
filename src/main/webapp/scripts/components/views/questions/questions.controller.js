@@ -1,23 +1,20 @@
 'use strict';
 
 angular.module('studentshelpcenterApp')
-    .controller('QuestionsController', function ($scope, Question, Principal, QuestionVote) {
+    .controller('QuestionsController', function ($scope, $stateParams, Question, Principal) {
         Principal.identity().then(function (account) {
             $scope.account = account;
         });
 
         $scope.questions = [];
-        $scope.deleteQuestion={};
-        $scope.loadAll = function() {
-            Question.query(function(result) {
-                $scope.questions = result;
-            });
+        $scope.deleteQuestion = {};
+        $scope.loadAll = function () {
+            $scope.questions = Question.query();
         };
+
         $scope.loadAll();
 
-
-        $scope.questionDelete=function(question)
-        {
+        $scope.questionDelete = function (question) {
             $scope.deleteQuestion = question;
             $('#deleteQuestionConfirmation').modal('show');
         };
@@ -33,6 +30,6 @@ angular.module('studentshelpcenterApp')
 
         $scope.clear = function () {
             $scope.question = {title: null, description: null, datePosted: null, solved: null, id: null};
-            $scope.deleteQuestion=null;
+            $scope.deleteQuestion = null;
         };
     });

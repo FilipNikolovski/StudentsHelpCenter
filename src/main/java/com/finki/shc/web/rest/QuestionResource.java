@@ -50,7 +50,7 @@ public class QuestionResource {
     public ResponseEntity<?> create(@RequestBody Question question) {
         log.debug("REST request to save Question : {}", question);
         return Optional.ofNullable(questionService.createQuestion(question))
-            .map(responseAnswer -> new ResponseEntity<>(responseAnswer, HttpStatus.OK))
+            .map(q -> new ResponseEntity<>(q.get(), HttpStatus.OK))
             .orElse(new ResponseEntity<>(HttpStatus.FORBIDDEN));
     }
 

@@ -12,8 +12,7 @@ angular.module('studentshelpcenterApp')
             $scope.question.solved = false;
             Question.save($scope.question, function(question) {
                 //TODO save images
-
-                $state.go('questionDetails', {id: question.id});
+                $location.path('/questions/' + question.id);
             });
 
         };

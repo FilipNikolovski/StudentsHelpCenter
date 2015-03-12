@@ -25,7 +25,7 @@ angular.module('studentshelpcenterApp')
             })
             .state('questionDetails', {
                 parent: 'site',
-                url: '/questions/:id',
+                url: '/questions/{id:[0-9]+}',
                 data: {
                     'roles': []
                 },
