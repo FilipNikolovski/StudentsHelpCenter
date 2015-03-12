@@ -6,7 +6,7 @@ angular.module('studentshelpcenterApp')
             return $sce.trustAsHtml(text);
         };
     }])
-    .controller('QuestionDetailsController', function ($scope, $stateParams, Question, Answer, QuestionImage, Account, QuestionVote, AnswerVote, Principal, $window) {
+    .controller('QuestionDetailsController', function ($scope, $state, $stateParams, Question, Answer, QuestionImage, Account, QuestionVote, AnswerVote, Principal) {
         Principal.identity().then(function (account) {
             $scope.account = account;
         });
@@ -22,6 +22,7 @@ angular.module('studentshelpcenterApp')
         $scope.deleteQuestion={};
 
         $scope.load = function (id) {
+            console.log(id);
             Question.get({id: id}).$promise.then(function (result) {
                 $scope.question = result;
 
@@ -53,10 +54,6 @@ angular.module('studentshelpcenterApp')
                     $scope.load($stateParams.id);
                     $scope.clear();
                 });
-        };
-
-        $scope.showImage = function (imageName) {
-            $scope.imageName = imageName;
         };
 
         $scope.upvoteAnswer = function (answerId) {
@@ -109,7 +106,7 @@ angular.module('studentshelpcenterApp')
                     $scope.load($stateParams.id);
                     $('#deleteQuestionConfirmation').modal('hide');
                     $scope.clear();
-                    $window.location.href = '/#/questions';
+                    $state.go('questions');
                 });
         };
 

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('studentshelpcenterApp')
-    .controller('QuestionsController', function ($scope, Question, Principal, QuestionVote) {
+    .controller('QuestionsController', function ($scope, $stateParams, Question, Principal) {
         Principal.identity().then(function (account) {
             $scope.account = account;
         });
@@ -24,7 +24,7 @@ angular.module('studentshelpcenterApp')
                         $scope.load($stateParams.id);
                     });
             }
-        }
+        };
 
         $scope.questionDelete=function(question)
         {
