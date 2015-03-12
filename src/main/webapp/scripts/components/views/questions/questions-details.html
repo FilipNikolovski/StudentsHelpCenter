@@ -90,10 +90,19 @@
     </div>
 
     <div class="row " style="margin:10px;" ng-if="account.id != null">
-        <form ng-submit="create()">
-            <div text-angular ng-model="updateAnswer.answerText" style="margin-bottom: 10px"></div>
-            <button type="submit" ng-disabled="form.$invalid" class="btn btn-primary">
+        <form ng-submit="create()" name="userForm" novalidate>
+            <div text-angular type="text" style="margin-bottom: 10px;" ng-model="updateAnswer.answerText" name="answer" ta-max-text="1000" ta-min-text="50" required>
+            </div>
+            <!--Validation-->
+            <span class="" ng-show="userForm.answer.$pristine && userForm.answer.$error.taMinText" style="padding: 5px; border-radius: 5px; color:red;">
+                Answer is required to be at least 50 characters. <br/></span>
+            <span class="" ng-show="userForm.answer.$pristine && userForm.answer.$error.taMaxText" style="padding: 5px; border-radius: 5px; color:red;">
+                Answer cannot be longer than 1000 characters. </span>
+            <button type="submit" ng-disabled="userForm.$invalid" class="btn btn-primary">
                 <span class="glyphicon glyphicon-save"></span>&nbsp;<span>Post answer</span>
+            </button>
+            <button type="button" class="btn btn-primary" ng-click="clear()">
+                <span class="glyphicon glyphicon-remove"></span>&nbsp;<span>Cancel</span>
             </button>
         </form>
     </div>
