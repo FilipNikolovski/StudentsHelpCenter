@@ -1,169 +1,170 @@
-<div>
-    <div class="row">
-        <div class="col-md-12 col-xs-18 col-sm-14">
-            <hr>
-            <div class="row col-md-12 col-xs-18 col-sm-14">
-                <label class="pull-left badge badgeRed badgePadding" style="margin-left: 15px;" ng-if="question.solved == false" data-ng-click="solvedQuestion(question)"><span class="glyphicon glyphicon-remove-circle"></span>  NOT SOLVED</label>
-                <label class="pull-left badge badgeGreen badgePadding" style="margin-left: 15px;" ng-if="question.solved == true" data-ng-click="solvedQuestion(question)"> <span class="glyphicon glyphicon-ok-circle"> </span> SOLVED</label>
-                <span class="pull-right glyphicon glyphicon-remove" ng-if="account.id == question.user.id || account.roles[1] == 'ROLE_ADMIN'" style="margin-left:20px; font-size:18px;" ng-click="questionDelete(question)"></span>
-                <label class="pull-right">Date: {{question.datePosted | date:'medium'}}</label>
-            </div>
-            <div class="row col-md-12 col-xs-18 col-sm-14" style="margin: 5px;">
-                <div class="col-md-1 col-xs-2 col-sm-2">
-                    <div class="row h3">
-                        <span class="glyphicon glyphicon-thumbs-up" ng-click="upvoteQuestion(question.id)"></span>
-                        <label>{{question.upvotes}}</label>
-                    </div>
-                    <div class="row h3">
-                        <span class="glyphicon glyphicon-thumbs-down" ng-click="downvoteQuestion(question.id)"></span>
-
-                        <label>{{question.downvotes}}</label>
-                    </div>
+<div class="row">
+    <div class="col-md-12 col-xs-18 col-sm-14">
+        <hr>
+        <div class="row col-md-12 col-xs-18 col-sm-14">
+            <label class="pull-left badge badgeRed badgePadding" style="margin-left: 15px;"
+                   ng-if="question.solved == false" data-ng-click="solvedQuestion(question)"><span
+                class="glyphicon glyphicon-remove-circle"></span> NOT SOLVED</label>
+            <label class="pull-left badge badgeGreen badgePadding" style="margin-left: 15px;"
+                   ng-if="question.solved == true" data-ng-click="solvedQuestion(question)"> <span
+                class="glyphicon glyphicon-ok-circle"> </span> SOLVED</label>
+            <span class="pull-right glyphicon glyphicon-remove"
+                  ng-if="account.id == question.user.id || account.roles[1] == 'ROLE_ADMIN'"
+                  style="margin-left:20px; font-size:18px;" ng-click="questionDelete(question)"></span>
+            <label class="pull-right">Date: {{question.datePosted | date:'medium'}}</label>
+        </div>
+        <div class="row col-md-12 col-xs-18 col-sm-14" style="margin: 5px;">
+            <div class="col-md-1 col-xs-2 col-sm-2">
+                <div class="row h3">
+                    <span class="glyphicon glyphicon-thumbs-up" ng-click="upvoteQuestion(question.id)"></span>
+                    <label>{{question.upvotes}}</label>
                 </div>
-                <div>
-                    <p class="row h2" style="padding-top: 5px; padding-bottom: 5px; padding-left: 10px;">
-                        {{question.title}}</p>
-
-                    <div class="col-md-offset-1 col-xs-offset-2 col-sm-offset-2"
-                         ng-bind-html="question.description | to_trusted"></div>
-
+                <div class="row h3">
+                    <span class="glyphicon glyphicon-thumbs-down" ng-click="downvoteQuestion(question.id)"></span>
+                    <label>{{question.downvotes}}</label>
                 </div>
             </div>
-            <div class="row col-md-12 col-xs-18 col-sm-14">
-                <h6 class="col-md-3 col-xs-4 col-sm-4" style="margin-left: 20px;">Posted by <b>{{question.user.firstName}}
-                    {{question.user.lastName}}</b></h6>
-                <blockquote class="text-right blockquote-reverse" ng-if="question.tags.length > 0 ">
-                    <ul class="list-inline tag-list badgePadding">
-                        <li ng-repeat="tag in question.tags" class="list-group-item">
-                            <a ui-sref="questions({search:tag.name})">{{tag.name}}</a>
-                        </li>
-                    </ul>
-                </blockquote>
-            </div>
-            <div class="row col-md-12 col-xs-18 col-sm-14" ng-if="question.images.length > 0">
-                <div class="col-xs-4 col-md-2" ng-repeat="image in question.images">
-                    <a class="thumbnail" ng-click="showImage(image.imageName)">
-                        <img  ng-src="/assets/images/{{image.imageName}}" alt="..." ng-mouseenter="hover=true"
-                             ng-mouseleave="hover-false" ng-class="{ngHover: hover}">
-                    </a>
-                </div>
+            <div>
+                <p class="row h2" style="padding-top: 5px; padding-bottom: 5px; padding-left: 10px;">
+                    {{question.title}}</p>
+
+                <div class="col-md-offset-1 col-xs-offset-2 col-sm-offset-2"
+                     ng-bind-html="question.description | to_trusted"></div>
+
             </div>
         </div>
+        <div class="row col-md-12 col-xs-18 col-sm-14">
+            <h6 class="col-md-3 col-xs-4 col-sm-4" style="margin-left: 20px;">Posted by <b>{{question.user.firstName}}
+                {{question.user.lastName}}</b></h6>
+            <blockquote class="text-right blockquote-reverse" ng-if="question.tags.length > 0 ">
+                <ul class="list-inline tag-list badgePadding">
+                    <li ng-repeat="tag in question.tags" class="list-group-item">
+                        <a ui-sref="questions({search:tag.name})">{{tag.name}}</a>
+                    </li>
+                </ul>
+            </blockquote>
+        </div>
+        <div class="row col-md-12 col-xs-18 col-sm-14" ng-if="question.images.length > 0">
+            <div class="col-xs-4 col-md-2" ng-repeat="image in question.images">
+                <a class="thumbnail" ng-click="showImage(image.imageName)">
+                    <img ng-src="/assets/images/{{image.imageName}}" alt="..." ng-mouseenter="hover=true"
+                         ng-mouseleave="hover-false" ng-class="{ngHover: hover}">
+                </a>
+            </div>
+        </div>
+    </div>
 
-        <div ng-if="question.answers.length > 0 " class="col-md-12 col-xs-18 col-sm-14">
-            <div ng-repeat="answer in question.answers" class="row well well-light">
-                <div class="row" ng-if="account.id == answer.user.id" style="margin-bottom: 10px;">
+    <div ng-if="question.answers.length > 0 " class="col-md-12 col-xs-18 col-sm-14">
+        <div ng-repeat="answer in question.answers" class="row well well-light">
+            <div class="row" ng-if="account.id == answer.user.id" style="margin-bottom: 10px;">
                     <span class="glyphicon glyphicon-remove pull-right"
                           style="margin:2px; margin-left: 7px; font-size:18px;"
                           data-ng-click="delete(answer.id)"></span>
                     <span class="glyphicon glyphicon-pencil pull-right" style="margin: 2px; font-size:18px;"
                           data-ng-click="update(answer.id)"></span>
-                </div>
-
-                <div class="col-md-1 col-xs-2 col-sm-2">
-                    <div class="row h4" style="margin:auto;">
-                        <span class="glyphicon glyphicon-chevron-up" data-ng-click="upVoteAnswer(answer.id)"></span>
-                        <label>{{answer.upvotes}}</label>
-                    </div>
-                    <br/>
-
-                    <div class="row h4" style="margin:auto;">
-                        <span class="glyphicon glyphicon-chevron-down" data-ng-click="downVoteAnswer(answer.id)"></span>
-                        <label>{{answer.downvotes}}</label>
-                    </div>
-                </div>
-                <div class="col-md-11 col-xs-16 col-sm-12">
-                    <div>
-                        <label class="pull-left"> By: {{answer.user.firstName}} {{answer.user.lastName}} </label>
-                        <label class="pull-right">Date: {{answer.datePosted | date:'medium'}}</label>
-                    </div>
-
-                    <div class="row col-md-12 col-xs-18 col-sm-14">
-                        <h4 style="width: 100%" ng-bind-html="answer.answerText | to_trusted"></h4>
-                    </div>
-                </div>
-
             </div>
 
-        </div>
+            <div class="col-md-1 col-xs-2 col-sm-2">
+                <div class="row h4" style="margin:auto;">
+                    <span class="glyphicon glyphicon-chevron-up" data-ng-click="upVoteAnswer(answer.id)"></span>
+                    <label>{{answer.upvotes}}</label>
+                </div>
+                <br/>
 
-        <div class="row " style="margin:10px;" ng-if="account.id != null">
-            <form ng-submit="create()">
-                <div text-angular ng-model="updateAnswer.answerText" style="margin-bottom: 10px"></div>
-                <button type="submit" ng-disabled="form.$invalid" class="btn btn-primary">
-                    <span class="glyphicon glyphicon-save"></span>&nbsp;<span>Post answer</span>
-                </button>
-            </form>
-        </div>
+                <div class="row h4" style="margin:auto;">
+                    <span class="glyphicon glyphicon-chevron-down" data-ng-click="downVoteAnswer(answer.id)"></span>
+                    <label>{{answer.downvotes}}</label>
+                </div>
+            </div>
+            <div class="col-md-11 col-xs-16 col-sm-12">
+                <div>
+                    <label class="pull-left"> By: {{answer.user.firstName}} {{answer.user.lastName}} </label>
+                    <label class="pull-right">Date: {{answer.datePosted | date:'medium'}}</label>
+                </div>
 
-        <div class="modal fade" id="deleteAnswerConfirmation">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <form name="form" ng-submit="confirmDelete(deleteAnswer.id)">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
-                                    ng-click="clear()">&times;</button>
-                            <h4 class="modal-title">Confirm delete operation</h4>
-                        </div>
-                        <div class="modal-body">
-                            <p>Are you sure you want to delete this answer ?</p>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
-                                <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span>Cancel</span>
-                            </button>
-                            <button type="submit" ng-disabled="form.$invalid" class="btn btn-danger">
-                                <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span>Delete</span>
-                            </button>
-                        </div>
-                    </form>
+                <div class="row col-md-12 col-xs-18 col-sm-14">
+                    <h4 style="width: 100%" ng-bind-html="answer.answerText | to_trusted"></h4>
                 </div>
             </div>
         </div>
-        <div class="modal fade" id="deleteQuestionConfirmation">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <form name="form" ng-submit="confirmQuestionDelete()">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
-                                    ng-click="clear()">&times;</button>
-                            <h4 class="modal-title" translate="entity.delete.title">Confirm delete operation</h4>
-                        </div>
-                        <div class="modal-body">
-                            <p>Are you sure you want to delete this question?</p>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
-                                <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span
-                                translate="entity.action.cancel">Cancel</span>
-                            </button>
-                            <button type="submit" ng-disabled="form.$invalid" class="btn btn-danger">
-                                <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span
-                                translate="entity.action.delete">Delete</span>
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
+    </div>
 
-        <div class="modal fade" id="showImage" tabindex="-1" role="dialog" aria-labelledby="myQuestionLabel"
-             aria-hidden="true">
-            <div class="modal-dialog showImage">
-                <div class="modal-content">
+    <div class="row " style="margin:10px;" ng-if="account.id != null">
+        <form ng-submit="create()">
+            <div text-angular ng-model="updateAnswer.answerText" style="margin-bottom: 10px"></div>
+            <button type="submit" ng-disabled="form.$invalid" class="btn btn-primary">
+                <span class="glyphicon glyphicon-save"></span>&nbsp;<span>Post answer</span>
+            </button>
+        </form>
+    </div>
+
+    <div class="modal fade" id="deleteAnswerConfirmation">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form name="form" ng-submit="confirmDelete(deleteAnswer.id)">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
                                 ng-click="clear()">&times;</button>
-                        <h4 class="modal-title" id="myQuestionLabel"><br/></h4>
+                        <h4 class="modal-title">Confirm delete operation</h4>
                     </div>
                     <div class="modal-body">
-                        <img class="col-md-12 col-xs-18 col-sm-14 photo" ng-src="/assets/images/{{imageName}}"/>
+                        <p>Are you sure you want to delete this answer ?</p>
                     </div>
-                    <div class="modal-footer modalFooter">
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+                            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span>Cancel</span>
+                        </button>
+                        <button type="submit" ng-disabled="form.$invalid" class="btn btn-danger">
+                            <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span>Delete</span>
+                        </button>
                     </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="deleteQuestionConfirmation">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form name="form" ng-submit="confirmQuestionDelete()">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                                ng-click="clear()">&times;</button>
+                        <h4 class="modal-title" translate="entity.delete.title">Confirm delete operation</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Are you sure you want to delete this question?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+                            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span
+                            translate="entity.action.cancel">Cancel</span>
+                        </button>
+                        <button type="submit" ng-disabled="form.$invalid" class="btn btn-danger">
+                            <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span
+                            translate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
+    <div class="modal fade" id="showImage" tabindex="-1" role="dialog" aria-labelledby="myQuestionLabel"
+         aria-hidden="true">
+        <div class="modal-dialog showImage">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                            ng-click="clear()">&times;</button>
+                    <h4 class="modal-title" id="myQuestionLabel"><br/></h4>
+                </div>
+                <div class="modal-body">
+                    <img class="col-md-12 col-xs-18 col-sm-14 photo" ng-src="/assets/images/{{imageName}}"/>
+                </div>
+                <div class="modal-footer modalFooter">
                 </div>
             </div>
         </div>
     </div>
 </div>
+

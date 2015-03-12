@@ -7,27 +7,14 @@ angular.module('studentshelpcenterApp')
         });
 
         $scope.questions = [];
-        $scope.deleteQuestion={};
-        $scope.loadAll = function() {
-            Question.query(function(result) {
-                $scope.questions = result;
-            });
+        $scope.deleteQuestion = {};
+        $scope.loadAll = function () {
+            $scope.questions = Question.query();
         };
+
         $scope.loadAll();
 
-        $scope.solvedQuestion=function(question)
-        {
-            if($scope.account.id == question.user.id){
-                question.solved=!(question.solved);
-                Question.save({}, question,
-                    function () {
-                        $scope.load($stateParams.id);
-                    });
-            }
-        };
-
-        $scope.questionDelete=function(question)
-        {
+        $scope.questionDelete = function (question) {
             $scope.deleteQuestion = question;
             $('#deleteQuestionConfirmation').modal('show');
         };
@@ -43,6 +30,6 @@ angular.module('studentshelpcenterApp')
 
         $scope.clear = function () {
             $scope.question = {title: null, description: null, datePosted: null, solved: null, id: null};
-            $scope.deleteQuestion=null;
+            $scope.deleteQuestion = null;
         };
     });
