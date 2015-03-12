@@ -68,6 +68,16 @@ public class QuestionResource {
         return questionRepository.findAll(pageable);
     }
 
+    @RequestMapping(value = "/myQuestions",
+        method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public Page<Question> getUser(Pageable pageable) {
+        User u = userRepository.findOneByLogin(SecurityUtils.getCurrentLogin()).get();
+        log.debug("REST request to get all Questions"+u.getId());
+        return questionRepository.findAllByUserId(pageable, u.getId());
+    }
+
     /**
      * GET  /questions/:id -> get the "id" question.
      */

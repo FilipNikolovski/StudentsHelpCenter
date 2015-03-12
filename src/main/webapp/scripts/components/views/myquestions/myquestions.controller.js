@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('studentshelpcenterApp')
-    .controller('MyQuestionsController', function ($scope, $stateParams, Question, Principal) {
+    .controller('MyQuestionsController', function ($scope, $stateParams, Question, Principal, MyQuestion) {
         Principal.identity().then(function (account) {
             $scope.account = account;
         });
@@ -15,8 +15,9 @@ angular.module('studentshelpcenterApp')
 
         $scope.deleteQuestion = {};
         $scope.loadAll = function () {
-            Question.query({page: $scope.page.currentPage, size: $scope.page.size}).$promise
+            MyQuestion.query({page: $scope.page.currentPage, size: $scope.page.size}).$promise
                 .then(function(questions) {
+                    console.log(questions);
                     $scope.questions = questions.content;
                     $scope.page.totalItems = questions.totalElements;
                 });
@@ -25,7 +26,7 @@ angular.module('studentshelpcenterApp')
         $scope.loadAll();
 
         $scope.pageChanged = function() {
-            Question.query({page: $scope.page.currentPage - 1, size: $scope.page.size}).$promise
+            MyQuestion.query({page: $scope.page.currentPage - 1, size: $scope.page.size}).$promise
                 .then(function (questions) {
                     $scope.questions= questions.content;
                 });
