@@ -15,7 +15,7 @@ angular.module('studentshelpcenterApp')
 
         $scope.deleteQuestion = {};
         $scope.loadAll = function () {
-            Question.query({page: $scope.page.currentPage, size: $scope.page.size}).$promise
+            Question.query({search: $stateParams.search, solved: $stateParams.solved, page: $scope.page.currentPage, size: $scope.page.size}).$promise
                 .then(function(questions) {
                     $scope.questions = questions.content;
                     $scope.page.totalItems = questions.totalElements;

@@ -10,6 +10,7 @@ import com.finki.shc.security.SecurityUtils;
 import com.finki.shc.service.QuestionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cloud.cloudfoundry.Tags;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -48,7 +50,7 @@ public class QuestionResource {
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     @RolesAllowed({AuthoritiesConstants.USER, AuthoritiesConstants.ADMIN })
-    public ResponseEntity<?> create(@RequestBody Question question) {
+    public ResponseEntity<?> create(@Valid @RequestBody Question question) {
         log.debug("REST request to save Question : {}", question);
         return Optional.ofNullable(questionService.createQuestion(question))
             .map(q -> new ResponseEntity<>(q.get(), HttpStatus.OK))
@@ -62,7 +64,16 @@ public class QuestionResource {
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public Page<Question> getAll(Pageable pageable) {
+    public Page<Question> getAll(Pageable pageable, @RequestParam(required = false) String search, @RequestParam(required = false) Boolean solved, @RequestBody(required = false) Tags tags) {
+        if(search != null && !search.isEmpty()) {
+            log.debug("REST request to get all Questions with search: {}",search);
+            return questionRepository.findByTitleContainingIgnoreCase(search, pageable);
+        }
+        if(solved != null) {
+            log.debug("REST request to get all Questions that are solved : {}",solved);
+            return questionRepository.findBySolvedIs(solved, pageable);
+        }
+
         log.debug("REST request to get all Questions");
         return questionRepository.findAll(pageable);
     }
