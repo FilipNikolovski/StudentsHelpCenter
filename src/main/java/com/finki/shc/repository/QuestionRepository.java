@@ -20,4 +20,5 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
     @Transactional
     Long deleteByIdAndUserId(Long questionId, Long userId);
 
+    Page<Question> findAllByUserId(Pageable pageable, Long userId);
 }
