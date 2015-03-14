@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('studentshelpcenterApp')
-    .controller('MyQuestionsController', function ($scope, $stateParams, Question, Principal, MyQuestion) {
+    .controller('MyQuestionsController', function ($scope, $stateParams, Question, Principal, MyQuestion, $http) {
         Principal.identity().then(function (account) {
             $scope.account = account;
         });
@@ -15,20 +15,26 @@ angular.module('studentshelpcenterApp')
 
         $scope.deleteQuestion = {};
         $scope.loadAll = function () {
-            MyQuestion.query({page: $scope.page.currentPage, size: $scope.page.size}).$promise
-                .then(function(questions) {
-                    console.log(questions);
-                    $scope.questions = questions.content;
-                    $scope.page.totalItems = questions.totalElements;
+            $http.get('/api/my-questions', {params: {page: $scope.page.currentPage, size: $scope.page.size}}).
+                success(function(data, status, headers, config) {
+                    $scope.questions = data.content;
+                    $scope.page.totalItems = data.totalElements;
+                }).
+                error(function(data, status, headers, config) {
                 });
         };
+
+
 
         $scope.loadAll();
 
         $scope.pageChanged = function() {
-            MyQuestion.query({page: $scope.page.currentPage - 1, size: $scope.page.size}).$promise
-                .then(function (questions) {
-                    $scope.questions= questions.content;
+
+            $http.get('/api/my-questions', {params: {page: $scope.page.currentPage - 1, size: $scope.page.size}}).
+                success(function(data, status, headers, config) {
+                    $scope.questions = data.content;
+                }).
+                error(function(data, status, headers, config) {
                 });
         };
 
