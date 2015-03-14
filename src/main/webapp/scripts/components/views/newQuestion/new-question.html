@@ -1,27 +1,102 @@
-<form ng-cloak>
+<form data-ng-class="{'fileupload-processing': processing() || loadingFiles}" data-file-upload="options"
+      enctype="multipart/form-data" method="POST" id="fileupload" ng-submit="create()"
+      class="ng-scope" name="userForm" novalidate>
     <h3>Post new question</h3>
     <br/>
+
     <div class="form-group">
-        <label for="exampleInputEmail1">Question title</label>
-        <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter title">
+        <label>Question title</label>
+        <input type="text"  class="form-control" id="title" style="margin-bottom: 5px;" ng-model="question.title" name="title" placeholder="Enter title" ng-minlength="10" ng-maxlength="255" required>
+        <!--Validation-->
+        <span class="" ng-show="userForm.title.$error.minlength" style="padding: 5px; border-radius: 5px; color:red;">
+            Question title is required to be at least 10 characters.
+            <br/></span>
+        <span class="" ng-show="userForm.title.$error.maxlength" style="padding: 5px; border-radius: 5px; color:red;">
+            Question title cannot be longer than 255 characters.
+        </span>
+
     </div>
     <div class="form-group">
-        <label for="exampleInputPassword1">Question description </label>
-        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Enter description">
+        <label>Question tags</label>
+        <tags-input class="bootstrap" ng-model="question.tags" display-property="name" placeholder="Add a tag">
+            <auto-complete source="loadTags($query)" min-length="0" debounce-delay="0"
+                           max-results="100"></auto-complete>
+        </tags-input>
+        <p></p>
     </div>
     <div class="form-group">
-        <label for="exampleInputPassword1">Question description </label>
-        <input type="text" class="form-control" placeholder="Tag1, tag2..">
-    </div>
-    <div class="form-group">
-        <label for="exampleInputFile">Attach images</label>
-        <input type="file" id="exampleInputFile">
-    </div>
-    <div class="form group">
-        <label class="col-md-offset-2 col-sm-offset-2 col-xs-offset-2"></label>
-        <input type="submit" value="Add more images"/>
+         <div text-angular type="text" style="margin-bottom: 5px;" ng-model="question.description" name="description" ta-max-text="1000" ta-min-text="50"></div>
+
+        <!--Validation-->
+        <span class="" ng-show="userForm.description.$error.taMinText" style="padding: 5px; border-radius: 5px; color:red;">Question description is required to be at least 50 characters. <br/></span>
+        <span class="" ng-show="userForm.description.$error.taMaxText" style="padding: 5px; border-radius: 5px; color:red;">Question description cannot be longer than 1000 characters. </span>
     </div>
 
-<br/>
-    <button type="submit" class="btn btn-info pull-right">Post question</button>
+    <div class="form-group">
+        <label>Attach images</label>
+        <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
+        <div class="row fileupload-buttonbar">
+            <div class="col-lg-7">
+
+                <span class="btn btn-success fileinput-button" ng-class="{disabled: disabled}">
+                    <i class="glyphicon glyphicon-plus"></i>
+                    <span>Add files...</span>
+                    <input type="file" name="files[]" multiple ng-disabled="disabled">
+                </span>
+                <!-- The global file processing state -->
+                <span class="fileupload-process"></span>
+            </div>
+            <!-- The global progress state -->
+            <div class="col-lg-5 fade" data-ng-class="{in: active()}">
+                <!-- The global progress bar -->
+                <div class="progress progress-striped active" data-file-upload-progress="progress()">
+                    <div class="progress-bar progress-bar-success" data-ng-style="{width: num + '%'}"></div>
+                </div>
+                <!-- The extended global progress state -->
+                <div class="progress-extended">&nbsp;</div>
+            </div>
+        </div>
+        <!-- The table listing the files available for upload/download -->
+        <table class="table table-striped files ng-cloak">
+            <tr data-ng-repeat="file in queue" data-ng-class="{'processing': file.$processing()}">
+                <td data-ng-switch data-on="!!file.thumbnailUrl">
+                    <div class="preview" data-ng-switch-when="true">
+                        <a data-ng-href="{{file.url}}" title="{{file.name}}" download="{{file.name}}"
+                           data-gallery><img data-ng-src="{{file.thumbnailUrl}}" alt=""></a>
+                    </div>
+                    <div class="preview" data-ng-switch-default data-file-upload-preview="file"></div>
+                </td>
+                <td>
+                    <p class="name" data-ng-switch data-on="!!file.url">
+                    <span data-ng-switch-when="true" data-ng-switch data-on="!!file.thumbnailUrl">
+                    <a data-ng-switch-when="true" data-ng-href="{{file.url}}" title="{{file.name}}" download="{{file.name}}" data-gallery>{{file.name}}</a>
+                    <a data-ng-switch-default data-ng-href="{{file.url}}" title="{{file.name}}" download="{{file.name}}">{{file.name}}</a>
+                    </span>
+                        <span data-ng-switch-default>{{file.name}}</span>
+                    </p>
+                    <strong data-ng-show="file.error" class="error text-danger">{{file.error}}</strong>
+                </td>
+                <td>
+                    <p class="size">{{file.size | formatFileSize}}</p>
+
+                    <div class="progress progress-striped active fade"
+                         data-ng-class="{pending: 'in'}[file.$state()]"
+                         data-file-upload-progress="file.$progress()">
+                        <div class="progress-bar progress-bar-success" data-ng-style="{width: num + '%'}"></div>
+                    </div>
+                </td>
+                <td>
+                    <button type="button" class="btn btn-warning cancel" data-ng-click="file.$cancel()"
+                            data-ng-hide="!file.$cancel">
+                        <i class="glyphicon glyphicon-ban-circle"></i>
+                        <span>Cancel</span>
+                    </button>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <br/>
+    <button type="submit" ng-disabled="userForm.$invalid" class="btn btn-primary">
+        <span class="glyphicon glyphicon-save"></span>&nbsp;<span>Post Question</span>
+    </button>
 </form>

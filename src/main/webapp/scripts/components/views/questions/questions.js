@@ -7,12 +7,12 @@ angular.module('studentshelpcenterApp')
                 parent: 'site',
                 url: '/questions?search&solved',
                 data: {
-                    roles: ['ROLE_USER']
+                    'roles': []
                 },
                 views: {
                     'content@': {
                         templateUrl: 'scripts/components/views/questions/questions.html',
-                        controller: 'QuestionController'
+                        controller: 'QuestionsController'
                     }
                 },
                 resolve: {
@@ -21,16 +21,13 @@ angular.module('studentshelpcenterApp')
                         return $translate.refresh();
                     }]
 
-                },
-                options:{
-                    location: 'fros'
                 }
             })
             .state('questionDetails', {
                 parent: 'site',
-                url: '/questions/:id',
+                url: '/questions/{id:[0-9]+}',
                 data: {
-                    roles: ['ROLE_USER']
+                    'roles': []
                 },
                 views: {
                     'content@': {

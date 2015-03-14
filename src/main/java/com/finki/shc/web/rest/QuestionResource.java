@@ -7,8 +7,12 @@ import com.finki.shc.repository.QuestionRepository;
 import com.finki.shc.repository.UserRepository;
 import com.finki.shc.security.AuthoritiesConstants;
 import com.finki.shc.security.SecurityUtils;
+import com.finki.shc.service.QuestionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cloud.cloudfoundry.Tags;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,6 +39,9 @@ public class QuestionResource {
     @Inject
     private UserRepository userRepository;
 
+    @Inject
+    private QuestionService questionService;
+
     /**
      * POST  /questions -> Create a new question.
      */
@@ -42,14 +50,11 @@ public class QuestionResource {
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     @RolesAllowed({AuthoritiesConstants.USER, AuthoritiesConstants.ADMIN })
-    public ResponseEntity<?> create(@RequestBody Question question) {
+    public ResponseEntity<?> create(@Valid @RequestBody Question question) {
         log.debug("REST request to save Question : {}", question);
-        if (!SecurityUtils.isAuthenticated()) {
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        }
-        question.setUser(userRepository.findOneByLogin(SecurityUtils.getCurrentLogin()).get());
-        questionRepository.save(question);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return Optional.ofNullable(questionService.createQuestion(question))
+            .map(q -> new ResponseEntity<>(q.get(), HttpStatus.OK))
+            .orElse(new ResponseEntity<>(HttpStatus.FORBIDDEN));
     }
 
     /**
@@ -59,9 +64,30 @@ public class QuestionResource {
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public List<Question> getAll() {
+    public Page<Question> getAll(Pageable pageable, @RequestParam(required = false) String search, @RequestParam(required = false) Boolean solved, @RequestBody(required = false) Tags tags) {
+        if(search != null && !search.isEmpty()) {
+            log.debug("REST request to get all Questions with search: {}",search);
+            return questionRepository.findByTitleContainingIgnoreCase(search, pageable);
+        }
+        if(solved != null) {
+            log.debug("REST request to get all Questions that are solved : {}",solved);
+            return questionRepository.findBySolvedIs(solved, pageable);
+        }
+
         log.debug("REST request to get all Questions");
-        return questionRepository.findAll();
+        return questionRepository.findAll(pageable);
+    }
+
+    @RequestMapping(value = "/my-questions",
+        method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public ResponseEntity<Page<Question>> getUser(Pageable pageable) {
+        if (!SecurityUtils.isAuthenticated()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        User u = userRepository.findOneByLogin(SecurityUtils.getCurrentLogin()).get();
+        return new ResponseEntity<>(questionRepository.findAllByUserId(pageable, u.getId()), HttpStatus.OK);
     }
 
     /**
@@ -104,5 +130,20 @@ public class QuestionResource {
 
         questionRepository.deleteByIdAndUserId(id, u.getId()); //Delete the question if the current logged in user is the creator of that question
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    /**
+     * UPDATE  /questions/:id -> update the "id" question.
+     */
+    @RequestMapping(value = "/questions/{id}",
+        method = RequestMethod.POST,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    @RolesAllowed({ AuthoritiesConstants.USER, AuthoritiesConstants.ADMIN })
+    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody Question question) {
+        log.debug("REST request to update Question : {}", id);
+        return Optional.ofNullable(questionService.createQuestion(question))
+            .map(q -> new ResponseEntity<>(q.get(), HttpStatus.OK))
+            .orElse(new ResponseEntity<>(HttpStatus.FORBIDDEN));
     }
 }

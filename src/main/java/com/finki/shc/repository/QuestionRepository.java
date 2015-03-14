@@ -1,8 +1,11 @@
 package com.finki.shc.repository;
 
 import com.finki.shc.domain.Question;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 
 import javax.transaction.Transactional;
 
@@ -11,8 +14,15 @@ import javax.transaction.Transactional;
  */
 public interface QuestionRepository extends JpaRepository<Question, Long> {
 
+    Page<Question> findAll(Pageable pageable);
+
+    Page<Question> findByTitleContainingIgnoreCase(String search, Pageable pageable);
+
+    Page<Question> findBySolvedIs(Boolean solved, Pageable pageable);
+
     @Modifying
     @Transactional
-    void deleteByIdAndUserId(Long questionId, Long userId);
+    Long deleteByIdAndUserId(Long questionId, Long userId);
 
+    Page<Question> findAllByUserId(Pageable pageable, Long userId);
 }

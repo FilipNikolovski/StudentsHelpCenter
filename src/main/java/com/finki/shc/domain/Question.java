@@ -1,6 +1,6 @@
 package com.finki.shc.domain;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.finki.shc.domain.util.CustomDateTimeDeserializer;
@@ -13,6 +13,7 @@ import org.joda.time.DateTime;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -46,23 +47,25 @@ public class Question implements Serializable {
     @ManyToOne
     private User user;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "question", cascade = CascadeType.ALL)
-    @JsonManagedReference
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "question", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @JsonIgnore
     private List<Answer> answers = new ArrayList<>();
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "question", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "question", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @JsonIgnore
     private List<QuestionImage> images = new ArrayList<>();
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "question", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "question", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @JsonIgnore
     private List<QuestionVote> votes = new ArrayList<>();
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
         name = "T_QUESTION_TAG",
         joinColumns = {@JoinColumn(name = "question_id", referencedColumnName = "id")},
         inverseJoinColumns = {@JoinColumn(name = "tag_id", referencedColumnName = "id")})
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<Tag> tags;
+    private Set<Tag> tags = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -143,8 +146,6 @@ public class Question implements Serializable {
     public void setVotes(List<QuestionVote> votes) {
         this.votes = votes;
     }
-
-    public Integer getTotalAnswers() { return answers.size(); }
 
     public Integer getUpvotes() {
         int totalUpvotes = 0;

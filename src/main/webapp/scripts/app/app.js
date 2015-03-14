@@ -1,7 +1,8 @@
 'use strict';
 
 angular.module('studentshelpcenterApp', ['LocalStorageModule', 'tmh.dynamicLocale',
-    'ngResource', 'ui.router', 'ngCookies', 'pascalprecht.translate', 'ngCacheBuster'])
+    'ngResource', 'ui.bootstrap', 'ui.router', 'ngCookies', 'pascalprecht.translate', 'ngCacheBuster', 'blueimp.fileupload',
+    'textAngular', 'ngTagsInput', 'angular-loading-bar'])
 
     .run(function ($rootScope, $location, $http, $state, $translate, Auth, Principal, Language, ENV, VERSION) {
         $rootScope.ENV = ENV;

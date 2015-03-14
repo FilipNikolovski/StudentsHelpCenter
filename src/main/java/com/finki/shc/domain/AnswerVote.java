@@ -26,6 +26,7 @@ public class AnswerVote implements Serializable {
 
     @ManyToOne
     @JsonIgnore
+    @JoinColumn(name="answer_id")
     private Answer answer;
 
     @ManyToOne
