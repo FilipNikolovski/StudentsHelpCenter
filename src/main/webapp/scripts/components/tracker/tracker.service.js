@@ -29,7 +29,7 @@ angular.module('studentshelpcenterApp')
             disconnect: function() {
                 if (stompClient != null) {
                     stompClient.disconnect();
-                    stompClient == null;
+                    stompClient = null;
                 }
             }
         };

@@ -16,6 +16,10 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
 
     Page<Question> findAll(Pageable pageable);
 
+    Page<Question> findByTitleContainingIgnoreCase(String search, Pageable pageable);
+
+    Page<Question> findBySolvedIs(Boolean solved, Pageable pageable);
+
     @Modifying
     @Transactional
     Long deleteByIdAndUserId(Long questionId, Long userId);
