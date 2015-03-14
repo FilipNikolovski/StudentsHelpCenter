@@ -40,7 +40,6 @@ public class QuestionResource {
     @Inject
     private QuestionService questionService;
 
-    //TODO Create question service and put create and delete logic there
     /**
      * POST  /questions -> Create a new question.
      */
@@ -108,5 +107,20 @@ public class QuestionResource {
 
         questionRepository.deleteByIdAndUserId(id, u.getId()); //Delete the question if the current logged in user is the creator of that question
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    /**
+     * UPDATE  /questions/:id -> update the "id" question.
+     */
+    @RequestMapping(value = "/questions/{id}",
+        method = RequestMethod.POST,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    @RolesAllowed({ AuthoritiesConstants.USER, AuthoritiesConstants.ADMIN })
+    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody Question question) {
+        log.debug("REST request to update Question : {}", id);
+        return Optional.ofNullable(questionService.createQuestion(question))
+            .map(q -> new ResponseEntity<>(q.get(), HttpStatus.OK))
+            .orElse(new ResponseEntity<>(HttpStatus.FORBIDDEN));
     }
 }

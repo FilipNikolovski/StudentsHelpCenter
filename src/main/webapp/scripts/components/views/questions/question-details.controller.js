@@ -33,10 +33,11 @@ angular.module('studentshelpcenterApp')
             Question.get({id: id}).$promise.then(function (result) {
                 $scope.question = result;
 
-                Answer.query({id: id, page: $scope.page.currentPage, size: $scope.page.size}).$promise.then(function (answers) {
-                    $scope.question.answers = answers.content;
-                    $scope.page.totalItems = answers.totalElements;
-                });
+                Answer.query({id: id, page: $scope.page.currentPage, size: $scope.page.size}).$promise
+                    .then(function (answers) {
+                        $scope.question.answers = answers.content;
+                        $scope.page.totalItems = answers.totalElements;
+                    });
 
                 QuestionImage.query({id: id}).$promise.then(function (images) {
                     $scope.question.images = images;
@@ -149,7 +150,6 @@ angular.module('studentshelpcenterApp')
             $scope.vote = {};
             $scope.deleteQuestion = {};
         };
-
 
         $scope.solvedQuestion = function (question) {
             if (question.user.id === $scope.account.id) {
