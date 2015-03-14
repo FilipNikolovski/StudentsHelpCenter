@@ -5,9 +5,9 @@ angular.module('studentshelpcenterApp')
         $stateProvider
             .state('myquestions', {
                 parent: 'site',
-                url: '/MyQuestions',
+                url: '/my-questions',
                 data: {
-                    'roles': []
+                    'roles': ['ROLE_USER']
                 },
                 views: {
                     'content@': {

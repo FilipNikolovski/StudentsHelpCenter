@@ -1,7 +1,7 @@
 'use strict';
 angular.module('studentshelpcenterApp')
     .factory('MyQuestion', function ($resource) {
-        return $resource('api/myQuestions/?size=:size&page=:page', {page: '@page', size: '@size'}, {
+        return $resource('api/my-questions/?size=:size&page=:page', {page: '@page', size: '@size'}, {
             'query': { method: 'GET', isArray: false},
             'get': {
                 method: 'GET',

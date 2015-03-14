@@ -67,14 +67,16 @@ public class QuestionResource {
         return questionRepository.findAll(pageable);
     }
 
-    @RequestMapping(value = "/myQuestions",
+    @RequestMapping(value = "/my-questions",
         method = RequestMethod.GET,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public Page<Question> getUser(Pageable pageable) {
+    public ResponseEntity<Page<Question>> getUser(Pageable pageable) {
+        if (!SecurityUtils.isAuthenticated()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
         User u = userRepository.findOneByLogin(SecurityUtils.getCurrentLogin()).get();
-        log.debug("REST request to get all Questions"+u.getId());
-        return questionRepository.findAllByUserId(pageable, u.getId());
+        return new ResponseEntity<>(questionRepository.findAllByUserId(pageable, u.getId()), HttpStatus.OK);
     }
 
     /**
