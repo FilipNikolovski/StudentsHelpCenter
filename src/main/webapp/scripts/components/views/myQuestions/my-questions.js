@@ -11,7 +11,7 @@ angular.module('studentshelpcenterApp')
                 },
                 views: {
                     'content@': {
-                        templateUrl: 'scripts/components/views/questions/my-questions.html',
+                        templateUrl: 'scripts/components/views/myQuestions/my-questions.html',
                         controller: 'MyQuestionsController'
                     }
                 },

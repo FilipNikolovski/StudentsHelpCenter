@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('studentshelpcenterApp')
-    .controller('MyQuestionsController', function ($scope, $stateParams, Question, Principal, MyQuestion, $http) {
+    .controller('MyQuestionsController', function ($scope, $stateParams, Question, Principal, $http) {
         Principal.identity().then(function (account) {
             $scope.account = account;
         });

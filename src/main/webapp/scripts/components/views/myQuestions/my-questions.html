@@ -7,8 +7,7 @@
             <label class="pull-left badge badgeGreen badgePadding" style="margin-left: 15px;"
                    ng-if="question.solved == true"><span class="glyphicon glyphicon-ok-circle"></span> SOLVED</label>
             <span class="pull-right glyphicon glyphicon-remove"
-                  style="margin-left:20px; font-size:18px;" data-ng-click="questionDelete(question)"></span>
-            <span class="pull-right glyphicon glyphicon-edit"
+                  ng-if="account.id == question.user.id || account.roles[1] == 'ROLE_ADMIN'"
                   style="margin-left:20px; font-size:18px;" data-ng-click="questionDelete(question)"></span>
             <label class="pull-right">Date: {{question.datePosted | date:'medium'}}</label>
         </div>
