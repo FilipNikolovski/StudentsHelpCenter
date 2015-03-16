@@ -70,12 +70,24 @@ public class QuestionResource {
             log.debug("REST request to get all questions with request params - search: {} solved: {} tags:{}", search, solved, tags);
             if (!search.isEmpty())
                 questions.addAll(questionRepository.findByTitleContainingIgnoreCase(search.trim()));
-            if(solved != null)
-                questions.addAll(questionRepository.findBySolvedIs(solved));
+
             if(tags != null)
                 questions.addAll(questionRepository.findByTagsNameIn(tags.split(",")));
 
-            return new PageImpl<>(new ArrayList<>(questions), pageable, questions.size());
+            questions.addAll(questionRepository.findBySolvedIs(solved));
+
+            List<Question> distinctQuestions = new ArrayList<>(questions);
+
+            if(pageable.getPageSize() >= distinctQuestions.size()) {
+                return new PageImpl<>(distinctQuestions, pageable, distinctQuestions.size());
+            }
+
+            if(pageable.getOffset() + pageable.getPageSize() >= distinctQuestions.size()) {
+                int offset = (pageable.getOffset() == distinctQuestions.size() - 1) ? pageable.getOffset() - 1 : pageable.getOffset();
+                return new PageImpl<>(distinctQuestions.subList(offset, distinctQuestions.size() - 1), pageable, distinctQuestions.size());
+            }
+
+            return new PageImpl<>(distinctQuestions.subList(pageable.getOffset(), pageable.getOffset() + pageable.getPageSize() - 1), pageable, distinctQuestions.size());
         }
 
         log.debug("REST request to get all Questions");

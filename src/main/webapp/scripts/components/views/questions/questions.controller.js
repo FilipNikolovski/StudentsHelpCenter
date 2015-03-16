@@ -25,8 +25,9 @@ angular.module('studentshelpcenterApp')
         $scope.loadAll();
 
         $scope.pageChanged = function() {
-            Question.query({page: $scope.page.currentPage - 1, size: $scope.page.size}).$promise
-                .then(function (questions) {
+            Question.query({search: $stateParams.search, solved: $stateParams.solved, tags: $stateParams.tags,
+                page: $scope.page.currentPage - 1, size: $scope.page.size})
+                .$promise.then(function (questions) {
                     $scope.questions= questions.content;
                 });
         };
