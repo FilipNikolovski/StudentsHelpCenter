@@ -10,8 +10,8 @@ import com.finki.shc.security.SecurityUtils;
 import com.finki.shc.service.QuestionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.cloud.cloudfoundry.Tags;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -21,8 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.validation.Valid;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * REST controller for managing Question.
@@ -46,10 +45,10 @@ public class QuestionResource {
      * POST  /questions -> Create a new question.
      */
     @RequestMapping(value = "/questions",
-            method = RequestMethod.POST,
-            produces = MediaType.APPLICATION_JSON_VALUE)
+        method = RequestMethod.POST,
+        produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    @RolesAllowed({AuthoritiesConstants.USER, AuthoritiesConstants.ADMIN })
+    @RolesAllowed({AuthoritiesConstants.USER, AuthoritiesConstants.ADMIN})
     public ResponseEntity<?> create(@Valid @RequestBody Question question) {
         log.debug("REST request to save Question : {}", question);
         return Optional.ofNullable(questionService.createQuestion(question))
@@ -61,17 +60,22 @@ public class QuestionResource {
      * GET  /questions -> get all the questions.
      */
     @RequestMapping(value = "/questions",
-            method = RequestMethod.GET,
-            produces = MediaType.APPLICATION_JSON_VALUE)
+        method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public Page<Question> getAll(Pageable pageable, @RequestParam(required = false) String search, @RequestParam(required = false) Boolean solved, @RequestBody(required = false) Tags tags) {
-        if(search != null && !search.isEmpty()) {
-            log.debug("REST request to get all Questions with search: {}",search);
-            return questionRepository.findByTitleContainingIgnoreCase(search, pageable);
-        }
-        if(solved != null) {
-            log.debug("REST request to get all Questions that are solved : {}",solved);
-            return questionRepository.findBySolvedIs(solved, pageable);
+    public Page<Question> getAll(Pageable pageable, @RequestParam(required = false) String search, @RequestParam(required = false) Boolean solved, @RequestParam(required = false) String tags) {
+        Set<Question> questions = new HashSet<>();
+
+        if (!search.isEmpty() || solved != null || !tags.isEmpty()) {
+            log.debug("REST request to get all questions with request params - search: {} solved: {} tags:{}", search, solved, tags);
+            if (!search.isEmpty())
+                questions.addAll(questionRepository.findByTitleContainingIgnoreCase(search.trim()));
+            if(solved != null)
+                questions.addAll(questionRepository.findBySolvedIs(solved));
+            if(tags != null)
+                questions.addAll(questionRepository.findByTagsNameIn(tags.split(",")));
+
+            return new PageImpl<>(new ArrayList<>(questions), pageable, questions.size());
         }
 
         log.debug("REST request to get all Questions");
@@ -94,8 +98,8 @@ public class QuestionResource {
      * GET  /questions/:id -> get the "id" question.
      */
     @RequestMapping(value = "/questions/{id}",
-            method = RequestMethod.GET,
-            produces = MediaType.APPLICATION_JSON_VALUE)
+        method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public ResponseEntity<Question> get(@PathVariable Long id) {
         log.debug("REST request to get Question : {}", id);
@@ -110,10 +114,10 @@ public class QuestionResource {
      * DELETE  /questions/:id -> delete the "id" question.
      */
     @RequestMapping(value = "/questions/{id}",
-            method = RequestMethod.DELETE,
-            produces = MediaType.APPLICATION_JSON_VALUE)
+        method = RequestMethod.DELETE,
+        produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    @RolesAllowed({ AuthoritiesConstants.USER, AuthoritiesConstants.ADMIN })
+    @RolesAllowed({AuthoritiesConstants.USER, AuthoritiesConstants.ADMIN})
     public ResponseEntity<?> delete(@PathVariable Long id) {
         log.debug("REST request to delete Question : {}", id);
 
@@ -123,7 +127,7 @@ public class QuestionResource {
 
         User u = userRepository.findOneByLogin(SecurityUtils.getCurrentLogin()).get();
 
-        if(SecurityUtils.checkAuthority(AuthoritiesConstants.ADMIN)) { //Delete question if the user is administrator
+        if (SecurityUtils.checkAuthority(AuthoritiesConstants.ADMIN)) { //Delete question if the user is administrator
             questionRepository.delete(id);
             return new ResponseEntity<>(HttpStatus.OK);
         }
@@ -139,7 +143,7 @@ public class QuestionResource {
         method = RequestMethod.POST,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    @RolesAllowed({ AuthoritiesConstants.USER, AuthoritiesConstants.ADMIN })
+    @RolesAllowed({AuthoritiesConstants.USER, AuthoritiesConstants.ADMIN})
     public ResponseEntity<?> update(@PathVariable Long id, @RequestBody Question question) {
         log.debug("REST request to update Question : {}", id);
         return Optional.ofNullable(questionService.createQuestion(question))
