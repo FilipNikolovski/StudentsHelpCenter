@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('studentshelpcenterApp')
-    .controller('MyQuestionsController', function ($scope, $stateParams, Question, Tag, Principal, $http) {
+    .controller('MyQuestionsController', function ($scope, $stateParams, Question, Tag, Principal, $http, QuestionVote) {
         $scope.questions = [];
         $scope.page = {
             totalItems: 0,
@@ -39,6 +39,30 @@ angular.module('studentshelpcenterApp')
                 success(function(data, status, headers, config) {
                     $scope.questions = data.content;
                     $scope.page.totalItems = data.totalElements;
+
+                    Principal.identity().then(function (account) {
+                        angular.forEach($scope.questions, function(question) {
+                            question.userVotedPositive=false;
+                            question.userVotedNegative=false;
+                            QuestionVote.get({id: question.id, userId: account.id}).$promise.then(function(vote){
+                                console.log(vote);
+                                if(vote != null && vote.vote == 1)
+                                {
+                                    question.userVotedPositive=true;
+                                    question.userVotedNegative=false;
+                                }
+                                else if (vote != null && vote.vote == -1){
+                                    question.userVotedPositive=false;
+                                    question.userVotedNegative=true;
+                                }
+                                else
+                                {
+                                    question.userVotedPositive=false;
+                                    question.userVotedNegative=false;
+                                }
+                            });
+                        });
+                    });
                 }).
                 error(function(data, status, headers, config) {
                 });

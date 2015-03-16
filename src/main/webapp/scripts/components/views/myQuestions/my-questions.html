@@ -19,12 +19,12 @@
             </div>
             <div class="row col-md-12 col-xs-18 col-sm-14" style="margin: 5px;">
                 <div class="col-md-1 col-xs-2 col-sm-2">
-                    <div class="row h3">
-                        <span class="glyphicon glyphicon-thumbs-up"></span>
+                    <div class="row h3" >
+                        <span class="glyphicon glyphicon-thumbs-up" ng-class="{true: 'votedUp'}[question.userVotedPositive == true]" ></span>
                         <label>{{question.upvotes}}</label>
                     </div>
                     <div class="row h3">
-                        <span class="glyphicon glyphicon-thumbs-down"></span>
+                        <span class="glyphicon glyphicon-thumbs-down" ng-class="{true: 'votedDown'}[question.userVotedNegative == true]"></span>
                         <label>{{question.downvotes}}</label>
                     </div>
                 </div>

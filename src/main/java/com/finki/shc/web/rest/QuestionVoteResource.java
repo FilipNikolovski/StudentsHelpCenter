@@ -54,36 +54,22 @@ public class QuestionVoteResource {
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public List<QuestionVote> getAll() {
+    public List<QuestionVote> getAll(@PathVariable Long id) {
         log.debug("REST request to get all QuestionVotes");
-        return questionVoteRepository.findAll();
+        return questionVoteRepository.findAllByQuestionId(id);
     }
 
     /**
      * GET  /votes/:id -> get the "id" questionVote.
      */
-    @RequestMapping(value = "/votes/{voteId}",
+    @RequestMapping(value = "/votes/{userId}",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public ResponseEntity<QuestionVote> get(@PathVariable Long id, @PathVariable Long voteId) {
-        log.debug("REST request to get QuestionVote : {}", voteId);
-        return Optional.ofNullable(questionVoteRepository.findOne(voteId))
-            .map(questionVote -> new ResponseEntity<>(
-                questionVote,
-                HttpStatus.OK))
+    public ResponseEntity<QuestionVote> get(@PathVariable Long id, @PathVariable Long userId) {
+        log.debug("REST request to get QuestionVote : {}", userId);
+        return questionVoteRepository.findOneByQuestionIdAndUserId(id, userId)
+            .map(qv -> new ResponseEntity<>(qv, HttpStatus.OK))
             .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
-    }
-
-    /**
-     * DELETE  /votes/:id -> delete the "id" questionVote.
-     */
-    @RequestMapping(value = "/votes/{voteId}",
-            method = RequestMethod.DELETE,
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    @Timed
-    public void delete(@PathVariable Long id, @PathVariable Long voteId) {
-        log.debug("REST request to delete QuestionVote : {}", voteId);
-        questionVoteRepository.delete(voteId);
     }
 }

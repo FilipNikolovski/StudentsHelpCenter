@@ -15,7 +15,7 @@ angular.module('studentshelpcenterApp')
         $scope.question = {};
         $scope.vote = {};
         $scope.question.images = [];
-        $scope.buttonAnswer="Post answer";
+        $scope.buttonAnswer = "Post answer";
 
         //Answers
         $scope.question.answers = [];
@@ -34,10 +34,50 @@ angular.module('studentshelpcenterApp')
             Question.get({id: id}).$promise.then(function (result) {
                 $scope.question = result;
 
+                Principal.identity().then(function (account) {
+                    $scope.question.userVotedPositive = false;
+                    $scope.question.userVotedNegative = false;
+                    QuestionVote.get({id: $scope.question.id, userId: account.id}).$promise.then(function (vote) {
+                        if (vote != null && vote.vote == 1) {
+                            $scope.question.userVotedPositive = true;
+                            $scope.question.userVotedNegative = false;
+                        }
+                        else if (vote != null && vote.vote == -1) {
+                            $scope.question.userVotedPositive = false;
+                            $scope.question.userVotedNegative = true;
+                        }
+                        else {
+                            $scope.question.userVotedPositive = false;
+                            $scope.question.userVotedNegative = false;
+                        }
+                    });
+                });
+
                 Answer.query({id: id, page: $scope.page.currentPage, size: $scope.page.size}).$promise
                     .then(function (answers) {
                         $scope.question.answers = answers.content;
                         $scope.page.totalItems = answers.totalElements;
+
+                        Principal.identity().then(function (account) {
+                            angular.forEach($scope.question.answers, function (answer) {
+                                answer.userVotedPositive = false;
+                                answer.userVotedNegative = false;
+                                AnswerVote.get({id: answer.id, userId: account.id}).$promise.then(function (vote) {
+                                    if (vote != null && vote.vote == 1) {
+                                        answer.userVotedPositive = true;
+                                        answer.userVotedNegative = false;
+                                    }
+                                    else if (vote != null && vote.vote == -1) {
+                                        answer.userVotedPositive = false;
+                                        answer.userVotedNegative = true;
+                                    }
+                                    else {
+                                        answer.userVotedPositive = false;
+                                        answer.userVotedNegative = false;
+                                    }
+                                });
+                            });
+                        });
                     });
 
                 QuestionImage.query({id: id}).$promise.then(function (images) {
@@ -47,6 +87,7 @@ angular.module('studentshelpcenterApp')
             }, function (result) {
                 $state.go('questions');
             });
+
         };
 
         $scope.load($stateParams.id);
@@ -90,8 +131,12 @@ angular.module('studentshelpcenterApp')
             $('#showImage').modal('show');
         };
 
-        $scope.pageChanged = function() {
-            Answer.query({id: $stateParams.id, page: $scope.page.currentPage - 1, size: $scope.page.size}).$promise.then(function (answers) {
+        $scope.pageChanged = function () {
+            Answer.query({
+                id: $stateParams.id,
+                page: $scope.page.currentPage - 1,
+                size: $scope.page.size
+            }).$promise.then(function (answers) {
                 $scope.question.answers = answers.content;
             });
         };
@@ -104,12 +149,12 @@ angular.module('studentshelpcenterApp')
                 function () {
                     $scope.load($stateParams.id);
                     $scope.clear();
-                    $scope.buttonAnswer="Post answer";
+                    $scope.buttonAnswer = "Post answer";
                 });
         };
 
         $scope.update = function (id) {
-            $scope.buttonAnswer="Edit answer";
+            $scope.buttonAnswer = "Edit answer";
             Answer.get({id: $scope.question.id, answerId: id}).$promise.then(function (result) {
                 $scope.updateAnswer = result;
             });
@@ -152,6 +197,7 @@ angular.module('studentshelpcenterApp')
             $scope.updateAnswer = {id: null, answerText: null, datePosted: null, downvotes: null, upvotes: null};
             $scope.vote = {};
             $scope.deleteQuestion = {};
+            $scope.buttonAnswer = "Post answer";
         };
 
         $scope.solvedQuestion = function (question) {

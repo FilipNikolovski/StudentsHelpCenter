@@ -16,11 +16,11 @@
         <div class="row col-md-12 col-xs-18 col-sm-14" style="margin: 5px;">
             <div class="col-md-1 col-xs-2 col-sm-2">
                 <div class="row h3">
-                    <span class="glyphicon glyphicon-thumbs-up" ng-click="upvoteQuestion(question.id)"></span>
+                    <span class="glyphicon glyphicon-thumbs-up" ng-click="upvoteQuestion(question.id)" ng-class="{true: 'votedUp'}[question.userVotedPositive == true]"></span>
                     <label>{{question.upvotes}}</label>
                 </div>
                 <div class="row h3">
-                    <span class="glyphicon glyphicon-thumbs-down" ng-click="downvoteQuestion(question.id)"></span>
+                    <span class="glyphicon glyphicon-thumbs-down" ng-click="downvoteQuestion(question.id)" ng-class="{true: 'votedDown'}[question.userVotedNegative == true]"></span>
                     <label>{{question.downvotes}}</label>
                 </div>
             </div>
@@ -59,20 +59,20 @@
             <div class="row" ng-if="account.id == answer.user.id" style="margin-bottom: 10px;">
                     <span class="glyphicon glyphicon-remove pull-right"
                           style="margin:2px; margin-left: 7px; font-size:18px;"
-                          data-ng-click="delete(answer.id)"></span>
+                          data-ng-click="delete(answer.id)" ></span>
                     <span class="glyphicon glyphicon-pencil pull-right" style="margin: 2px; font-size:18px;"
-                          data-ng-click="update(answer.id)"></span>
+                          data-ng-click="update(answer.id)" ></span>
             </div>
 
             <div class="col-md-1 col-xs-2 col-sm-2">
                 <div class="row h4" style="margin:auto;">
-                    <span class="glyphicon glyphicon-chevron-up" data-ng-click="upvoteAnswer(answer.id)"></span>
+                    <span class="glyphicon glyphicon-chevron-up" data-ng-click="upvoteAnswer(answer.id)" ng-class="{true: 'votedUp'}[answer.userVotedPositive == true]"></span>
                     <label>{{answer.upvotes}}</label>
                 </div>
                 <br/>
 
                 <div class="row h4" style="margin:auto;">
-                    <span class="glyphicon glyphicon-chevron-down" data-ng-click="downvoteAnswer(answer.id)"></span>
+                    <span class="glyphicon glyphicon-chevron-down" data-ng-click="downvoteAnswer(answer.id)" ng-class="{true: 'votedDown'}[answer.userVotedNegative == true]"></span>
                     <label>{{answer.downvotes}}</label>
                 </div>
             </div>
