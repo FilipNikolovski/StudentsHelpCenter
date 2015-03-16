@@ -103,7 +103,7 @@
             <span class="" ng-show="userForm.answer.$pristine && userForm.answer.$error.taMaxText" style="padding: 5px; border-radius: 5px; color:red;">
                 Answer cannot be longer than 1000 characters. </span>
             <button type="submit" ng-disabled="userForm.$invalid" class="btn btn-primary">
-                <span class="glyphicon glyphicon-save"></span>&nbsp;<span>Post answer</span>
+                <span class="glyphicon glyphicon-save"></span>&nbsp;<span> {{buttonAnswer}} </span>
             </button>
             <button type="button" class="btn btn-primary" ng-click="clear()">
                 <span class="glyphicon glyphicon-remove"></span>&nbsp;<span>Cancel</span>

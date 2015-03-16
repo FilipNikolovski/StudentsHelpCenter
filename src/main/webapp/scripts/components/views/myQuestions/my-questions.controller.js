@@ -1,16 +1,36 @@
 'use strict';
 
 angular.module('studentshelpcenterApp')
-    .controller('MyQuestionsController', function ($scope, $stateParams, Question, Principal, $http) {
-        Principal.identity().then(function (account) {
-            $scope.account = account;
-        });
-
+    .controller('MyQuestionsController', function ($scope, $stateParams, Question, Tag, Principal, $http) {
         $scope.questions = [];
         $scope.page = {
             totalItems: 0,
             currentPage: 0,
             size: 5
+        };
+
+        $scope.queue = [];
+        $scope.editQuestion=null;
+
+        Principal.identity().then(function (account) {
+            $scope.account = account;
+        });
+
+        $scope.questionEdit=function(question) {
+            $scope.editQuestion=question;
+        };
+
+        $scope.loadTags = function(query) {
+            return Tag.query().$promise;
+        };
+
+        $scope.create = function () {
+            $scope.editQuestion.setUser = -1;
+            $scope.editQuestion.solved = false;
+            Question.save($scope.editQuestion, function(question) {
+                $scope.editQuestion=null;
+            });
+
         };
 
         $scope.deleteQuestion = {};
@@ -23,8 +43,6 @@ angular.module('studentshelpcenterApp')
                 error(function(data, status, headers, config) {
                 });
         };
-
-
 
         $scope.loadAll();
 
@@ -53,7 +71,41 @@ angular.module('studentshelpcenterApp')
         };
 
         $scope.clear = function () {
-            $scope.question = {title: null, description: null, datePosted: null, solved: null, id: null};
             $scope.deleteQuestion = null;
         };
-    });
+
+        $scope.goBack=function() {
+            $scope.editQuestion=null;
+        };
+    })
+    .controller('FileDestroyController', [
+        '$scope', '$http',
+        function ($scope, $http) {
+            var file = $scope.file,
+                state;
+            if (file.url) {
+                file.$state = function () {
+                    return state;
+                };
+                file.$destroy = function () {
+                    state = 'pending';
+                    return $http({
+                        url: file.deleteUrl,
+                        method: file.deleteType
+                    }).then(
+                        function () {
+                            state = 'resolved';
+                            $scope.clear(file);
+                        },
+                        function () {
+                            state = 'rejected';
+                        }
+                    );
+                };
+            } else if (!file.$cancel && !file._index) {
+                file.$cancel = function () {
+                    $scope.clear(file);
+                };
+            }
+        }
+    ]);
