@@ -7,6 +7,7 @@ angular.module('studentshelpcenterApp')
         });
 
         $scope.questions = [];
+
         $scope.page = {
             totalItems: 0,
             currentPage: 0,
@@ -14,9 +15,8 @@ angular.module('studentshelpcenterApp')
         };
         $scope.vote=null;
 
-        $scope.deleteQuestion = {};
         $scope.loadAll = function () {
-            Question.query({search: $stateParams.search, solved: $stateParams.solved, page: $scope.page.currentPage, size: $scope.page.size}).$promise
+            Question.query({search: $stateParams.search, solved: $stateParams.solved, tags: $stateParams.tags, page: $scope.page.currentPage, size: $scope.page.size}).$promise
                 .then(function(questions) {
                     $scope.questions = questions.content;
                     $scope.page.totalItems = questions.totalElements;
@@ -52,23 +52,10 @@ angular.module('studentshelpcenterApp')
         $scope.loadAll();
 
         $scope.pageChanged = function() {
-            Question.query({page: $scope.page.currentPage - 1, size: $scope.page.size}).$promise
-                .then(function (questions) {
+            Question.query({search: $stateParams.search, solved: $stateParams.solved, tags: $stateParams.tags,
+                page: $scope.page.currentPage - 1, size: $scope.page.size})
+                .$promise.then(function (questions) {
                     $scope.questions= questions.content;
-                });
-        };
-
-        $scope.questionDelete = function (question) {
-            $scope.deleteQuestion = question;
-            $('#deleteQuestionConfirmation').modal('show');
-        };
-
-        $scope.confirmQuestionDelete = function () {
-            Question.delete({id: $scope.deleteQuestion.id},
-                function () {
-                    $('#deleteQuestionConfirmation').modal('hide');
-                    $scope.clear();
-                    $scope.loadAll();
                 });
         };
 

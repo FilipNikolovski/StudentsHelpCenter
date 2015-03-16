@@ -8,6 +8,8 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import javax.transaction.Transactional;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Spring Data JPA repository for the Question entity.
@@ -16,9 +18,11 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
 
     Page<Question> findAll(Pageable pageable);
 
-    Page<Question> findByTitleContainingIgnoreCase(String search, Pageable pageable);
+    Set<Question> findByTitleContainingIgnoreCase(String search);
 
-    Page<Question> findBySolvedIs(Boolean solved, Pageable pageable);
+    Set<Question> findBySolvedIs(Boolean solved);
+
+    Set<Question> findByTagsNameIn(String[] tags);
 
     @Modifying
     @Transactional
