@@ -2,9 +2,6 @@
 
 angular.module('studentshelpcenterApp')
     .controller('MyQuestionsController', function ($scope, $stateParams, Question, Tag, Principal, $http) {
-        Principal.identity().then(function (account) {
-            $scope.account = account;
-        });
         $scope.questions = [];
         $scope.page = {
             totalItems: 0,
@@ -15,11 +12,13 @@ angular.module('studentshelpcenterApp')
         $scope.queue = [];
         $scope.editQuestion=null;
 
+        Principal.identity().then(function (account) {
+            $scope.account = account;
+        });
+
         $scope.questionEdit=function(question) {
             $scope.editQuestion=question;
         };
-
-
 
         $scope.loadTags = function(query) {
             return Tag.query().$promise;

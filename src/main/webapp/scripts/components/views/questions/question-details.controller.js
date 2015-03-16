@@ -15,6 +15,7 @@ angular.module('studentshelpcenterApp')
         $scope.question = {};
         $scope.vote = {};
         $scope.question.images = [];
+        $scope.buttonAnswer="Post answer";
 
         //Answers
         $scope.question.answers = [];
@@ -103,10 +104,12 @@ angular.module('studentshelpcenterApp')
                 function () {
                     $scope.load($stateParams.id);
                     $scope.clear();
+                    $scope.buttonAnswer="Post answer";
                 });
         };
 
         $scope.update = function (id) {
+            $scope.buttonAnswer="Edit answer";
             Answer.get({id: $scope.question.id, answerId: id}).$promise.then(function (result) {
                 $scope.updateAnswer = result;
             });
