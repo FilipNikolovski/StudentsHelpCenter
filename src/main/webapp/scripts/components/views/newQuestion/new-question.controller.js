@@ -6,64 +6,36 @@ angular.module('studentshelpcenterApp')
 
         $scope.queue = [];
 
+        Dropzone.autoDiscover = false;
+        var myDropzone = new Dropzone("div#images-dropzone", {
+            url: "/api/questions/upload-images",
+            autoProcessQueue: false,
+            init: function() {
+                this.on("success", function(file, responseText) {
+                    console.log(responseText);
+                });
+            }
+        });
+
         //Save question
         $scope.create = function () {
             $scope.question.setUser = -1;
             $scope.question.solved = false;
 
+
             Question.save($scope.question,
-                function(question) {
-                    var fd = new FormData();
-                    angular.forEach($scope.queue, function(value, key) {
-                        fd.append('files', value);
+                function (question) {
+                    myDropzone.on('sending', function(file, xhr, formData) {
+                        formData.append('id', question.id);
+                        formData.append('_csrf', $.cookie('CSRF-TOKEN'));
                     });
-
-                    $http.post('/api/questions/'+question.id+'/upload-images', fd, {
-                        headers: {'Content-Type': 'multipart/form-data; boundary=CreateQuestion' }
-                    })
-                        .success(function() {
-                            $location.path('/questions/' + question.id);
-                        })
-                        .error();
-
-
+                    myDropzone.processQueue();
                 });
 
         };
 
         //Load tags for autocomplete
-        $scope.loadTags = function(query) {
+        $scope.loadTags = function (query) {
             return Tag.query().$promise;
         };
-    })
-    .controller('FileDestroyController', [
-        '$scope', '$http',
-        function ($scope, $http) {
-            var file = $scope.file,
-                state;
-            if (file.url) {
-                file.$state = function () {
-                    return state;
-                };
-                file.$destroy = function () {
-                    state = 'pending';
-                    return $http({
-                        url: file.deleteUrl,
-                        method: file.deleteType
-                    }).then(
-                        function () {
-                            state = 'resolved';
-                            $scope.clear(file);
-                        },
-                        function () {
-                            state = 'rejected';
-                        }
-                    );
-                };
-            } else if (!file.$cancel && !file._index) {
-                file.$cancel = function () {
-                    $scope.clear(file);
-                };
-            }
-        }
-    ]);
+    });

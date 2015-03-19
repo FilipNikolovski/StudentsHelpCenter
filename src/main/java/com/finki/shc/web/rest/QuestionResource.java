@@ -126,15 +126,10 @@ public class QuestionResource {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
 
-        User u = userRepository.findOneByLogin(SecurityUtils.getCurrentLogin()).get();
-
-        if (SecurityUtils.checkAuthority(AuthoritiesConstants.ADMIN)) { //Delete question if the user is administrator
-            questionRepository.delete(id);
+        if(questionService.deleteQuestion(id)) {
             return new ResponseEntity<>(HttpStatus.OK);
         }
-
-        questionRepository.deleteByIdAndUserId(id, u.getId()); //Delete the question if the current logged in user is the creator of that question
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     /**
@@ -164,13 +159,18 @@ public class QuestionResource {
         return new ResponseEntity<>(questionRepository.findAllByUserId(pageable, u.getId()), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/questions/{id}/upload-images",
+    @RequestMapping(value = "/questions/upload-images",
         method = RequestMethod.POST,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     @RolesAllowed({AuthoritiesConstants.USER, AuthoritiesConstants.ADMIN})
-    public ResponseEntity<?> update(@PathVariable Long id, @RequestParam("files") List<MultipartFile> files) {
-        log.debug("REST request to update Question : {} files: {}", id, files);
-        return (questionService.uploadImages(id, files)) ? new ResponseEntity<>(HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    public ResponseEntity<?> update(@RequestParam("id") String id, @RequestParam("file") List<MultipartFile> file) {
+        log.debug("REST request to update Question : {} files: {}", id, file);
+
+        if(questionService.uploadImages(Long.parseLong(id), file)) {
+            return new ResponseEntity<>(id, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
     }
 }

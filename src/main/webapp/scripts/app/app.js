@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('studentshelpcenterApp', ['LocalStorageModule', 'tmh.dynamicLocale',
-    'ngResource', 'ui.bootstrap', 'ui.router', 'ngCookies', 'pascalprecht.translate', 'ngCacheBuster', 'blueimp.fileupload',
+    'ngResource', 'ui.bootstrap', 'ui.router', 'ngCookies', 'pascalprecht.translate', 'ngCacheBuster',
     'textAngular', 'ngTagsInput', 'angular-loading-bar'])
 
     .run(function ($rootScope, $location, $http, $state, $translate, Auth, Principal, Language, ENV, VERSION) {
