@@ -17,6 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
@@ -71,18 +72,18 @@ public class QuestionResource {
             if (!search.isEmpty())
                 questions.addAll(questionRepository.findByTitleContainingIgnoreCase(search.trim()));
 
-            if(tags != null)
+            if (tags != null)
                 questions.addAll(questionRepository.findByTagsNameIn(tags.split(",")));
 
             questions.addAll(questionRepository.findBySolvedIs(solved));
 
             List<Question> distinctQuestions = new ArrayList<>(questions);
 
-            if(pageable.getPageSize() >= distinctQuestions.size()) {
+            if (pageable.getPageSize() >= distinctQuestions.size()) {
                 return new PageImpl<>(distinctQuestions, pageable, distinctQuestions.size());
             }
 
-            if(pageable.getOffset() + pageable.getPageSize() >= distinctQuestions.size()) {
+            if (pageable.getOffset() + pageable.getPageSize() >= distinctQuestions.size()) {
                 int offset = (pageable.getOffset() == distinctQuestions.size() - 1) ? pageable.getOffset() - 1 : pageable.getOffset();
                 return new PageImpl<>(distinctQuestions.subList(offset, distinctQuestions.size() - 1), pageable, distinctQuestions.size());
             }
@@ -92,18 +93,6 @@ public class QuestionResource {
 
         log.debug("REST request to get all Questions");
         return questionRepository.findAll(pageable);
-    }
-
-    @RequestMapping(value = "/my-questions",
-        method = RequestMethod.GET,
-        produces = MediaType.APPLICATION_JSON_VALUE)
-    @Timed
-    public ResponseEntity<Page<Question>> getUser(Pageable pageable) {
-        if (!SecurityUtils.isAuthenticated()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        User u = userRepository.findOneByLogin(SecurityUtils.getCurrentLogin()).get();
-        return new ResponseEntity<>(questionRepository.findAllByUserId(pageable, u.getId()), HttpStatus.OK);
     }
 
     /**
@@ -161,5 +150,27 @@ public class QuestionResource {
         return Optional.ofNullable(questionService.createQuestion(question))
             .map(q -> new ResponseEntity<>(q.get(), HttpStatus.OK))
             .orElse(new ResponseEntity<>(HttpStatus.FORBIDDEN));
+    }
+
+    @RequestMapping(value = "/my-questions",
+        method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public ResponseEntity<Page<Question>> getUserQuestions(Pageable pageable) {
+        if (!SecurityUtils.isAuthenticated()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        User u = userRepository.findOneByLogin(SecurityUtils.getCurrentLogin()).get();
+        return new ResponseEntity<>(questionRepository.findAllByUserId(pageable, u.getId()), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/questions/{id}/upload-images",
+        method = RequestMethod.POST,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    @RolesAllowed({AuthoritiesConstants.USER, AuthoritiesConstants.ADMIN})
+    public ResponseEntity<?> update(@PathVariable Long id, @RequestParam("files") List<MultipartFile> files) {
+        log.debug("REST request to update Question : {} files: {}", id, files);
+        return (questionService.uploadImages(id, files)) ? new ResponseEntity<>(HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 }

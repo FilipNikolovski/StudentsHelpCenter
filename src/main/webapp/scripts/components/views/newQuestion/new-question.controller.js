@@ -10,10 +10,24 @@ angular.module('studentshelpcenterApp')
         $scope.create = function () {
             $scope.question.setUser = -1;
             $scope.question.solved = false;
-            Question.save($scope.question, function(question) {
-                //TODO save images
-                $location.path('/questions/' + question.id);
-            });
+
+            Question.save($scope.question,
+                function(question) {
+                    var fd = new FormData();
+                    angular.forEach($scope.queue, function(value, key) {
+                        fd.append('files', value);
+                    });
+
+                    $http.post('/api/questions/'+question.id+'/upload-images', fd, {
+                        headers: {'Content-Type': 'multipart/form-data; boundary=CreateQuestion' }
+                    })
+                        .success(function() {
+                            $location.path('/questions/' + question.id);
+                        })
+                        .error();
+
+
+                });
 
         };
 
