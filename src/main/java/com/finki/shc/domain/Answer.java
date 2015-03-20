@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.finki.shc.domain.util.CustomDateTimeDeserializer;
 import com.finki.shc.domain.util.CustomDateTimeSerializer;
+import com.finki.shc.security.SecurityUtils;
 import org.hibernate.annotations.*;
 import org.hibernate.annotations.Cache;
 import org.joda.time.DateTime;
@@ -99,20 +100,23 @@ public class Answer implements Serializable {
         this.votes = votes;
     }
 
-    public Integer getUpvotes() {
-        int totalUpvotes = 0;
-        for (AnswerVote v : votes) {
-            if (v.getVote() > 0) totalUpvotes++;
-        }
-        return totalUpvotes;
+    public Long getUpvotes() {
+        return votes.stream().filter(v -> v.getVote() > 0).count();
     }
 
-    public Integer getDownvotes() {
-        int totalDownvotes = 0;
-        for (AnswerVote v : votes) {
-            if (v.getVote() < 0) totalDownvotes++;
+    public Long getDownvotes() {
+        return votes.stream().filter(v -> v.getVote() < 0).count();
+    }
+
+    public Integer getUserVoted() {
+        if(SecurityUtils.isAuthenticated() && user.getLogin().equals(SecurityUtils.getCurrentLogin())) {
+            for(AnswerVote v : votes) {
+                if(v.getUser().equals(user)) {
+                    return v.getVote();
+                }
+            }
         }
-        return totalDownvotes;
+        return 0;
     }
 
     @Override

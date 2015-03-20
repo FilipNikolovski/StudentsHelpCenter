@@ -16,11 +16,11 @@
         <div class="row col-md-12 col-xs-18 col-sm-14" style="margin: 5px;">
             <div class="col-md-1 col-xs-2 col-sm-2">
                 <div class="row h3">
-                    <span class="glyphicon glyphicon-thumbs-up" ng-click="upvoteQuestion(question.id)" ng-class="{true: 'votedUp'}[question.userVotedPositive == true]"></span>
+                    <span class="glyphicon glyphicon-thumbs-up" ng-click="upvoteQuestion(question.id)" ng-class="{true: 'votedUp'}[question.userVoted == 1]"></span>
                     <label>{{question.upvotes}}</label>
                 </div>
                 <div class="row h3">
-                    <span class="glyphicon glyphicon-thumbs-down" ng-click="downvoteQuestion(question.id)" ng-class="{true: 'votedDown'}[question.userVotedNegative == true]"></span>
+                    <span class="glyphicon glyphicon-thumbs-down" ng-click="downvoteQuestion(question.id)" ng-class="{true: 'votedDown'}[question.userVoted == -1]"></span>
                     <label>{{question.downvotes}}</label>
                 </div>
             </div>
@@ -66,13 +66,13 @@
 
             <div class="col-md-1 col-xs-2 col-sm-2">
                 <div class="row h4" style="margin:auto;">
-                    <span class="glyphicon glyphicon-chevron-up" data-ng-click="upvoteAnswer(answer.id)" ng-class="{true: 'votedUp'}[answer.userVotedPositive == true]"></span>
+                    <span class="glyphicon glyphicon-chevron-up" data-ng-click="upvoteAnswer(answer.id)" ng-class="{true: 'votedUp'}[answer.userVoted == 1]"></span>
                     <label>{{answer.upvotes}}</label>
                 </div>
                 <br/>
 
                 <div class="row h4" style="margin:auto;">
-                    <span class="glyphicon glyphicon-chevron-down" data-ng-click="downvoteAnswer(answer.id)" ng-class="{true: 'votedDown'}[answer.userVotedNegative == true]"></span>
+                    <span class="glyphicon glyphicon-chevron-down" data-ng-click="downvoteAnswer(answer.id)" ng-class="{true: 'votedDown'}[answer.userVoted == -1]"></span>
                     <label>{{answer.downvotes}}</label>
                 </div>
             </div>

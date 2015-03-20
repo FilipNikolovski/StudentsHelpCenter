@@ -14,7 +14,7 @@ angular.module('studentshelpcenterApp')
             maxFiles: 5,
             maxFilesize: 5,
             init: function() {
-                this.on("complete", function(file) {
+                this.on("complete", function() {
                     $location.path('questions/' + $scope.question.id);
                 });
             }
@@ -24,7 +24,6 @@ angular.module('studentshelpcenterApp')
         $scope.create = function () {
             $scope.question.setUser = -1;
             $scope.question.solved = false;
-
 
             Question.save($scope.question,
                 function (question) {
