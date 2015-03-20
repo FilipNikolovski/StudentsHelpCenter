@@ -12,6 +12,45 @@ angular.module('studentshelpcenterApp')
             $scope.account = account;
         });
 
+        $scope._Index = 0;
+
+        // if a current image is the same as requested image
+        $scope.isActive = function (index) {
+            return $scope._Index === index;
+        };
+
+        // show prev image
+        $scope.showPrev = function () {
+            $scope._Index = ($scope._Index > 0) ? --$scope._Index : $scope.photos.length - 1;
+        };
+
+        // show next image
+        $scope.showNext = function () {
+            $scope._Index = ($scope._Index < $scope.photos.length - 1) ? ++$scope._Index : 0;
+        };
+
+        // show a certain image
+        $scope.showPhoto = function (index) {
+            $scope._Index = index;
+        };
+
+        $scope.ofIndex=function (arr, obj){
+            for(var i = 0; i < arr.length; i++){
+                if(angular.equals(arr[i].imageName, obj)){
+                    return i;
+                }
+            };
+            return -1;
+        }
+
+
+        $scope.showImage = function (imageName) {
+            $scope.imageName = imageName;
+            var index=$scope.ofIndex($scope.photos, imageName);
+            $scope.showPhoto(index);
+            $('#showImage').modal('show');
+        };
+
         $scope.question = {};
         $scope.vote = {};
         $scope.question.images = [];
@@ -82,6 +121,7 @@ angular.module('studentshelpcenterApp')
 
                 QuestionImage.query({id: id}).$promise.then(function (images) {
                     $scope.question.images = images;
+                    $scope.photos = $scope.question.images;
                 });
 
             }, function (result) {

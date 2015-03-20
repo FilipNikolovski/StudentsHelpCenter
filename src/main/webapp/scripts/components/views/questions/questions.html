@@ -2,11 +2,11 @@
     <div class="col-md-12 col-xs-18 col-sm-14">
         <hr>
         <div class="row col-md-12 col-xs-18 col-sm-14">
-            <label class="pull-left badge badgeRed badgePadding" style="margin-left: 15px;"
+            <label class="pull-left badge badgeRed badgePadding" style="margin-left: 15px;" ng-class="{true: 'ngHover'}[question.user.id == account.id]"
                    ng-if="question.solved == false"><span class="glyphicon glyphicon-remove-circle"> </span> NOT SOLVED</label>
-            <label class="pull-left badge badgeGreen badgePadding" style="margin-left: 15px;"
+            <label class="pull-left badge badgeGreen badgePadding" style="margin-left: 15px;" ng-class="{true: 'ngHover'}[question.user.id == account.id]"
                    ng-if="question.solved == true"><span class="glyphicon glyphicon-ok-circle"></span> SOLVED</label>
-            <span class="pull-right glyphicon glyphicon-remove"
+            <span class="pull-right glyphicon glyphicon-remove ngHover"
                   ng-if="account.id == question.user.id || account.roles[1] == 'ROLE_ADMIN'"
                   style="margin-left:20px; font-size:18px;" data-ng-click="questionDelete(question)"></span>
             <label class="pull-right">Date: {{question.datePosted | date:'medium'}}</label>
