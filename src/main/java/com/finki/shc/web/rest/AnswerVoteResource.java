@@ -59,28 +59,16 @@ public class AnswerVoteResource {
     /**
      * GET  /answerVotes/:id -> get the "id" answerVote.
      */
-    @RequestMapping(value = "/votes/{voteId}",
+    @RequestMapping(value = "/votes/{userId}",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public ResponseEntity<AnswerVote> get(@PathVariable Long id, @PathVariable Long voteId) {
+    public ResponseEntity<AnswerVote> get(@PathVariable Long id, @PathVariable Long userId) {
         log.debug("REST request to get AnswerVote : {}", id);
-        return Optional.ofNullable(answerVoteRepository.findOne(voteId))
+        return Optional.ofNullable(answerVoteRepository.findOneByAnswerIdAndUserId(id, userId))
             .map(questionVote -> new ResponseEntity<>(
-                questionVote,
+                questionVote.get(),
                 HttpStatus.OK))
             .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
-    }
-
-    /**
-     * DELETE  /answerVotes/:id -> delete the "id" answerVote.
-     */
-    @RequestMapping(value = "/votes/{voteId}",
-            method = RequestMethod.DELETE,
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    @Timed
-    public void delete(@PathVariable Long id, @PathVariable Long voteId) {
-        log.debug("REST request to delete AnswerVote : {}", voteId);
-        answerVoteRepository.delete(voteId);
     }
 }

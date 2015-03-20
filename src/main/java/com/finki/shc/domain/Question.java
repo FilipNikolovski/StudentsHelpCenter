@@ -5,10 +5,13 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.finki.shc.domain.util.CustomDateTimeDeserializer;
 import com.finki.shc.domain.util.CustomDateTimeSerializer;
+import com.finki.shc.security.SecurityUtils;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -24,6 +27,9 @@ import java.util.Set;
 @Table(name = "T_QUESTION")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class Question implements Serializable {
+
+    @Transient
+    private final Logger log = LoggerFactory.getLogger(Question.class);
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -147,20 +153,23 @@ public class Question implements Serializable {
         this.votes = votes;
     }
 
-    public Integer getUpvotes() {
-        int totalUpvotes = 0;
-        for(QuestionVote v : votes) {
-            if(v.getVote() > 0) totalUpvotes++;
-        }
-        return totalUpvotes;
+    public Long getUpvotes() {
+        return votes.stream().filter(v -> v.getVote() > 0).count();
     }
 
-    public Integer getDownvotes() {
-        int totalDownvotes = 0;
-        for(QuestionVote v : votes) {
-            if(v.getVote() < 0) totalDownvotes++;
+    public Long getDownvotes() {
+        return votes.stream().filter(v -> v.getVote() < 0).count();
+    }
+
+    public Integer getUserVoted() {
+        if (SecurityUtils.isAuthenticated() && user.getLogin().equals(SecurityUtils.getCurrentLogin())) {
+            for (QuestionVote v : votes) {
+                if (v.getUser().equals(user)) {
+                    return v.getVote();
+                }
+            }
         }
-        return totalDownvotes;
+        return 0;
     }
 
     @Override

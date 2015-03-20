@@ -233,6 +233,17 @@ ul#strength {
     margin-bottom: 5px;
 }
 
+.votedUp
+{
+    color: #008800 !important;
+    font-weight: 600;
+}
+
+.votedDown
+{
+    color: orangered !important;
+    font-weight: 600;
+}
 .glyphicons-margin {
     margin: 10px;
 }

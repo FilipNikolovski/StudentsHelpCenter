@@ -16,11 +16,11 @@
         <div class="row col-md-12 col-xs-18 col-sm-14" style="margin: 5px;">
             <div class="col-md-1 col-xs-2 col-sm-2">
                 <div class="row h3">
-                    <span class="glyphicon glyphicon-thumbs-up" ng-click="upvoteQuestion(question.id)"></span>
+                    <span class="glyphicon glyphicon-thumbs-up" ng-click="upvoteQuestion(question.id)" ng-class="{true: 'votedUp'}[question.userVoted == 1]"></span>
                     <label>{{question.upvotes}}</label>
                 </div>
                 <div class="row h3">
-                    <span class="glyphicon glyphicon-thumbs-down" ng-click="downvoteQuestion(question.id)"></span>
+                    <span class="glyphicon glyphicon-thumbs-down" ng-click="downvoteQuestion(question.id)" ng-class="{true: 'votedDown'}[question.userVoted == -1]"></span>
                     <label>{{question.downvotes}}</label>
                 </div>
             </div>
@@ -39,7 +39,7 @@
             <blockquote class="text-right blockquote-reverse" ng-if="question.tags.length > 0 ">
                 <ul class="list-inline tag-list badgePadding">
                     <li ng-repeat="tag in question.tags" class="list-group-item">
-                        <a ui-sref="questions({search:tag.name})">{{tag.name}}</a>
+                        <a ui-sref="questions({tags:tag.name})">{{tag.name}}</a>
                     </li>
                 </ul>
             </blockquote>
@@ -47,7 +47,7 @@
         <div class="row col-md-12 col-xs-18 col-sm-14" ng-if="question.images.length > 0">
             <div class="col-xs-4 col-md-2" ng-repeat="image in question.images">
                 <a class="thumbnail" ng-click="showImage(image.imageName)">
-                    <img ng-src="/assets/images/{{image.imageName}}" alt="..." ng-mouseenter="hover=true"
+                    <img ng-src="/assets/images/question-images/{{question.id}}/{{image.imageName}}" alt="..." ng-mouseenter="hover=true"
                          ng-mouseleave="hover-false" ng-class="{ngHover: hover}">
                 </a>
             </div>
@@ -59,20 +59,20 @@
             <div class="row" ng-if="account.id == answer.user.id" style="margin-bottom: 10px;">
                     <span class="glyphicon glyphicon-remove pull-right"
                           style="margin:2px; margin-left: 7px; font-size:18px;"
-                          data-ng-click="delete(answer.id)"></span>
+                          data-ng-click="delete(answer.id)" ></span>
                     <span class="glyphicon glyphicon-pencil pull-right" style="margin: 2px; font-size:18px;"
-                          data-ng-click="update(answer.id)"></span>
+                          data-ng-click="update(answer.id)" ></span>
             </div>
 
             <div class="col-md-1 col-xs-2 col-sm-2">
                 <div class="row h4" style="margin:auto;">
-                    <span class="glyphicon glyphicon-chevron-up" data-ng-click="upvoteAnswer(answer.id)"></span>
+                    <span class="glyphicon glyphicon-chevron-up" data-ng-click="upvoteAnswer(answer.id)" ng-class="{true: 'votedUp'}[answer.userVoted == 1]"></span>
                     <label>{{answer.upvotes}}</label>
                 </div>
                 <br/>
 
                 <div class="row h4" style="margin:auto;">
-                    <span class="glyphicon glyphicon-chevron-down" data-ng-click="downvoteAnswer(answer.id)"></span>
+                    <span class="glyphicon glyphicon-chevron-down" data-ng-click="downvoteAnswer(answer.id)" ng-class="{true: 'votedDown'}[answer.userVoted == -1]"></span>
                     <label>{{answer.downvotes}}</label>
                 </div>
             </div>
@@ -103,7 +103,7 @@
             <span class="" ng-show="userForm.answer.$pristine && userForm.answer.$error.taMaxText" style="padding: 5px; border-radius: 5px; color:red;">
                 Answer cannot be longer than 1000 characters. </span>
             <button type="submit" ng-disabled="userForm.$invalid" class="btn btn-primary">
-                <span class="glyphicon glyphicon-save"></span>&nbsp;<span>Post answer</span>
+                <span class="glyphicon glyphicon-save"></span>&nbsp;<span> {{buttonAnswer}} </span>
             </button>
             <button type="button" class="btn btn-primary" ng-click="clear()">
                 <span class="glyphicon glyphicon-remove"></span>&nbsp;<span>Cancel</span>
@@ -172,7 +172,7 @@
                     <h4 class="modal-title" id="myQuestionLabel"><br/></h4>
                 </div>
                 <div class="modal-body">
-                    <img class="col-md-12 col-xs-18 col-sm-14 photo" ng-src="/assets/images/{{imageName}}"/>
+                    <img class="col-md-12 col-xs-18 col-sm-14 photo" ng-src="/assets/images/question-images/{{question.id}}/{{imageName}}"/>
                 </div>
                 <div class="modal-footer modalFooter">
                 </div>
