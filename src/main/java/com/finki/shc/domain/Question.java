@@ -1,7 +1,6 @@
 package com.finki.shc.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.finki.shc.domain.util.CustomDateTimeDeserializer;
@@ -16,7 +15,10 @@ import org.slf4j.LoggerFactory;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * A Question.
@@ -160,9 +162,9 @@ public class Question implements Serializable {
     }
 
     public Integer getUserVoted() {
-        if(SecurityUtils.isAuthenticated() && user.getLogin().equals(SecurityUtils.getCurrentLogin())) {
-            for(QuestionVote v : votes) {
-                if(v.getUser().equals(user)) {
+        if (SecurityUtils.isAuthenticated() && user.getLogin().equals(SecurityUtils.getCurrentLogin())) {
+            for (QuestionVote v : votes) {
+                if (v.getUser().equals(user)) {
                     return v.getVote();
                 }
             }
