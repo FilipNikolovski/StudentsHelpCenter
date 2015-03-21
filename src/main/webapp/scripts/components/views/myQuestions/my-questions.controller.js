@@ -9,7 +9,27 @@ angular.module('studentshelpcenterApp')
             size: 5
         };
 
-        $scope.queue = [];
+        var myDropzone = null;
+
+        $scope.dropzoneConfig = {
+            'options': {
+                'url': '/api/questions/images',
+                'autoProcessQueue': false,
+                'addRemoveLinks': true,
+                'maxFiles': 5,
+                'maxFilesize': 5,
+                'init': function() {
+                    myDropzone = this;
+                }
+            },
+            'eventHandlers': {
+                'sending': function (file, xhr, formData) {
+                },
+                'success': function (file, response) {
+                }
+            }
+        };
+
         $scope.editQuestion = null;
 
         // initial image index
@@ -39,19 +59,19 @@ angular.module('studentshelpcenterApp')
             $scope._Index = index;
         };
 
-        $scope.ofIndex=function (arr, obj){
-            for(var i = 0; i < arr.length; i++){
-                if(angular.equals(arr[i].imageName, obj)){
+        $scope.ofIndex = function (arr, obj) {
+            for (var i = 0; i < arr.length; i++) {
+                if (angular.equals(arr[i].imageName, obj)) {
                     return i;
                 }
-            };
+            }
             return -1;
-        }
+        };
 
 
         $scope.showImage = function (imageName) {
             $scope.imageName = imageName;
-            var index=$scope.ofIndex($scope.photos, imageName);
+            var index = $scope.ofIndex($scope.photos, imageName);
             $scope.showPhoto(index);
             $('#showImage').modal('show');
         };
@@ -73,6 +93,11 @@ angular.module('studentshelpcenterApp')
             $scope.editQuestion.setUser = -1;
             $scope.editQuestion.solved = false;
             Question.save($scope.editQuestion, function (question) {
+                myDropzone.on('sending', function(file, xhr, formData) {
+                    formData.append('id', question.id);
+                    formData.append('_csrf', $.cookie('CSRF-TOKEN'));
+                });
+                myDropzone.processQueue();
                 $scope.editQuestion = null;
             });
 

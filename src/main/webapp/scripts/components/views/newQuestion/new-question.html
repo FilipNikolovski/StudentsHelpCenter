@@ -1,12 +1,12 @@
-<form data-ng-class="{'fileupload-processing': processing() || loadingFiles}" data-file-upload="options"
-      enctype="multipart/form-data" method="POST" id="fileupload" ng-submit="create()"
+<form ng-submit="create()"
       class="ng-scope" name="userForm" novalidate>
     <h3>Post new question</h3>
     <br/>
 
     <div class="form-group">
         <label>Question title</label>
-        <input type="text"  class="form-control" id="title" style="margin-bottom: 5px;" ng-model="question.title" name="title" placeholder="Enter title" ng-minlength="10" ng-maxlength="255" required>
+        <input type="text" class="form-control" id="title" style="margin-bottom: 5px;" ng-model="question.title"
+               name="title" placeholder="Enter title" ng-minlength="10" ng-maxlength="255" required>
         <!--Validation-->
         <span class="" ng-show="userForm.title.$error.minlength" style="padding: 5px; border-radius: 5px; color:red;">
             Question title is required to be at least 10 characters.
@@ -25,16 +25,19 @@
         <p></p>
     </div>
     <div class="form-group">
-         <div text-angular type="text" style="margin-bottom: 5px;" ng-model="question.description" name="description" ta-max-text="1000" ta-min-text="50"></div>
+        <div text-angular type="text" style="margin-bottom: 5px;" ng-model="question.description" name="description"
+             ta-max-text="1000" ta-min-text="50"></div>
 
         <!--Validation-->
-        <span class="" ng-show="userForm.description.$error.taMinText" style="padding: 5px; border-radius: 5px; color:red;">Question description is required to be at least 50 characters. <br/></span>
-        <span class="" ng-show="userForm.description.$error.taMaxText" style="padding: 5px; border-radius: 5px; color:red;">Question description cannot be longer than 1000 characters. </span>
+        <span class="" ng-show="userForm.description.$error.taMinText"
+              style="padding: 5px; border-radius: 5px; color:red;">Question description is required to be at least 50 characters. <br/></span>
+        <span class="" ng-show="userForm.description.$error.taMaxText"
+              style="padding: 5px; border-radius: 5px; color:red;">Question description cannot be longer than 1000 characters. </span>
     </div>
 
     <div class="form-group">
         <label>Attach images</label>
-        <div class="dropzone" id="images-dropzone"></div>
+        <div class="dropzone" dropzone="dropzoneConfig"></div>
     </div>
     <br/>
     <button type="submit" ng-disabled="userForm.$invalid" class="btn btn-primary">
