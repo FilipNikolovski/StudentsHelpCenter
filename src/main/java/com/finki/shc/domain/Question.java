@@ -162,9 +162,9 @@ public class Question implements Serializable {
     }
 
     public Integer getUserVoted() {
-        if (SecurityUtils.isAuthenticated() && user.getLogin().equals(SecurityUtils.getCurrentLogin())) {
+        if (SecurityUtils.isAuthenticated()) {
             for (QuestionVote v : votes) {
-                if (v.getUser().equals(user)) {
+                if (v.getUser().getLogin().equals(SecurityUtils.getCurrentLogin())) {
                     return v.getVote();
                 }
             }

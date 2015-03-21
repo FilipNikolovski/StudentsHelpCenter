@@ -187,14 +187,11 @@
                         <!-- extra navigation controls -->
                         <ul class="nav">
                             <li ng-repeat="photo in photos" ng-class="{'active':isActive($index)}">
-                                <img src="/assets/images/question-images/{{question.id}}/{{photo.imageName}}" ng-click="showPhoto($index);" />
+                                <img ng-src="/assets/images/question-images/{{question.id}}/{{photo.imageName}}" ng-click="showPhoto($index);" />
                             </li>
                         </ul>
-
                     </div>
-
                 </div>
-
 
                 <div class="modal-footer modalFooter">
                 </div>
