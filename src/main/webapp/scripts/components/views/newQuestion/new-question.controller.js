@@ -8,7 +8,7 @@ angular.module('studentshelpcenterApp')
 
         Dropzone.autoDiscover = false;
         var myDropzone = new Dropzone("div#images-dropzone", {
-            url: "/api/questions/upload-images",
+            url: "/api/questions/images",
             autoProcessQueue: false,
             addRemoveLinks: true,
             maxFiles: 5,

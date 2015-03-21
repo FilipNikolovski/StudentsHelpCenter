@@ -34,19 +34,18 @@ angular.module('studentshelpcenterApp')
             $scope._Index = index;
         };
 
-        $scope.ofIndex=function (arr, obj){
-            for(var i = 0; i < arr.length; i++){
-                if(angular.equals(arr[i].imageName, obj)){
+        $scope.ofIndex = function (arr, obj) {
+            for (var i = 0; i < arr.length; i++) {
+                if (angular.equals(arr[i].imageName, obj)) {
                     return i;
                 }
-            };
+            }
             return -1;
-        }
-
+        };
 
         $scope.showImage = function (imageName) {
             $scope.imageName = imageName;
-            var index=$scope.ofIndex($scope.photos, imageName);
+            var index = $scope.ofIndex($scope.photos, imageName);
             $scope.showPhoto(index);
             $('#showImage').modal('show');
         };
@@ -137,8 +136,8 @@ angular.module('studentshelpcenterApp')
                 page: $scope.page.currentPage - 1,
                 size: $scope.page.size
             }).$promise.then(function (answers) {
-                $scope.question.answers = answers.content;
-            });
+                    $scope.question.answers = answers.content;
+                });
         };
 
         $scope.create = function () {

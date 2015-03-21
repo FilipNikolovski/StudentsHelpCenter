@@ -183,9 +183,8 @@ public class Question implements Serializable {
 
         Question question = (Question) o;
 
-        if (id != null ? !id.equals(question.id) : question.id != null) return false;
+        return !(id != null ? !id.equals(question.id) : question.id != null);
 
-        return true;
     }
 
     @Override
