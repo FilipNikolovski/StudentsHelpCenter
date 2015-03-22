@@ -45,6 +45,6 @@ angular.module('studentshelpcenterApp')
 
         //Load tags for autocomplete
         $scope.loadTags = function (query) {
-            return Tag.query().$promise;
+            return Tag.query({search: query}).$promise;
         };
     });

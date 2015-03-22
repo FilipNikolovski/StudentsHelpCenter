@@ -58,7 +58,7 @@
 
     <div ng-if="question.answers.length > 0 " class="col-md-12 col-xs-18 col-sm-14">
         <div ng-repeat="answer in question.answers" class="row well well-light">
-            <div class="row" ng-if="account.id == answer.user.id" style="margin-bottom: 10px;">
+            <div class="row" ng-if="account.id == answer.user.id || account.roles[1] == 'ROLE_ADMIN'" style="margin-bottom: 10px;">
                     <span class="glyphicon glyphicon-remove pull-right ngHover"
                           style="margin:2px; margin-left: 7px; font-size:18px;"
                           data-ng-click="delete(answer.id)" ></span>

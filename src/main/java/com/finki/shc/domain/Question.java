@@ -65,7 +65,7 @@ public class Question implements Serializable {
     @JsonIgnore
     private List<QuestionVote> votes = new ArrayList<>();
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinTable(
         name = "T_QUESTION_TAG",
         joinColumns = {@JoinColumn(name = "question_id", referencedColumnName = "id")},
