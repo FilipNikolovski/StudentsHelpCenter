@@ -212,7 +212,11 @@ ul#strength {
 {
    opacity: 0.7 !important;
 }
-
+.padding
+{
+    padding-left:500px;
+    padding-top:50px;
+}
 .button-blue {
     background-color: #1C6DD9;
     border-color: #1C6DD9;
