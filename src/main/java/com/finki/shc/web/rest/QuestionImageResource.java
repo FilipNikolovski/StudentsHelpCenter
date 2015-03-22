@@ -79,12 +79,12 @@ public class QuestionImageResource {
     /**
      * DELETE  /images/:id -> delete the "id" questionImage.
      */
-    @RequestMapping(value = "/questions/{id}/images/{id}",
+    @RequestMapping(value = "/questions/{id}/images/{imageId}",
             method = RequestMethod.DELETE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public void delete(@PathVariable Long id, @PathVariable Long imageId) {
         log.debug("REST request to delete QuestionImage : {}", imageId);
-        questionImageRepository.delete(imageId);
+        questionService.deleteImage(id, imageId);
     }
 }
