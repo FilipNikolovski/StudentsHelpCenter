@@ -120,7 +120,7 @@
 </div>
 
 <div class="modal fade" id="deleteQuestionConfirmation">
-    <div class="modal-dialog">
+    <div class="modal-dialog padding">
         <div class="modal-content">
             <form name="form" ng-submit="confirmQuestionDelete()">
                 <div class="modal-header">
@@ -147,7 +147,7 @@
 </div>
 
 <div class="modal fade" id="deleteImageConfirmation">
-    <div class="modal-dialog">
+    <div class="modal-dialog padding">
         <div class="modal-content">
             <form name="form" ng-submit="confirmImageDelete()">
                 <div class="modal-header">
@@ -186,8 +186,8 @@
                 <div class="container slider">
                     <img ng-repeat="photo in editQuestion.images" class="slide" ng-swipe-right="showPrev()" ng-swipe-left="showNext()" ng-show="isActive($index)" ng-src="/assets/images/question-images/{{editQuestion.id}}/{{photo.imageName}}" />
                     <!-- prev / next controls -->
-                    <a class="arrow prev" href="#" ng-click="showPrev()"></a>
-                    <a class="arrow next" href="#" ng-click="showNext()"></a>
+                    <a class="arrow prev"  ng-click="showPrev()"></a>
+                    <a class="arrow next"  ng-click="showNext()"></a>
                     <!-- extra navigation controls -->
                     <ul class="nav">
                         <li ng-repeat="photo in photos" ng-class="{'active':isActive($index)}">
