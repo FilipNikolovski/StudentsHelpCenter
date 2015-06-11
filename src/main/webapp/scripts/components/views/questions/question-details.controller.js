@@ -12,6 +12,44 @@ angular.module('studentshelpcenterApp')
             $scope.account = account;
         });
 
+        $scope._Index = 0;
+
+        // if a current image is the same as requested image
+        $scope.isActive = function (index) {
+            return $scope._Index === index;
+        };
+
+        // show prev image
+        $scope.showPrev = function () {
+            $scope._Index = ($scope._Index > 0) ? --$scope._Index : $scope.photos.length - 1;
+        };
+
+        // show next image
+        $scope.showNext = function () {
+            $scope._Index = ($scope._Index < $scope.photos.length - 1) ? ++$scope._Index : 0;
+        };
+
+        // show a certain image
+        $scope.showPhoto = function (index) {
+            $scope._Index = index;
+        };
+
+        $scope.ofIndex = function (arr, obj) {
+            for (var i = 0; i < arr.length; i++) {
+                if (angular.equals(arr[i].imageName, obj)) {
+                    return i;
+                }
+            }
+            return -1;
+        };
+
+        $scope.showImage = function (imageName) {
+            $scope.imageName = imageName;
+            var index = $scope.ofIndex($scope.photos, imageName);
+            $scope.showPhoto(index);
+            $('#showImage').modal('show');
+        };
+
         $scope.question = {};
         $scope.vote = {};
         $scope.question.images = [];
@@ -34,57 +72,18 @@ angular.module('studentshelpcenterApp')
             Question.get({id: id}).$promise.then(function (result) {
                 $scope.question = result;
 
-                Principal.identity().then(function (account) {
-                    $scope.question.userVotedPositive = false;
-                    $scope.question.userVotedNegative = false;
-                    QuestionVote.get({id: $scope.question.id, userId: account.id}).$promise.then(function (vote) {
-                        if (vote != null && vote.vote == 1) {
-                            $scope.question.userVotedPositive = true;
-                            $scope.question.userVotedNegative = false;
-                        }
-                        else if (vote != null && vote.vote == -1) {
-                            $scope.question.userVotedPositive = false;
-                            $scope.question.userVotedNegative = true;
-                        }
-                        else {
-                            $scope.question.userVotedPositive = false;
-                            $scope.question.userVotedNegative = false;
-                        }
-                    });
-                });
-
                 Answer.query({id: id, page: $scope.page.currentPage, size: $scope.page.size}).$promise
                     .then(function (answers) {
                         $scope.question.answers = answers.content;
                         $scope.page.totalItems = answers.totalElements;
-
-                        Principal.identity().then(function (account) {
-                            angular.forEach($scope.question.answers, function (answer) {
-                                answer.userVotedPositive = false;
-                                answer.userVotedNegative = false;
-                                AnswerVote.get({id: answer.id, userId: account.id}).$promise.then(function (vote) {
-                                    if (vote != null && vote.vote == 1) {
-                                        answer.userVotedPositive = true;
-                                        answer.userVotedNegative = false;
-                                    }
-                                    else if (vote != null && vote.vote == -1) {
-                                        answer.userVotedPositive = false;
-                                        answer.userVotedNegative = true;
-                                    }
-                                    else {
-                                        answer.userVotedPositive = false;
-                                        answer.userVotedNegative = false;
-                                    }
-                                });
-                            });
-                        });
                     });
 
                 QuestionImage.query({id: id}).$promise.then(function (images) {
                     $scope.question.images = images;
+                    $scope.photos = $scope.question.images;
                 });
 
-            }, function (result) {
+            }, function () {
                 $state.go('questions');
             });
 
@@ -137,8 +136,8 @@ angular.module('studentshelpcenterApp')
                 page: $scope.page.currentPage - 1,
                 size: $scope.page.size
             }).$promise.then(function (answers) {
-                $scope.question.answers = answers.content;
-            });
+                    $scope.question.answers = answers.content;
+                });
         };
 
         $scope.create = function () {

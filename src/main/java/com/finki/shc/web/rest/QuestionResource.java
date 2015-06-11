@@ -17,8 +17,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.validation.Valid;
@@ -157,20 +155,5 @@ public class QuestionResource {
         }
         User u = userRepository.findOneByLogin(SecurityUtils.getCurrentLogin()).get();
         return new ResponseEntity<>(questionRepository.findAllByUserId(pageable, u.getId()), HttpStatus.OK);
-    }
-
-    @RequestMapping(value = "/questions/upload-images",
-        method = RequestMethod.POST,
-        produces = MediaType.APPLICATION_JSON_VALUE)
-    @Timed
-    @RolesAllowed({AuthoritiesConstants.USER, AuthoritiesConstants.ADMIN})
-    public ResponseEntity<?> update(@RequestParam("id") String id, @RequestParam("file") List<MultipartFile> file) {
-        log.debug("REST request to update Question : {} files: {}", id, file);
-
-        if(questionService.uploadImages(Long.parseLong(id), file)) {
-            return new ResponseEntity<>(id, HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-
     }
 }

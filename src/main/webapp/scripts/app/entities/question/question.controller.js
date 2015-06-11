@@ -1,17 +1,34 @@
 'use strict';
 
 angular.module('studentshelpcenterApp')
-    .controller('QuestionController', function ($scope, Question) {
+    .controller('QuestionController', function ($scope, $stateParams, Question) {
         $scope.questions = [];
-        $scope.loadAll = function() {
-            Question.query(function(result) {
-               $scope.questions = result;
-            });
+
+        $scope.page = {
+            totalItems: 0,
+            currentPage: 0,
+            size: 5
         };
+
+        $scope.loadAll = function () {
+            Question.query({page: $scope.page.currentPage, size: $scope.page.size})
+                .$promise.then(function (questions) {
+                    $scope.questions = questions.content;
+                    $scope.page.totalItems = questions.totalElements;
+                });
+        };
+
+        $scope.pageChanged = function () {
+            Question.query({page: $scope.page.currentPage - 1, size: $scope.page.size})
+                .$promise.then(function (questions) {
+                    $scope.questions = questions.content;
+                });
+        };
+
         $scope.loadAll();
 
         $scope.create = function () {
-            $scope.question.setUser=1;
+            $scope.question.setUser = 1;
             Question.save($scope.question,
                 function () {
                     $scope.loadAll();
@@ -25,7 +42,7 @@ angular.module('studentshelpcenterApp')
             $('#saveQuestionModal').modal('show');
         };
 
-        $scope.delete = function (id) {
+        $scope.deleteQuestion = function (id) {
             $scope.question = Question.get({id: id});
             $('#deleteQuestionConfirmation').modal('show');
         };

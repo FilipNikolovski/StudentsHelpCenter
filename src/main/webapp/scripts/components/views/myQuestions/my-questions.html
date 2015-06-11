@@ -2,17 +2,17 @@
     <div class="row" ng-repeat="question in questions">
         <div class="col-md-12 col-xs-18 col-sm-14">
             <hr>
-            <div class="row col-md-12 col-xs-18 col-sm-14">
+            <div class="row col-md-12 col-xs-18 col-sm-14"  >
                 <label class="pull-left badge badgeRed badgePadding" style="margin-left: 15px;"
                        ng-if="question.solved == false"><span class="glyphicon glyphicon-remove-circle"> </span> NOT
                     SOLVED</label>
                 <label class="pull-left badge badgeGreen badgePadding" style="margin-left: 15px;"
                        ng-if="question.solved == true"><span class="glyphicon glyphicon-ok-circle"></span>
                     SOLVED</label>
-            <span class="pull-right glyphicon glyphicon-remove"
+            <span class="pull-right glyphicon glyphicon-remove ngHover"
                   ng-if="account.id == question.user.id || account.roles[1] == 'ROLE_ADMIN'"
                   style="margin-left:10px; font-size:18px;" data-ng-click="questionDelete(question)"></span>
-            <span class="pull-right glyphicon glyphicon-edit"
+            <span class="pull-right glyphicon glyphicon-edit ngHover"
                   ng-if="account.id == question.user.id"
                   style="margin-left:20px; font-size:18px;" data-ng-click="questionEdit(question)"></span>
                 <label class="pull-right">Date: {{question.datePosted | date:'medium'}}</label>
@@ -20,11 +20,13 @@
             <div class="row col-md-12 col-xs-18 col-sm-14" style="margin: 5px;">
                 <div class="col-md-1 col-xs-2 col-sm-2">
                     <div class="row h3" >
+
                         <span class="glyphicon glyphicon-thumbs-up" ng-class="{true: 'votedUp'}[question.userVoted == 1]" ></span>
                         <label>{{question.upvotes}}</label>
                     </div>
                     <div class="row h3">
                         <span class="glyphicon glyphicon-thumbs-down" ng-class="{true: 'votedDown'}[question.userVoted == -1]"></span>
+
                         <label>{{question.downvotes}}</label>
                     </div>
                 </div>
@@ -57,8 +59,7 @@
 
 <div ng-if="editQuestion != null">
 
-    <form data-ng-class="{'fileupload-processing': processing() || loadingFiles}" data-file-upload="options"
-          enctype="multipart/form-data" method="POST" id="fileupload" ng-submit="create()"
+    <form ng-submit="create()"
           class="ng-scope" name="userForm" novalidate>
         <h3>Edit question</h3>
         <br/>
@@ -90,10 +91,17 @@
             <span class="" ng-show="userForm.description.$error.taMinText" style="padding: 5px; border-radius: 5px; color:red;">Question description is required to be at least 50 characters. <br/></span>
             <span class="" ng-show="userForm.description.$error.taMaxText" style="padding: 5px; border-radius: 5px; color:red;">Question description cannot be longer than 1000 characters. </span>
         </div>
-
+        <div class="form-group row" ng-if="editQuestion.images.length > 0">
+            <div class="col-xs-4 col-md-2" ng-repeat="image in editQuestion.images">
+                <a class="thumbnail" ng-click="showImage(image)">
+                    <img ng-src="/assets/images/question-images/{{editQuestion.id}}/{{image.imageName}}" alt="..." ng-mouseenter="hover=true"
+                         ng-mouseleave="hover-false" ng-class="{ngHover: hover}">
+                </a>
+            </div>
+        </div>
         <div class="form-group">
             <label>Attach images</label>
-            <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
+            <div class="dropzone" dropzone="dropzoneConfig"></div>
         </div>
         <br/>
         <button type="submit" ng-disabled="userForm.$invalid" class="btn btn-primary">
@@ -110,8 +118,9 @@
 <div class="row" ng-if="questions.length == 0">
     <h1>Currently there are no questions posted.</h1>
 </div>
+
 <div class="modal fade" id="deleteQuestionConfirmation">
-    <div class="modal-dialog">
+    <div class="modal-dialog padding">
         <div class="modal-content">
             <form name="form" ng-submit="confirmQuestionDelete()">
                 <div class="modal-header">
@@ -136,5 +145,63 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="deleteImageConfirmation">
+    <div class="modal-dialog padding">
+        <div class="modal-content">
+            <form name="form" ng-submit="confirmImageDelete()">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                            ng-click="clear()">&times;</button>
+                    <h4 class="modal-title" translate="entity.delete.title">Confirm delete operation</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete this image?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+                        <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span
+                        translate="entity.action.cancel">Cancel</span>
+                    </button>
+                    <button type="submit" ng-disabled="form.$invalid" class="btn btn-danger">
+                        <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span
+                        translate="entity.action.delete">Delete</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="showImage" style="background-color: #d3d3d3 !important;" tabindex="-1" role="dialog" aria-labelledby="myQuestionLabel"
+     aria-hidden="true">
+    <div class="modal-dialog showImage">
+        <div class="modal-content">
+            <div class="modal-header">
+              <span  class="glyphicon glyphicon-remove pull-right ngHover" style="margin-left: 10px; font-size: 20px;" data-dismiss="modal" aria-hidden="true"
+                        ng-click="clear()"></span>
+                <span class="glyphicon glyphicon-trash pull-right ngHover" style="font-size: 18px;" data-dismiss="modal" aria-hidden="true"
+                        ng-click="deleteImage(image)"></span>
+                <h4 class="modal-title" id="myQuestionLabel"><br/></h4>
+                <div class="container slider">
+                    <img ng-repeat="photo in editQuestion.images" class="slide" ng-swipe-right="showPrev()" ng-swipe-left="showNext()" ng-show="isActive($index)" ng-src="/assets/images/question-images/{{editQuestion.id}}/{{photo.imageName}}" />
+                    <!-- prev / next controls -->
+                    <a class="arrow prev"  ng-click="showPrev()"></a>
+                    <a class="arrow next"  ng-click="showNext()"></a>
+                    <!-- extra navigation controls -->
+                    <ul class="nav">
+                        <li ng-repeat="photo in photos" ng-class="{'active':isActive($index)}">
+                            <img ng-src="/assets/images/question-images/{{editQuestion.id}}/{{photo.imageName}}" ng-click="showPhoto($index);" />
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="modal-footer modalFooter">
+            </div>
+        </div>
+    </div>
+</div>
+
 
 

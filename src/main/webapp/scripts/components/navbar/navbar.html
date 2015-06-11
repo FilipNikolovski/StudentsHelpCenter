@@ -7,7 +7,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#"><span translate="global.title">jhipster</span> <span class="navbar-version">v{{VERSION}}</span></a>
+            <a class="navbar-brand ngHover" ui-sref="home" style="color: #002a80; font-size: 24px; font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, FreeSerif, serif"><span class="glyphicon glyphicon-education"></span> Students Help Center</a>
         </div>
         <div class="collapse navbar-collapse" id="navbar-collapse" ng-switch="isAuthenticated()">
             <ul class="nav navbar-nav nav-pills navbar-right">
@@ -17,7 +17,7 @@
                         <span translate="global.menu.home">Home</span>
                     </a>
                 </li>
-                <li ui-sref-active="active">
+                <li ui-sref-active="active" ng-if="isAuthenticated()">
                     <a ui-sref="myquestions">
                         <span class="glyphicon glyphicon-question-sign"></span>
                         <span >My questions</span>
@@ -27,8 +27,8 @@
                     <a class="dropdown-toggle" data-toggle="dropdown" href="">
                                 <span>
                                     <span class="glyphicon glyphicon-th-list"></span>
-                                    <span class="hidden-tablet" translate="global.menu.entities.main">
-                                        Entities
+                                    <span class="hidden-tablet" >
+                                        Administration
                                     </span>
                                     <b class="caret"></b>
                                 </span>
@@ -40,14 +40,8 @@
                         &#xA0;<span translate="global.menu.entities.answer">answer</span></a></li>
                         <li ui-sref-active="active" ><a ui-sref="questionImage"><span class="glyphicon glyphicon-asterisk"></span>
                         &#xA0;<span translate="global.menu.entities.questionImage">questionImage</span></a></li>
-                        <li ui-sref-active="active" ><a ui-sref="answerVote"><span class="glyphicon glyphicon-asterisk"></span>
-                        &#xA0;<span translate="global.menu.entities.answerVote">answerVote</span></a></li>
-                        <li ui-sref-active="active" ><a ui-sref="questionVote"><span class="glyphicon glyphicon-asterisk"></span>
-                        &#xA0;<span translate="global.menu.entities.questionVote">questionVote</span></a></li>
-                        <li ui-sref-active="active" ><a ui-sref="tag"><span class="glyphicon glyphicon-asterisk"></span>
+                       <li ui-sref-active="active" ><a ui-sref="tag"><span class="glyphicon glyphicon-asterisk"></span>
                         &#xA0;<span translate="global.menu.entities.tag">tag</span></a></li>
-                        <li ui-sref-active="active" ><a ui-sref="questionTag"><span class="glyphicon glyphicon-asterisk"></span>
-                        &#xA0;<span translate="global.menu.entities.questionTag">questionTag</span></a></li>
                         <!-- JHipster will add entities to the menu here -->
                     </ul>
                 </li>
@@ -66,56 +60,12 @@
                             &#xA0;<span translate="global.menu.account.settings">Settings</span></a></li>
                         <li ui-sref-active="active" ng-switch-when="true"><a ui-sref="password"><span class="glyphicon glyphicon-lock"></span>
                             &#xA0;<span translate="global.menu.account.password">Password</span></a></li>
-                        <li ui-sref-active="active" ng-switch-when="true"><a ui-sref="sessions"><span class="glyphicon glyphicon-cloud"></span>
-                            &#xA0;<span translate="global.menu.account.sessions">Sessions</span></a></li>
-                        <li ui-sref-active="active" ng-switch-when="true"><a href="" ng-click="logout()"><span class="glyphicon glyphicon-log-out"></span>
+                       <li ui-sref-active="active" ng-switch-when="true"><a href="" ng-click="logout()"><span class="glyphicon glyphicon-log-out"></span>
                             &#xA0;<span translate="global.menu.account.logout">Log out</span></a></li>
                         <li ui-sref-active="active" ng-switch-when="false"><a ui-sref="login"><span class="glyphicon glyphicon-log-in"></span>
-                            &#xA0;<span translate="global.menu.account.login">Authenticate</span></a></li>
-
+                            &#xA0;<span >Log in</span></a></li>
                         <li ui-sref-active="active" ng-switch-when="false"><a ui-sref="register"><span class="glyphicon glyphicon-plus-sign"></span>
                             &#xA0;<span translate="global.menu.account.register">Register</span></a></li>
-                    </ul>
-                </li>
-                <li ng-class="{active: $state.includes('admin')}"  ng-switch-when="true" ng-show="isInRole('ROLE_ADMIN')" class="dropdown pointer">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="">
-                                <span>
-                                    <span class="glyphicon glyphicon-tower"></span>
-                                    <span class="hidden-tablet" translate="global.menu.admin.main">Admin</span>
-                                    <b class="caret"></b>
-                                </span>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li ui-sref-active="active"><a ui-sref="tracker"><span class="glyphicon glyphicon-eye-open"></span>
-                                &nbsp;<span translate="global.menu.admin.tracker">User tracking</span></a></li>
-                        <li ui-sref-active="active"><a ui-sref="metrics"><span class="glyphicon glyphicon-dashboard"></span>
-                            &#xA0;<span translate="global.menu.admin.metrics">Metrics</span></a></li>
-                        <li ui-sref-active="active"><a ui-sref="health"><span class="glyphicon glyphicon-heart"></span>
-                            &#xA0;<span translate="global.menu.admin.health">Health</span></a></li>
-                        <li ui-sref-active="active"><a ui-sref="configuration"><span class="glyphicon glyphicon-list-alt"></span>
-                            &#xA0;<span translate="global.menu.admin.configuration">Configuration</span></a></li>
-                        <li ui-sref-active="active"><a ui-sref="audits"><span class="glyphicon glyphicon-bell"></span>
-                            &#xA0;<span translate="global.menu.admin.audits">Audits</span></a></li>
-                        <li ui-sref-active="active"><a ui-sref="logs"><span class="glyphicon glyphicon-tasks"></span>
-                            &#xA0;<span translate="global.menu.admin.logs">Logs</span></a></li>
-                        <li ui-sref-active="active"><a ui-sref="docs"><span class="glyphicon glyphicon-book"></span>
-                            &#xA0;<span translate="global.menu.admin.apidocs">API Docs</span></a></li>
-                        <li ng-show="{{ENV === 'dev'}}"><a href='/console' target="_tab"><span class="glyphicon glyphicon-hdd"></span>
-                            &#xA0;<span translate="global.menu.admin.database">Database</span></a></li>
-                    </ul>
-                </li>
-                <li ui-sref-active="active" class="dropdown pointer" ng-controller="LanguageController">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="">
-                                <span>
-                                    <span class="glyphicon glyphicon-flag"></span>
-                                    <span class="hidden-tablet" translate="global.menu.language">Language</span>
-                                    <b class="caret"></b>
-                                </span>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li active-menu="{{language}}" ng-repeat="language in languages">
-                            <a href="" ng-click="changeLanguage(language)">{{'language.' + language| translate}}</a>
-                        </li>
                     </ul>
                 </li>
             </ul>

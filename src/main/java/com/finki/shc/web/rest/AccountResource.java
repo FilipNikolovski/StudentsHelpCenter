@@ -55,7 +55,7 @@ public class AccountResource {
         method = RequestMethod.POST,
         produces = MediaType.TEXT_PLAIN_VALUE)
     @Timed
-    public ResponseEntity<?> registerAccount(@Valid @RequestBody UserDTO userDTO, HttpServletRequest request) {
+    public ResponseEntity<?> registerAccount(@RequestBody UserDTO userDTO, HttpServletRequest request) {
         return userRepository.findOneByLogin(userDTO.getLogin())
             .map(user -> new ResponseEntity<>("login already in use", HttpStatus.BAD_REQUEST))
             .orElseGet(() -> userRepository.findOneByEmail(userDTO.getEmail())
@@ -110,17 +110,19 @@ public class AccountResource {
     @Timed
     public ResponseEntity<UserDTO> getAccount() {
         return Optional.ofNullable(userService.getUserWithAuthorities())
-            .map(user -> new ResponseEntity<>(
-                new UserDTO(
-                    user.getId(),
-                    user.getLogin(),
-                    null,
-                    user.getFirstName(),
-                    user.getLastName(),
-                    user.getEmail(),
-                    user.getLangKey(),
-                    user.getAuthorities().stream().map(Authority::getName).collect(Collectors.toList())),
-                HttpStatus.OK))
+            .map(user -> {
+                return new ResponseEntity<>(
+                    new UserDTO(
+                        user.getId(),
+                        user.getLogin(),
+                        null,
+                        user.getFirstName(),
+                        user.getLastName(),
+                        user.getEmail(),
+                        user.getLangKey(),
+                        user.getAuthorities().stream().map(Authority::getName).collect(Collectors.toList())),
+                    HttpStatus.OK);
+            })
             .orElse(new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR));
     }
 

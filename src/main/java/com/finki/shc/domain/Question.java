@@ -65,7 +65,7 @@ public class Question implements Serializable {
     @JsonIgnore
     private List<QuestionVote> votes = new ArrayList<>();
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinTable(
         name = "T_QUESTION_TAG",
         joinColumns = {@JoinColumn(name = "question_id", referencedColumnName = "id")},
@@ -162,9 +162,9 @@ public class Question implements Serializable {
     }
 
     public Integer getUserVoted() {
-        if (SecurityUtils.isAuthenticated() && user.getLogin().equals(SecurityUtils.getCurrentLogin())) {
+        if (SecurityUtils.isAuthenticated()) {
             for (QuestionVote v : votes) {
-                if (v.getUser().equals(user)) {
+                if (v.getUser().getLogin().equals(SecurityUtils.getCurrentLogin())) {
                     return v.getVote();
                 }
             }
@@ -183,9 +183,8 @@ public class Question implements Serializable {
 
         Question question = (Question) o;
 
-        if (id != null ? !id.equals(question.id) : question.id != null) return false;
+        return !(id != null ? !id.equals(question.id) : question.id != null);
 
-        return true;
     }
 
     @Override

@@ -4,27 +4,34 @@ angular.module('studentshelpcenterApp')
     .controller('AddNewController', function ($scope, $location, $state, $http, Auth, Question, Tag) {
         $scope.question = {};
 
-        $scope.queue = [];
+        var myDropzone = null;
 
-        Dropzone.autoDiscover = false;
-        var myDropzone = new Dropzone("div#images-dropzone", {
-            url: "/api/questions/upload-images",
-            autoProcessQueue: false,
-            addRemoveLinks: true,
-            maxFiles: 5,
-            maxFilesize: 5,
-            init: function() {
-                this.on("complete", function() {
+        $scope.dropzoneConfig = {
+            'options': {
+                'url': '/api/questions/images',
+                'autoProcessQueue': false,
+                'addRemoveLinks': true,
+                'maxFiles': 5,
+                'maxFilesize': 5,
+                'init': function() {
+                    myDropzone = this;
+                }
+            },
+            'eventHandlers': {
+                'sending': function (file, xhr, formData) {
+                },
+                'success': function (file, response) {
+                },
+                'complete': function (file, response) {
                     $location.path('questions/' + $scope.question.id);
-                });
+                }
             }
-        });
+        };
 
         //Save question
         $scope.create = function () {
             $scope.question.setUser = -1;
             $scope.question.solved = false;
-
             Question.save($scope.question,
                 function (question) {
                     $scope.question = question;
@@ -34,11 +41,10 @@ angular.module('studentshelpcenterApp')
                     });
                     myDropzone.processQueue();
                 });
-
         };
 
         //Load tags for autocomplete
         $scope.loadTags = function (query) {
-            return Tag.query().$promise;
+            return Tag.query({search: query}).$promise;
         };
     });

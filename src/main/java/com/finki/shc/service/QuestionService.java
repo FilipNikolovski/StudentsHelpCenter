@@ -61,12 +61,12 @@ public class QuestionService {
         User u = userRepository.findOneByLogin(SecurityUtils.getCurrentLogin()).get();
 
         if (SecurityUtils.checkAuthority(AuthoritiesConstants.ADMIN)) {
-            deleteImageDir(questionId);
+            deleteImageDir(questionId, true);
             questionRepository.delete(questionId);
             return true;
         }
         if (questionRepository.deleteByIdAndUserId(questionId, u.getId()) != 0) {
-            deleteImageDir(questionId);
+            deleteImageDir(questionId, true);
             return true;
         }
         return false;
@@ -114,14 +114,27 @@ public class QuestionService {
         return true;
     }
 
-    public void deleteImageDir(Long questionId) {
+    public void deleteImageDir(Long questionId, boolean forceDelete) {
         String dest = context.getRealPath("") + File.separator + "assets/images/question-images/" + questionId;
         File destination = new File(dest);
         try {
-            FileUtils.deleteDirectory(destination);
+            if(forceDelete && destination.isDirectory()) {
+                FileUtils.deleteDirectory(destination);
+            } else if(destination.isDirectory() && destination.list().length == 0) {
+                FileUtils.deleteDirectory(destination);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void deleteImage(Long questionId, Long imageId) {
+        QuestionImage image = questionImageRepository.findOne(imageId);
+        String dest = context.getRealPath("") + File.separator + "assets/images/question-images/" + questionId + "/" + image.getImageName();
+        File destination = new File(dest);
+        FileUtils.deleteQuietly(destination);
+        deleteImageDir(questionId, false);
+        questionImageRepository.delete(imageId);
     }
 
     public void saveQuestionImages(Long questionId, String filename) {

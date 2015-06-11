@@ -45,8 +45,10 @@ public class TagResource {
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public List<Tag> getAll() {
+    public List<Tag> getAll(@RequestParam(required = false) String search) {
         log.debug("REST request to get all Tags");
+        if(!search.isEmpty())
+            return tagRepository.findByNameContainingIgnoreCase(search);
         return tagRepository.findAll();
     }
 
